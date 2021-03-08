@@ -20,3 +20,9 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return view('test');
 });
+
+Route::get('/home', function () {
+    return view('Home');
+});
+
+//Route::get('/home', 'HomeController@index')->name('home');
