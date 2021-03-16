@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/users', [UsersController::class, 'index'])->name('users');
+    Route::post('/users/update', [UsersController::class, 'updateUserRole'])->name('users.request.update.role');
 });
 
 Auth::routes();
