@@ -25,4 +25,12 @@ Route::get('/home', function () {
     return view('Home');
 });
 
+Route::get('/menu', function () {
+    return view('menu');
+});
+
+Route::get('/menu/plats', function () {
+    return view('plats');
+});
+
 //Route::get('/home', 'HomeController@index')->name('home');
