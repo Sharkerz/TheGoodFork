@@ -28,6 +28,7 @@
         <div class="list-group list-group-flush">
             <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light">Accueil</a>
             <a href="{{url('test')}}" class="list-group-item list-group-item-action bg-light">Test</a>
+            <a href="{{route('tables.index')}}" class="list-group-item list-group-item-action bg-light">@lang('sidebar.Table')</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

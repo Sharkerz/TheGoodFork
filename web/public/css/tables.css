@@ -1,0 +1,35 @@
+/********************/
+/*   Tables Pages CSS   */
+/********************/
+
+.tables {
+    background-color: #0c8b00; 
+    width: 10rem; 
+    display: inline-block;
+    border-radius: 6px;
+    margin-right: 50px; 
+    margin-top: 0;
+}
+
+.titre_tables{
+    height: 2rem;
+    color : white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.NbPersonTables{
+    height: 2rem;
+    color : white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 0.5rem !important;
+}
+
+#Create_Tables{
+    float: right;
+    margin-top: -2.7rem;
+}
