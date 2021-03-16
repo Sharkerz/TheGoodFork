@@ -24,7 +24,7 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Start Bootstrap </div>
+        <div class="sidebar-heading">@lang('sidebar.admin_panel') </div>
         <div class="list-group list-group-flush">
             <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light">Accueil</a>
             <a href="{{url('test')}}" class="list-group-item list-group-item-action bg-light">Test</a>
