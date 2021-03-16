@@ -14,6 +14,7 @@ class CreateMenuCategoriesTable extends Migration
     public function up()
     {
         Schema::create('menu_categories', function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->id();
             $table->string('name');
             $table->timestamps();

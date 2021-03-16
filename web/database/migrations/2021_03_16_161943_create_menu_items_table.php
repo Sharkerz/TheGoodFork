@@ -14,12 +14,13 @@ class CreateMenuItemsTable extends Migration
     public function up()
     {
         Schema::create('menu_items', function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->id();
             $table->string('name');
             $table->float('price');
             $table->string('image');
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('menu_categories');
+            $table->foreign('category_id')->references('id')->on('menu_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
