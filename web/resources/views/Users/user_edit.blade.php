@@ -15,7 +15,7 @@
             {!! method_field('PUT') !!}
             <input type="hidden" value="{{ $user->id }}">
             <div class="mb-3 form-group">
-                <label for="field_username">Username</label>
+                <label for="field_username">@lang('userEdit.username')</label>
                 <input name="name" type="text" class="form-control" id="field_username" value="{{ $user->name }}">
             </div>
             <div class="mb-3 form-group">
@@ -25,8 +25,8 @@
             <div class="mb-3 form-group">
                 <label for="select_role">Role</label>
                 <select name="role" type="text" class="form-control" id="select_role">
-                    <option @if ($user->role == 'admin')selected @endif value="admin">admin</option>
-                    <option @if ($user->role == 'customer')selected @endif value="customer">customer</option>
+                    <option @if ($user->role == 'admin')selected @endif value="admin">@lang('userEdit.administrator')</option>
+                    <option @if ($user->role == 'customer')selected @endif value="customer">@lang('userEdit.customer')</option>
                 </select>
             </div>
         </form>
@@ -44,9 +44,9 @@
 
         <br/>
             <div class="text-center">
-                <button id="submit_edit" class="btn btn-success" type="button">Enregistrer</button>
-                <button id="submit_delete" class="btn btn-danger" type="button">Supprimer le compte</button>
-                <button onclick="window.location='{{ url("users") }}'" class="btn btn-primary" type="button">Retour</button>
+                <button id="submit_edit" class="btn btn-success" type="button">@lang('userEdit.btn_save')</button>
+                <button id="submit_delete" class="btn btn-danger" type="button">@lang('userEdit.btn_delete')</button>
+                <button onclick="window.location='{{ url("users") }}'" class="btn btn-primary" type="button">@lang('userEdit.btn_back')</button>
             </div>
     </div>
 @endsection
