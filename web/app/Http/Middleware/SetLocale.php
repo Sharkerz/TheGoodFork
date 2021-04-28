@@ -3,10 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use Session;
-use App;
-use Config;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 
 class SetLocale
 {
@@ -19,18 +18,13 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
-        if (Session::has('locale')) {
-            $locale = Session::get('locale', Config::get('app.locale'));
-        } else {
-            $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
-            if ($locale != 'fr' && $locale != 'en') {
-                $locale = 'fr';
-            }
+        if (Session::has('locale') AND in_array(Session::get('locale'), Config::get('app.languages'))) {
+            App::setLocale(Session::get('locale'));
         }
-
-        App::setLocale($locale);
-
+        else { // This is optional as Laravel will automatically set the fallback language if there is none specified
+            App::setLocale(Config::get('app.fallback_locale'));
+        }
         return $next($request);
     }
 }

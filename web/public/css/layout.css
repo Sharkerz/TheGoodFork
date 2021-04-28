@@ -52,3 +52,7 @@
 #content_panel {
     padding: 10px 10px 10px 13px;
 }
+
+.language_select:hover {
+    cursor: pointer;
+}

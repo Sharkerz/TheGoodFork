@@ -30,8 +30,8 @@ class UsersController extends Controller
     {
         $fields = $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:users', Rule::in(['admin', 'customer']),
-            'role' => 'required'
+            'email' => "required|email|unique:users,email,$id,id",
+            'role' => 'required', Rule::in(['admin', 'customer'])
         ]);
         User::where('id', $id)
             ->update($fields);

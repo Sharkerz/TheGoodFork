@@ -5,12 +5,12 @@
 @endsection
 
 @section('scripts')
-
+    <script src="{{ asset('js/users/userEdit.js') }}"></script>
 @endsection
 
 @section('content')
     <div class="container">
-        <form method="post" action="{{ route('users.update', $user->id) }}">
+        <form id="form_edit" method="post" action="{{ route('users.update', $user->id) }}">
             {{ @csrf_field() }}
             {!! method_field('PUT') !!}
             <input type="hidden" value="{{ $user->id }}">
@@ -24,17 +24,29 @@
             </div>
             <div class="mb-3 form-group">
                 <label for="select_role">Role</label>
-                <select name="role" type="text" class="form-control" id="select_role" value="{{ $user->role }}">
-                    <option value="admin">admin</option>
-                    <option value="customer">customer</option>
+                <select name="role" type="text" class="form-control" id="select_role">
+                    <option @if ($user->role == 'admin')selected @endif value="admin">admin</option>
+                    <option @if ($user->role == 'customer')selected @endif value="customer">customer</option>
                 </select>
             </div>
+        </form>
 
+        {{-- Display errors --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <br/>
             <div class="text-center">
-                <button class="btn btn-success" type="submit">Enregistrer</button>
-                <button class="btn btn-danger" type="button">Supprimer le compte</button>
+                <button id="submit_edit" class="btn btn-success" type="button">Enregistrer</button>
+                <button id="submit_delete" class="btn btn-danger" type="button">Supprimer le compte</button>
                 <button onclick="window.location='{{ url("users") }}'" class="btn btn-primary" type="button">Retour</button>
             </div>
-        </form>
     </div>
 @endsection

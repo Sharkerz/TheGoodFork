@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     @yield('style')
 
 <!-- Fonts -->
@@ -41,8 +42,34 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <!-- Set language -->
+                    <li class="nav-item dropdown language_select">
+                        @if (App::getLocale() == 'fr')
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="flag-icon flag-icon-fr"> </span>
+                                Français
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown09">
+                                <a class="dropdown-item" href="{{ route('language_route', 'en') }}">
+                                    <span class="flag-icon flag-icon-gb"> </span>
+                                    Anglais
+                                </a>
+                            </div>
+                        @else
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="flag-icon flag-icon-gb"></span>
+                                English
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown09">
+                                <a class="dropdown-item" href="{{ route('language_route', 'fr') }}">
+                                    <span class="flag-icon flag-icon-fr"> </span>
+                                    French
+                                </a>
+                            </div>
+                        @endif
+                    </li>
                     <li class="nav-item">
                         <form action="{{route('logout')}}" method="post">
                             @csrf

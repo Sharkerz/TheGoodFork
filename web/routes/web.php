@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
 Auth::routes();
 
+// Set language route
+Route::get('language/{lang}', function ($lang) { Session::put('locale', $lang); return back(); })->name('language_route');
+
 // To Remove soon
 Route::get('/test', function () {
     return view('test');

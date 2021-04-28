@@ -6,7 +6,7 @@
 
 @section('scripts')
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('js/usersList.js') }}"></script>
+    <script src="{{ asset('js/users/usersList.js') }}"></script>
 @endsection
 
 @section('content')
