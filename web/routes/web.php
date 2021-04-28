@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/users', [UsersController::class, 'index'])->name('users');
+    Route::resource('users', UsersController::class)->names(['index' => 'users.index', 'update' => 'users.update', 'edit' => 'users.edit']);
     Route::post('/users/update', [UsersController::class, 'updateUserRole'])->name('users.request.update.role');
 });
 

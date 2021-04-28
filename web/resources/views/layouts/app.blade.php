@@ -53,7 +53,7 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div id="content_panel" class="container-fluid">
             @yield('content')
         </div>
     </div>

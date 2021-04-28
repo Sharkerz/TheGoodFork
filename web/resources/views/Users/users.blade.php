@@ -18,25 +18,19 @@
             <th>email</th>
             <th>@lang('usersList.role')</th>
             <th>@lang('usersList.creation_date')</th>
+            <th>actions</th>
         </thead>
         <tbody>
             @foreach ($user_list as $user)
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>
-                        <form>
-                            @csrf
-                            <input class="id_user" type="hidden" value="{{ $user->id }}">
-                            <select class="select_role" name="role">
-                                <option>admin</option>
-                                <option>role1</option>
-                                <option>role2</option>
-                                <option>role3</option>
-                            </select>
-                        </form>
-                    </td>
+                    <td>{{ $user->role }}</td>
                     <td>{{ $user->created_at->format('j F Y') }}</td>
+                    <td>
+                        <button onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">Editer</button>
+                        <button class="btn btn-danger">Supprimer</button>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
