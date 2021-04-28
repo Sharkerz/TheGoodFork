@@ -64,3 +64,12 @@
 .sidebar_link {
     font-size: 1.2rem;
 }
+
+#menu-toggle {
+    font-size: 2rem;
+}
+
+#menu-toggle:hover {
+    cursor: pointer;
+    color: #171CB7;
+}
