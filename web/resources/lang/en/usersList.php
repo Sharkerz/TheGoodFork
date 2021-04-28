@@ -17,6 +17,8 @@ return [
     'username' => 'username',
     'role' => 'role',
     'creation_date' => 'creation date',
+    'edit' => 'edit',
+    'delete' => 'delete',
 
 
 

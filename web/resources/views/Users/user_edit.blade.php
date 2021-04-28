@@ -42,6 +42,11 @@
             </div>
         @endif
 
+        <form id="form_delete" method="post" action="{{ route('users.destroy', $user->id) }}">
+            {{ @csrf_field() }}
+            {!! method_field('DELETE') !!}
+        </form>
+
         <br/>
             <div class="text-center">
                 <button id="submit_edit" class="btn btn-success" type="button">@lang('userEdit.btn_save')</button>

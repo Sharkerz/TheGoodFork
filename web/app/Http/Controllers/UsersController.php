@@ -39,12 +39,10 @@ class UsersController extends Controller
         return Redirect::route('users.edit', $id);
     }
 
-    public function updateUserRole(Request $request)
+    public function destroy (Request $request, $id)
     {
-        $role = $request->role;
-        $user_id = $request->user_id;
-        $user = User::find($user_id);
-        $test = "let's update the role " . $role . " for the user " . $user->name ;
-        return ['test' => $test];
+        User::destroy($id);
+
+        return Redirect::route('users.index');
     }
 }

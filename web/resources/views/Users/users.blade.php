@@ -12,6 +12,7 @@
 @section('content')
     <h1>@lang('usersList.title_usersList')</h1>
 
+    <input type="hidden" id="language_selected" value="{{ Session::get('locale') }}">
     <table id="userTable" class="display">
         <thead>
             <th>@lang('usersList.username')</th>
@@ -27,9 +28,14 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role }}</td>
                     <td>{{ $user->created_at->format('j F Y') }}</td>
-                    <td>
-                        <button onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">Editer</button>
-                        <button class="btn btn-danger">Supprimer</button>
+                    <td class="form-inline">
+                        <button onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">@lang('usersList.edit')</button>
+
+                        <form id="form_delete" method="post" action="{{ route('users.destroy', $user->id) }}">
+                            {{ @csrf_field() }}
+                            {!! method_field('DELETE') !!}
+                            <button type="submit" class="btn btn-danger">@lang('usersList.delete')</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -13,10 +13,12 @@ return [
     |
     */
 
-    "title_usersList" => "Liste des utilisateurs",
-    "username" => "nom d'utilisateur",
-    "role" => "rôle",
-    "creation_date" => "date de création",
+    'title_usersList' => 'Liste des utilisateurs',
+    'username' => 'nom d\'utilisateur',
+    'role' => 'rôle',
+    'creation_date' => 'date de création',
+    'edit' => 'Editer',
+    'delete' => 'Supprimer',
 
 
 
