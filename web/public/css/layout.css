@@ -56,3 +56,7 @@
 .language_select:hover {
     cursor: pointer;
 }
+
+.selected {
+    background-color: #F0EEEE !important;
+}

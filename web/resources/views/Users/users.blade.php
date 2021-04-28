@@ -29,7 +29,7 @@
                     <td>{{ $user->role }}</td>
                     <td>{{ $user->created_at->format('j F Y') }}</td>
                     <td class="form-inline">
-                        <button onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">@lang('usersList.edit')</button>
+                        <button style="margin-right: 5px" onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">@lang('usersList.edit')</button>
 
                         <form id="form_delete" method="post" action="{{ route('users.destroy', $user->id) }}">
                             {{ @csrf_field() }}
