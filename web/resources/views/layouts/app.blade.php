@@ -30,8 +30,8 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">@lang('sidebar.admin_panel') </div>
         <div class="list-group list-group-flush">
-            <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light @if(Request::is('home*')) selected @endif">@lang('sidebar.home')</a>
-            <a href="{{url('users')}}" class="list-group-item list-group-item-action bg-light @if(Request::is('users*')) selected @endif">@lang('sidebar.usersList')</a>
+            <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('home*')) selected @endif">@lang('sidebar.home')</a>
+            <a href="{{url('users')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('users*')) selected @endif">@lang('sidebar.usersList')</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

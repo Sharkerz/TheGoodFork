@@ -60,3 +60,7 @@
 .selected {
     background-color: #F0EEEE !important;
 }
+
+.sidebar_link {
+    font-size: 1.2rem;
+}
