@@ -33,8 +33,12 @@ class UsersController extends Controller
             'email' => "required|email|unique:users,email,$id,id",
             'role' => 'required', Rule::in(['admin', 'customer'])
         ]);
-        User::where('id', $id)
+        $updated = User::where('id', $id)
             ->update($fields);
+
+        if ($updated) {
+            return Redirect::route('users.edit', $id)->with('success', 'It works!');;
+        }
 
         return Redirect::route('users.edit', $id);
     }

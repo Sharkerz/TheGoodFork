@@ -18,7 +18,8 @@ return [
     'customer' => 'customer',
     'btn_save' => 'save',
     'btn_delete' => 'delete account',
-    'btn_back' => 'back'
+    'btn_back' => 'back',
+    'success_alert' => 'Success',
 
 
 

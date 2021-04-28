@@ -42,6 +42,12 @@
             </div>
         @endif
 
+        @if (session()->has('success'))
+            <div class="alert-success text-center">
+                @lang('userEdit.success_alert')
+            </div>
+        @endif
+
         <form id="form_delete" method="post" action="{{ route('users.destroy', $user->id) }}">
             {{ @csrf_field() }}
             {!! method_field('DELETE') !!}

@@ -9,6 +9,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/layout.js') }}"></script>
     @yield('scripts')
 
     <!-- Styles -->
@@ -74,7 +75,7 @@
                     <li class="nav-item">
                         <form action="{{route('logout')}}" method="post">
                             @csrf
-                            <input type="submit" class="nav-link">@lang('auth.Logout')</input>
+                            <input type="submit" class="nav-link" value="@lang('auth.Logout')">
                         </form>
                     </li>
                 </ul>
@@ -88,12 +89,6 @@
 
 </div>
 <!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-</script>
 
 </body>
 </html>

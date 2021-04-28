@@ -18,8 +18,7 @@ return [
     'customer' => 'client',
     'btn_save' => 'Enregistrer',
     'btn_delete' => 'Supprimer le compte',
-    'btn_back' => 'Retour'
-
-
+    'btn_back' => 'Retour',
+    'success_alert' => 'Le compte a bien été modifié !',
 
 ];
