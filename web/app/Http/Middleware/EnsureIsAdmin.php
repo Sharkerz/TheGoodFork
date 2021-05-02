@@ -19,7 +19,7 @@ class EnsureIsAdmin
         if (auth()->user()->IsAdmin())
             return $next($request);
         else {
-            abort(404);
+            abort(401);
         }
     }
 }

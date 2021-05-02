@@ -9,10 +9,16 @@
     <script src="{{ asset('js/users/usersList.js') }}"></script>
 @endsection
 
+@php
+    if(Session::get('locale') == "fr") {
+        setlocale (LC_TIME, 'fr_FR.utf8','fra');
+    }
+@endphp
+
 @section('content')
     <h1>@lang('usersList.title_usersList')</h1>
 
-    <input type="hidden" id="language_selected" value="{{ Session::get('locale') }}">
+    <input type="hidden" id="language_selected" name="language" value="{{ Session::get('locale') }}">
     <table id="userTable" class="display">
         <thead>
             <th>@lang('usersList.username')</th>
@@ -27,7 +33,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role }}</td>
-                    <td>{{ $user->created_at->format('j F Y') }}</td>
+                    <td>{{ $user->created_at->formatLocalized('%d %B %Y')}}</td>
                     <td class="form-inline">
                         <button style="margin-right: 5px" onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">@lang('usersList.edit')</button>
 
