@@ -14,10 +14,11 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-
+        // WEB guard
         if (!$request->expectsJson()) {
             return route('login');
         }
+        // API guard
         else {
             abort(response()->json('Unauthorized', 403));
         }
