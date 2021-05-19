@@ -5,7 +5,7 @@ function WelcomeScreen(props) {
     return (
         <ImageBackground 
             style={styles.background}
-            source={require("../../assets/benoit.jpg")}>
+            source={require("../../assets/background2.png")}>
                 <View>
                      <Text style={styles.homeText}>TheGoodFork</Text> 
                 </View>
