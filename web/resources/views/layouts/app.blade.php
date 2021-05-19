@@ -19,7 +19,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @yield('style')
 
-<!-- Fonts -->
+    <!-- Icones materialize -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
@@ -34,6 +37,7 @@
         <div class="list-group list-group-flush">
             <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('home*')) selected @endif">@lang('sidebar.home')</a>
             <a href="{{url('users')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('users*')) selected @endif">@lang('sidebar.usersList')</a>
+            <a href="{{route('tables.index')}}" class="list-group-item list-group-item-action bg-light">@lang('sidebar.Table')</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

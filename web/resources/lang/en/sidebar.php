@@ -18,4 +18,6 @@ return [
     'admin_panel' => 'Admin panel',
     'home' => 'Home',
     'usersList' => 'Users',
+    'Table' => "Tables",
+
 ];
