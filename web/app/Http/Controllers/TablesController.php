@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Tables;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Redirect;
 
 class TablesController extends Controller
 {
@@ -15,10 +17,9 @@ class TablesController extends Controller
     public function index()
     {
         $tables = Tables::all();
-        return view('tables.index', [
-            'tables' => $tables
+        return view('tables.index',[
+            'tables' => $tables,
         ]);
-        return view('tables');
     }
 
     /**
@@ -39,7 +40,21 @@ class TablesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+        $fields = $request->validate([
+            'TableN' => 'required|unique:tables|int|min:1',
+            'NbPersons' => 'required|int|min:1|max:10',
+        ]);
+        $nbPersons = $request->get('NbPersons');
+        $tableNumber = $request->get('TableN');
+        $data = Tables::create([
+            'TableN' =>$tableNumber,
+            "NbPersons" => $nbPersons,
+        ]);
+        $table = Tables::find($data->id);
+        return response()->json(['success' =>true,'id'=>$table->id, 'TableN'=>$table->TableN, 'NbPersons'=>$table->NbPersons],200);
+        }
+        abort(404);
     }
 
     /**
@@ -61,29 +76,44 @@ class TablesController extends Controller
      */
     public function edit(Tables $tables)
     {
-        //
+       //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tables  $tables
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tables $tables)
+    public function update(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $fields = $request->validate([
+                'NbPersons' => 'required|int|min:1|max:10',
+            ]);
+        $table_update = [
+            "TableN" => $request->get('TableN'),
+            "NbPersons" => $request->get('NbPersons'),
+        ];
+        Tables::where('id', $request->get('id'))
+            ->update($table_update);
+            return response()->json(['success' => 'true','id' =>$request->get('id') ], 200);
+        }
+        abort(404);
+        
+       
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tables  $tables
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Tables $tables)
+    public function destroy(Request $request)
     {
-        //
+        if ($request->ajax()) {
+        Tables::where('id', $request->get('id'))
+            ->delete();
+            return response()->json(['success' => 'true','id' =>$request->get('id') ], 200);
+        }
+        abort(404);
     }
 }

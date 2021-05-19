@@ -23,12 +23,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-
     /* Controllers Ressouces*/
-    Route::resources([
-        'tables' => TablesController::class,
-    ]);
-    
+    Route::resource('tables',TablesController::class);
+    Route::resource('users', UsersController::class)->names(['index' => 'users.index', 'update' => 'users.update', 'edit' => 'users.edit']);
 });
 
 Auth::routes();

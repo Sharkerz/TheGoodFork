@@ -9,6 +9,6 @@ class Tables extends Model
 {
     protected $fillable = 
         [
-            'TableN°', 'NbPersons'
+            'TableN', 'NbPersons'
         ];
 }
