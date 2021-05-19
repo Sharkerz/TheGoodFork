@@ -14,7 +14,7 @@ return [
     */
 
     'username' => 'Nom d\'utilisateur',
-    'administrator' => 'administrateur',
+    'admin' => 'administrateur',
     'customer' => 'client',
     'btn_save' => 'Enregistrer',
     'btn_delete' => 'Supprimer le compte',

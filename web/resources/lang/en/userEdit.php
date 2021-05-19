@@ -14,7 +14,7 @@ return [
     */
 
     'username' => 'username',
-    'administrator' => 'administrator',
+    'admin' => 'administrator',
     'customer' => 'customer',
     'btn_save' => 'save',
     'btn_delete' => 'delete account',

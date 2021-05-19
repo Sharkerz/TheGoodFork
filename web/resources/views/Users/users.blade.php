@@ -17,22 +17,31 @@
 
 @section('content')
     <h1>@lang('usersList.title_usersList')</h1>
+    <a href="{{ URL::route('users.create') }}" class="btn btn-success float-right"> Ajouter un utilisateur </a><br/><br/>
+
+    @if (session()->has('success'))
+        <div class="alert-success text-center">
+            @lang('usersList.success_alert')
+        </div>
+    @endif
 
     <input type="hidden" id="language_selected" name="language" value="{{ Session::get('locale') }}">
     <table id="userTable" class="display">
         <thead>
+        <tr>
             <th>@lang('usersList.username')</th>
             <th>email</th>
             <th>@lang('usersList.role')</th>
             <th>@lang('usersList.creation_date')</th>
             <th>actions</th>
+        </tr>
         </thead>
         <tbody>
             @foreach ($user_list as $user)
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role }}</td>
+                    <td>@lang('userEdit.' . $user->role)</td>
                     <td>{{ $user->created_at->formatLocalized('%d %B %Y')}}</td>
                     <td class="form-inline">
                         <button style="margin-right: 5px" onclick="window.location='{{ url("users/$user->id/edit") }}'" class="btn btn-primary">@lang('usersList.edit')</button>
