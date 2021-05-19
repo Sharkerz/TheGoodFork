@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import { View, StyleSheet, TextInput, Button } from 'react-native'
 import axios from 'axios'
 
-const RegistrationScreen = () => {
+const LoginScreen = () => {
 
     const [email, setEmail] = useState("")
-    const [name, setName] = useState("")
     const [password, setPassword] = useState("")
 
     const [isSubmit, setIsSubmit] = useState(false)
 
     useEffect(() => {
         const authentificate = async () => {
-            axios.post('http://192.168.1.28:80/api/auth/register', {
+
+            axios.post('http://192.168.1.28:80/api/auth/login', {
                 email: email,
-                name: name,
                 password: password,
-                password_confirmation: password,
             }
             )
             .then((response) => {
@@ -34,9 +32,6 @@ const RegistrationScreen = () => {
     const emailHandler = (text) => {
         setEmail(text)
     }
-    const nameHandler = (text) => {
-        setName(text)
-    }
     const passwordHandler = (text) => {
         setPassword(text)
     }
@@ -50,11 +45,6 @@ const RegistrationScreen = () => {
             onChangeText={emailHandler}
             />
             <TextInput 
-            placeholder="Name" 
-            style={styles.input}
-            onChangeText={nameHandler}
-            />
-            <TextInput 
             placeholder="Password" 
             style={styles.input} 
             secureTextEntry={true} 
@@ -62,7 +52,7 @@ const RegistrationScreen = () => {
             onChangeText={passwordHandler}
             />
             <View style={styles.buttonContainer}>
-                <Button title="Register" onPress={() => setIsSubmit(true)}/>
+                <Button title="Login" onPress={() => setIsSubmit(true)}/>
             </View>
         </View>
     )
@@ -85,4 +75,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default RegistrationScreen
+export default LoginScreen
