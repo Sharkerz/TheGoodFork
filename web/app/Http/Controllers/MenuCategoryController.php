@@ -14,7 +14,10 @@ class MenuCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $menu_categories = menu_category::all();
+        return view('menus.index',[
+            'menu_categories' => $menu_categories,
+        ]);
     }
 
     /**

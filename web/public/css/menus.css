@@ -1,0 +1,8 @@
+.menu_category{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+    border-radius: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+}

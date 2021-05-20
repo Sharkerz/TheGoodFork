@@ -18,6 +18,7 @@ return [
     'admin_panel' => 'Panneau d\'administration',
     'home' => 'Accueil',
     'usersList' => 'Utilisateurs',
-    'Table' => "Tables",
+    'Table' => 'Tables',
+    'Menu' => 'Menu'
 
 ];
