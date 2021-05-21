@@ -42,7 +42,7 @@
                                         @csrf
 
                                         <div class="form-group row ">
-                                        <label for="tableNumberAdd" class="col-md-4 col-form-label text-md-right">@lang('tables.TableN°')</label>
+                                        <label for="tableNumberAdd" class="col-md-4 col-form-label text-md-right">@lang('tables.FormTableN°')</label>
 
                                         <div class="col-md-6">
                                                 <input id="tableNumberAdd" type="number" class="form-control @error('tableNumber') is-invalid @enderror" name="tableNumberAdd" value="{{ old('tableNumberAdd') }}"  required autocomplete="tableNumberAdd" autofocus>
@@ -57,7 +57,7 @@
 
                                         <div class="form-group row">
                                         
-                                        <label for="NbPersonAdd" class="col-md-4 col-form-label text-md-right">@lang('tables.NbPersons')</label>
+                                        <label for="NbPersonAdd" class="col-md-4 col-form-label text-md-right">@lang('tables.FormNbPersons')</label>
 
                                         <div class="col-md-6">
                                                 <input id="NbPersonAdd" type="number" class="form-control @error('NbPerson') is-invalid @enderror" min=0 max=10 name="NbPerson" required >
@@ -97,7 +97,7 @@
                                 {!! method_field('PUT') !!}
                                         <input hidden id="idEdit" value=""/>
                                         <div class="form-group row ">
-                                        <label for="tableNumberEdit" class="col-md-4 col-form-label text-md-right">@lang('tables.TableN°')</label>
+                                        <label for="tableNumberEdit" class="col-md-4 col-form-label text-md-right">@lang('tables.FormTableN°')</label>
 
                                         <div class="col-md-6">
                                                 <input id="tableNumberEdit" type="number" class="form-control @error('tableNumber') is-invalid @enderror" min=0 max=10 name="tableNumberEdit" value="" readonly   autofocus>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="form-group row">
                                         
-                                        <label for="NbPersonEdit" class="col-md-4 col-form-label text-md-right">@lang('tables.NbPersons')</label>
+                                        <label for="NbPersonEdit" class="col-md-4 col-form-label text-md-right">@lang('tables.FormNbPersons')</label>
 
                                         <div class="col-md-6">
                                                 <input id="NbPersonEdit" type="number" class="form-control @error('NbPersonEdit') is-invalid @enderror" name="NbPersonEdit" required  value="" autofocus>
@@ -122,7 +122,7 @@
                                                 </span>
                                                 @enderror
                                         </div>
-                                        <div class="col-md-6-4 centerdiv">
+                                        <div class="buttondiv">
                                                 <button type="button" class="btn btn-primary butonEditTable" >
                                                 @lang('tables.Update')
                                                 </button>

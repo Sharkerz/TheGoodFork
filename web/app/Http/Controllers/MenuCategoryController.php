@@ -38,7 +38,19 @@ class MenuCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $fields = $request->validate([
+                'name' => 'required|unique:menu_categories|string|max:255',
+            ]);
+            $categoryName = $request->get('name');
+           
+            $data = menu_category::create([
+                'name' =>$categoryName,
+            ]);
+            $menu_category = menu_category::find($data->id);
+            return response()->json(['success' =>true,'id'=>$menu_category->id, 'name'=>$menu_category->name],200);
+            }
+            abort(404);
     }
 
     /**
@@ -77,12 +89,14 @@ class MenuCategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\menu_category  $menu_category
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(menu_category $menu_category)
+    public function destroy(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            menu_category::where('id', $request->get('id'))
+                ->delete();
+                return response()->json(['success' => 'true','id' =>$request->get('id') ], 200);
+            }
+            abort(404);
     }
 }

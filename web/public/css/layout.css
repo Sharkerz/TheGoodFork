@@ -73,3 +73,11 @@
     cursor: pointer;
     color: #171CB7;
 }
+
+.Logout{
+    margin-block-end: 0 !important;
+}
+
+.modal-dialog{
+    max-width: 525px !important;
+}
