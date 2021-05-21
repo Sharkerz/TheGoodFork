@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Button as PaperButton } from 'react-native-paper'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { theme } from '../core/theme'
 
 export default function Button({ mode, style, ...props }) {
@@ -24,12 +25,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    backgroundColor: "#fff"
   },
   text: {
     fontWeight: 'bold',
     fontSize: 15,
-    lineHeight: 26,
-    color: "#111219"
+    lineHeight: 26
   },
 })
