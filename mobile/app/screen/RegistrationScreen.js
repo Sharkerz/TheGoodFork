@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
 import axios from 'axios'
+import { SERVER_IP } from '@env';
 
 const RegistrationScreen = ( {navigation} ) => {
 
@@ -17,7 +18,7 @@ const RegistrationScreen = ( {navigation} ) => {
 
     useEffect(() => {
         const authentificate = async () => {
-            axios.post('http://192.168.1.28:80/api/auth/register', {
+            axios.post(SERVER_IP + '/api/auth/register', {
                 email: email,
                 name: name,
                 password: password,
