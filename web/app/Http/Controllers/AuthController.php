@@ -84,6 +84,47 @@ class AuthController extends Controller
         return response()->json(auth('api')->user());
     }
 
+    public function editProfile(Request $request) {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users,email,' . $userId,
+                'password' => 'string|confirmed|min:6',
+            ]);
+        if($validator->fails()) {
+            return response()->json(
+                $validator->errors()->toJson(), 400
+            );
+        }
+
+        $update = $user->update([
+            'name' => $request['name'],
+            'email' => $request['email']
+        ]);
+        if ($request['password']) {
+            $update = $user->update([
+                'password' => bcrypt($request['password']),
+            ]);
+        }
+
+        if ($update) {
+            return response()->json([
+                'status' => 'success',
+                'user' => $user
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => 'error'
+            ]);
+        }
+
+
+    }
+
     public function logout() {
         auth('api')->logout();
 
