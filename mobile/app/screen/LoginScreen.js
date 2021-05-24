@@ -16,14 +16,16 @@ const LoginScreen = ({ navigation }) => {
     const [isSubmit, setIsSubmit] = useState(false)
     useEffect(() => {
         const authentificate = async () => {
-
             axios.post(SERVER_IP + '/api/auth/login', {
                 email: email,
                 password: password,
             }
             )
-            .then((response) => {
-                console.log(response)
+            .then(async (response) => {
+                //console.log(response.data)
+                await SecureStore.setItemAsync('secure_token',response.data.access_token)
+                const token = await SecureStore.getItemAsync('secure_token')
+                console.log(token)
                 setIsSubmit(false)
             })
             .catch((err) => {
