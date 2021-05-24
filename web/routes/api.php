@@ -12,12 +12,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh_token', [AuthController::class, 'refreshToken']);
-    Route::get('/user_profile', [AuthController::class, 'getProfile']);
 });
 
 /*
     API routes
 */
 Route::group(['middleware' => 'auth:api'], function ($router) {
-    // routes here
+    Route::get('/user_profile', [AuthController::class, 'getProfile']);
+    Route::post('/edit_profile', [AuthController::class, 'editProfile']);
 });
