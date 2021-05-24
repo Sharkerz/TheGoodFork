@@ -19,6 +19,7 @@ class EnsureIsAdmin
         if (auth()->user()->IsAdmin())
             return $next($request);
         else {
+            auth('web')->logout();
             abort(401);
         }
     }

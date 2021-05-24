@@ -19,12 +19,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware' => ['auth:web', 'admin']], function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     /* Controllers Ressouces*/
     Route::resource('tables',TablesController::class);
@@ -32,7 +28,7 @@ Route::group(['middleware' => ['auth:web', 'admin']], function () {
     Route::resource('users', UsersController::class)->names(['index' => 'users.index', 'update' => 'users.update', 'edit' => 'users.edit']);
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 // Set language route
 Route::get('language/{lang}', function ($lang) { Session::put('locale', $lang); return back(); })->name('language_route');

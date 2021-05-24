@@ -35,7 +35,7 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">@lang('sidebar.admin_panel') </div>
         <div class="list-group list-group-flush">
-            <a href="{{url('home')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('home*')) selected @endif">@lang('sidebar.home')</a>
+            <a href="{{url('/')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('/*')) selected @endif">@lang('sidebar.home')</a>
             <a href="{{url('users')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('users*')) selected @endif">@lang('sidebar.usersList')</a>
             <a href="{{route('tables.index')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('tables*')) selected @endif">@lang('sidebar.Table')</a>
             <a href="{{route('menus.index')}}" class="list-group-item list-group-item-action bg-light sidebar_link @if(Request::is('menu*')) selected @endif">@lang('sidebar.Menu')</a>
