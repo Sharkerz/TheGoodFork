@@ -1,7 +1,7 @@
 @component('mail::message')
-# Bienvenue !
+# Bienvenue sur l'application The Good Fork!
 
-Votre compte The Good Fork a bien été créé
+Votre compte The Good Fork a bien été créé.
 
 Votre mot de passe est : {{ $data['password'] }}
 
