@@ -6,6 +6,8 @@ import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
 import axios from 'axios'
+import * as SecureStore from 'expo-secure-store'
+import {API_URL} from '@env'
 
 const LoginScreen = ({ navigation }) => {
 
@@ -17,13 +19,16 @@ const LoginScreen = ({ navigation }) => {
     useEffect(() => {
         const authentificate = async () => {
 
-            axios.post('http://192.168.1.28:80/api/auth/login', {
+            axios.post(`${API_URL}/api/auth/login`, {
                 email: email,
                 password: password,
             }
             )
-            .then((response) => {
-                console.log(response)
+            .then(async (response) => {
+                //console.log(response.data)
+                await SecureStore.setItemAsync('secure_token',response.data.access_token)
+                const token = await SecureStore.getItemAsync('secure_token')
+                console.log(token)
                 setIsSubmit(false)
             })
             .catch((err) => {
