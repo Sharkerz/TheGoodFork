@@ -19,7 +19,8 @@ return [
     'creation_date' => 'creation date',
     'edit' => 'edit',
     'delete' => 'delete',
-    'success_alert' => 'The account has been created'
+    'success_alert' => 'The account has been created',
+    'add_user_btn' => 'Add user'
 
 
 

@@ -17,7 +17,7 @@
 
 @section('content')
     <h1>@lang('usersList.title_usersList')</h1>
-    <a href="{{ URL::route('users.create') }}" class="btn btn-success float-right"> Ajouter un utilisateur </a><br/><br/>
+    <a href="{{ URL::route('users.create') }}" class="btn btn-success float-right">@lang('usersList.add_user_btn')</a><br/><br/>
 
     @if (session()->has('success'))
         <div class="alert-success text-center">

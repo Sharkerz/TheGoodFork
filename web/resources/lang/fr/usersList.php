@@ -19,7 +19,8 @@ return [
     'creation_date' => 'date de création',
     'edit' => 'Editer',
     'delete' => 'Supprimer',
-    'success_alert' => 'Le compte a bien été créé'
+    'success_alert' => 'Le compte a bien été créé',
+    'add_user_btn' => 'Ajouter un utilisateur'
 
 
 
