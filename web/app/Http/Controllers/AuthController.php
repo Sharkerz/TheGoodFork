@@ -92,6 +92,7 @@ class AuthController extends Controller
             [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users,email,' . $userId,
+                'password' => 'string|confirmed|min:6',
             ]);
         if($validator->fails()) {
             return response()->json(
@@ -103,6 +104,11 @@ class AuthController extends Controller
             'name' => $request['name'],
             'email' => $request['email']
         ]);
+        if ($request['password']) {
+            $update = $user->update([
+                'password' => bcrypt($request['password']),
+            ]);
+        }
 
         if ($update) {
             return response()->json([
