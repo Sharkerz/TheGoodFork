@@ -1,33 +1,54 @@
 @extends('layouts.app')
 
-<link href="{{ asset('css/tables.css') }}" rel="stylesheet">
+@section('style')
+    <link rel="StyleSheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" type="text/css"/>
+    <link href="{{ asset('css/tables.css') }}" rel="stylesheet">
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/tables.js') }}"></script>
+@endsection
+
+
 @section('content')
-<div class="tab-content">
-        
-                <div class="tab-pane fade show active" id="public" role="tabpanel" aria-labelledby="public">
-                        <div id="header_list">
-                                <h1 class="header_title">@lang('tables.Title')</h1>
-                                <button id="Create_Tables" type="button" class="btn btn-success">@lang('tables.Add')</button>
-                                <hr>  
-                        </div>
-                        <div class="tableList">
-                        @foreach($tables as $table)
+<h1>@lang('tables.Title')</h1>
+    <button class="btn btn-success float-right" id="Create_Tables">@lang('tables.Add')</button><br/><br/>
 
-                                <div class="tables" id="{{ $table->id }}">
-                                        <div class="card-body">
-                                                <h6 class="titre_tables">@lang('tables.TableN°') {{ $table->TableN }} </h6>
-                                                <input  class="TableN" hidden value="{{ $table->TableN }}" name=ValueTableN>
-                                                <input  class="ValueNBPersons"  hidden value="{{ $table->NbPersons }}" name=ValueNBPersons>
-                                        </div>
-                                        <div>
-                                                <h4 class="NbPersonTables">{{ $table->NbPersons }}
-                                        </div>
-                                </div>
+    @if (session()->has('success'))
+        <div class="alert-success text-center">
+            @lang('usersList.success_alert')
+        </div>
+    @endif
 
-                        @endforeach
-                        </div>
-                </div>
-        
+    <input type="hidden" id="language_selected" name="language" value="{{ Session::get('locale') }}">
+    <table id="TablesGestion" class="display">
+        <thead>
+        <tr>
+            <th>@lang('tables.TableN°')</th>
+            <th>@lang('tables.NbPersons')</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($tables as $table)
+                <tr  class="tableRow" id="{{ $table->id }}">
+                    <td class="TableN">{{ $table->TableN }}</td>
+                    <td class="NbPersons">{{ $table->NbPersons }}</td>
+                    <td class="form-inline ActionCase">
+                        <button type="button" class="btn btn-primary EditButon" >
+                                @lang('tables.Edit')
+                        </button>
+
+                        <button type="button" class="btn btn-danger butonDelete" >
+                                @lang('tables.Delete')
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
         <div class="modal"  id="addModal"tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -122,12 +143,9 @@
                                                 </span>
                                                 @enderror
                                         </div>
-                                        <div class="buttondiv">
+                                        <div class="col-md-6 offset-md-4 buttondiv">
                                                 <button type="button" class="btn btn-primary butonEditTable" >
                                                 @lang('tables.Update')
-                                                </button>
-                                                <button type="button" class="btn btn-primary butonDelete" >
-                                                @lang('tables.Delete')
                                                 </button>
                                         </div>
                                         </div>
@@ -138,6 +156,6 @@
                         </div>
                 </div>
         </div>
-</div>
-<script type="text/javascript" src="{{ URL::asset('js/tables.js') }}"></script>
+
+
 @endsection

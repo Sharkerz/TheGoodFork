@@ -1,5 +1,22 @@
 /* JS pour la partie Menu */
 $(document).ready(function () {
+    const lang = $('#language_selected').val()
+    let langURL = '//cdn.datatables.net/plug-ins/1.10.24/i18n/English.json'
+
+    if(lang === 'fr') {
+        langURL = '//cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
+    }
+
+    $('#GestionduMenu').DataTable( {
+        "language": {
+            url: langURL
+        },
+        'columnDefs': [ {
+            'targets': [1], // column index (start from 0)
+            'orderable': false, // set orderable false for selected columns
+         }]
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -13,72 +30,108 @@ $(document).ready(function () {
     $('#closeAddModalMenuCategory').click(function () {
         $("#addModalMenuCategory").css("display", "none");
         $("#AddMenuCategoryName").val("");
+        $("#AddCategoryImage").val("");
         $(".error").remove(); 
     })
 
-    $('.add_category_items').click(function () {
-        $title = $('.modal-title')[1].innerHTML;
-        $categoryName = $(this)[0].closest('.menu_category').children[0].children[0].innerHTML;
-        // $('.modal-title')[1].innerHTML = $title + $categoryName
-        $("#addModalCategoryItem").css("display", "block");
+    $('#GestionduMenu').on('click', '.EditButon', function(event){
+        $div = $(this).closest('.RowMenuCategory');
+        $title = $('.modal-title')[1].innerText;
+        $id = $div.attr('id');
+        $name = $div[0].children[0].innerHTML;
+        $('#EditCategoryName')[0].value = $name;
+        $('#EditCategoryid')[0].value = $id;
+        $('.modal-title')[1].innerText = $title + $name;
+        $("#EditModalCategory").css("display", "block");
     })
 
-    $('#closeAddModalCategoryItem').click(function () {
-        $("#addModalCategoryItem").css("display", "none");
+    $('#closeEditModalCategory').click(function () {
+        $('.modal-title')[1].innerText = $title;
+        $("#EditModalCategory").css("display", "none");
         $(".error").remove(); 
     })
 
-    // $('.tables').click(function (event) {
-    //     $id = $(event.currentTarget).attr('id');
-    //     $TableN = $(this)[0].closest(".tables").children[0].children[1].value;
-    //     $nbPersons = $(this)[0].closest(".tables").children[0].children[2].value;
-    //     $('#tableNumberEdit')[0].value = $TableN;
-    //     $('#NbPersonEdit')[0].value = $nbPersons;
-    //     $('#idEdit')[0].value = $id;
-    //     $("#editModal").css("display", "block");
-    // })
-
-   
 
     $('#AddMenuCategoryName').on('input', function() { 
         $(".error").remove(); //remove error message
     });
 
-    $('.butonAddMenuCategory').click(function () {
+    $('#FormAddCategoryMenu').on('submit',function (event) {
+        (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
+        (lang ==="fr")? $Delete = "Supprimer" : $Edit ="Delete";
+        (lang ==="fr")? $Display = "Voir les élements de la catégorie" : $Display ="Check category items";
         $categoryName = $('#AddMenuCategoryName').val();
+        event.preventDefault();
         $.ajax({
             type: 'POST',
             url: '/menus',
-            data: { 'name': $categoryName},
+            cache: false,
+            processData: false, 
+            contentType: false,
+            data: new FormData($(this)[0]),
             success: function (Response) {
-                    $id = Response.id;
-                    $name = Response.name;
+                    $id = Response.item.id;
+                    console.log($id)
+                    $name = Response.item.name;
                     $("#AddMenuCategoryName").val("");
                     $("#addModalMenuCategory").css("display", "none");
-                    $div = $('.menu_categories');
+                    $div = $('#GestionduMenu');
                     $div.append(
-                        '<div class="menu_category" id="'+ $id +'">\n'+
-                            '<div class="category_header">\n'+
-                                '<h1 class="menu_category_name">'+ $name +'</h1>\n'+
-                                // '<i class="material-icons ">edit</i>\n'+
-                                '<input  hidden value="'+ $name +'" name="'+ $name +'">\n'+
-                                '<i class="material-icons remove_menu_category">remove_circle_outline</i>\n'+
-                            '</div>\n'+
-                            '<div class="category_items">\n'+
-                                '<i class="material-icons add_category_items">add</i>\n'+
-                        '</div>\n'+
-                        '</div>\n'
+                        '<tr class="RowMenuCategory odd" id="'+ Response.item.id+'">\n'+
+                    '<td class="CategoryName">'+ $name +'</td>\n'+
+                    '<td><img  alt="ItemImage" src="/Images/MenuCategory/'+Response.item.image +'"></td>\n'+
+                    '<td class="ActionCase">\n'+
+                        '<a href=menus/'+ $id+' type="button" class="btn btn-success Button SelectCategory" >\n'+
+                                $Display +
+                        '</a>\n'+
+
+                        '<button type="button" class="btn btn-primary Button EditButon" >\n'+
+                                $Edit +
+                        '</button>\n'+
+
+                        '<button type="button" class="btn btn-danger  Button butonDelete" >\n'+
+                                $Delete +
+                        '</button>\n'+
+                    '</td>\n'+
+                '</tr>\n'
                     )
             },
             error: function(error){
-                $(".modal-body").append('<h5 class="error">'+ error.responseJSON.errors.name[0] +'</h5>\n')
+                for (const key in error.responseJSON.errors) {
+                    $(".modal-body").append('<h5 class="error error'+ key +'">'+ error.responseJSON.errors[key] +'</h5>\n');
+                }
             }
         });
     })
 
+    $('#FormEditCategory').on('submit',function (event) {
+        event.preventDefault();
+        (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
+        (lang ==="fr")? $Delete = "Supprimer" : $Delete ="Delete";
+        (lang ==="fr")? $PriceTag = "Prix :" : $PriceTag ="Price : ";
+        $id = $('#EditCategoryid').val();
+        $data = new FormData($(this)[0]);
+        $data.append('_method','PUT');
+        $.ajax({
+            type: 'POST',
+            url: '/menus/' + $id,
+            cache: false,
+            processData: false, 
+            contentType: false,
+            data: $data,
+            success: function (Response) {
+                    $("#EditModalCategory").css("display", "none");
+                    $("#" + Response.item.id).children()[0].value = Response.item.name;
+                    $("#" + Response.item.id).children()[1].children[0].src = "/Images/MenuCategory/" + Response.item.image;
+            },
+            error: function(error){
+                $(".modal-body").append('<h5 class="error">'+ error.responseJSON.errors.NbPersons[0] +'</h5>\n');
+            }
+        });
+    });
 
-    $('.menu_categories').on('click', '.remove_menu_category', function() {
-        $id = $(this).closest('.menu_category').attr('id');
+    $('#GestionduMenu').on('click', '.butonDelete', function() {
+        $id = $(this).closest('.RowMenuCategory').attr('id');
         $.ajax({
             type: 'DELETE',
             url: '/menus/' + $id,
@@ -94,6 +147,16 @@ $(document).ready(function () {
     $('#closeEditModal').click(function () {
         $("#editModal").css("display", "none");
     })
+
+    $('#AddCategoryImage').on('input', function() { 
+        $errorname = $(this).attr('name');
+       $(".error" + $errorname).remove(); //remove error message
+   });
+
+   $('#AddMenuCategoryName').on('input', function() { 
+    $errorname = $(this).attr('name');
+   $(".error" + $errorname).remove(); //remove error message
+});
 
 
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuCategoryController;
+use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\UsersController;
 use App\Mail\UserGenerated;
 use App\Http\Controllers\TablesController;
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['auth:web', 'admin']], function () {
     /* Controllers Ressouces*/
     Route::resource('tables',TablesController::class);
     Route::resource('menus',MenuCategoryController::class);
+    Route::resource('menusItem',MenuItemController::class);
     Route::resource('users', UsersController::class)->names(['index' => 'users.index', 'update' => 'users.update', 'edit' => 'users.edit']);
 });
 

@@ -9,6 +9,6 @@ class menu_category extends Model
 {
     protected $fillable = 
         [
-            'name'
+            'name','image'
         ];
 }

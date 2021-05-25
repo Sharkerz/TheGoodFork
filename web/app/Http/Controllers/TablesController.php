@@ -92,7 +92,6 @@ class TablesController extends Controller
                 'NbPersons' => 'required|int|min:1|max:10',
             ]);
         $table_update = [
-            "TableN" => $request->get('TableN'),
             "NbPersons" => $request->get('NbPersons'),
         ];
         Tables::where('id', $request->get('id'))

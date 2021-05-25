@@ -67,3 +67,78 @@
 .ADDMenus{
     box-sizing:border-box !important;
 }
+
+.Button{
+    margin-right: 10px;
+}
+
+.col-md-6{
+    margin-bottom: 5px !important;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 1080px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+      
+    }
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Float four columns side by side */
+.column {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+}
+
+.cardinfo{
+    text-align: center;
+}
+
+.cardAction{
+    display: inline;
+}
+
+.AddElement{
+    width: 20%;
+}
+.CardAdd{
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.AddItemCategory{
+   font-size: 70px !important;
+}
+
+.AddItemCategory:hover{
+    cursor: pointer;
+}
+
+.IconsAdd{
+    top: 50%;
+}
+
+.CardTitle{
+    margin-top: 5px;
+}
+
+.ActionCase{
+    align-items: center;
+}
+

@@ -1,5 +1,22 @@
 /* Ajouter une nouvelle table */
 $(document).ready(function () {
+    const lang = $('#language_selected').val()
+    let langURL = '//cdn.datatables.net/plug-ins/1.10.24/i18n/English.json'
+
+    if(lang === 'fr') {
+        langURL = '//cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
+    }
+
+    $('#TablesGestion').DataTable( {
+        "language": {
+            url: langURL
+        },
+        'columnDefs': [ {
+            'targets': [2], // column index (start from 0)
+            'orderable': false, // set orderable false for selected columns
+         }]
+    });
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -27,30 +44,27 @@ $(document).ready(function () {
         $(".error").remove(); 
     });
 
-    $('.tableList').on('click', '.tables', function(event){
-        $id = $(event.currentTarget).attr('id');
-        $TableN = $(this)[0].closest(".tables").children[0].children[1].value;
-        $nbPersons = $(this)[0].closest(".tables").children[0].children[2].value;
+    $('#TablesGestion').on('click', '.EditButon', function(event){
+        $div = $(this).closest('.tableRow');
+        $id = $div.attr('id');
+        $TableN = $div[0].children[0].innerHTML;
+        $NbPersons = $div[0].children[1].innerHTML;
         $('#tableNumberEdit')[0].value = $TableN;
-        $('#NbPersonEdit')[0].value = $nbPersons;
+        $('#NbPersonEdit')[0].value = $NbPersons;
         $('#idEdit')[0].value = $id;
         $("#editModal").css("display", "block");
     })
 
     $('.butonEditTable').click(function () {
         $id = $('#idEdit').val();
-        $TableN = $('#tableNumberEdit').val();
         $NbPersons = $('#NbPersonEdit').val();
         $.ajax({
             type: 'PUT',
             url: '/tables/' + $id,
-            data: { 'id': $id, 'TableN': $TableN, 'NbPersons': $NbPersons },
+            data: { 'id': $id, 'NbPersons': $NbPersons },
             success: function (Response) {
                     $("#editModal").css("display", "none");
-                    $("#" + Response.id).children()[0].children[0].text = $TableN;
-                    $("#" + Response.id).children()[0].children[1].value = $TableN;
-                    $("#" + Response.id).children()[0].children[2].value = $NbPersons;
-                    $("#" + Response.id).children()[1].children[0].innerHTML = $NbPersons;
+                    $("#" + Response.id).children()[1].innerHTML = $NbPersons;
             },
             error: function(error){
                 $(".modal-body").append('<h5 class="error">'+ error.responseJSON.errors.NbPersons[0] +'</h5>\n');
@@ -59,6 +73,8 @@ $(document).ready(function () {
     });
 
     $('.butonAddTable').click(function () {
+        (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
+        (lang ==="fr")? $Delete = "Supprimer" : $Edit ="Delete";
         $TableN = $('#tableNumberAdd').val();
         $NbPersons = $('#NbPersonAdd').val();
         $.ajax({
@@ -72,17 +88,20 @@ $(document).ready(function () {
                     $TableN = Response.TableN;
                     $NbPersons = Response.NbPersons;
                     $("#addModal").css("display", "none");
-                    $div = $('.tableList');
-                    $div.append('<div class="tables" id="'+ $id + '">\n' +
-                        '<div class="card-body">\n' +
-                        '<h6 class="titre_tables">TableN° ' + $TableN + ' </h6>\n' +
-                        '<input  class="TableN" hidden value="' + $TableN + '" name=ValueTableN>\n' +
-                        '<input  class="ValueNBPersons"  hidden value="' + $NbPersons + '" name=ValueNBPersons>\n' +
-                        '</div>\n' +
-                        '<div>\n' +
-                        '<h4 class="NbPersonTables">' + $NbPersons + '\n' +
-                        '</div>\n' +
-                        '</div>\n')
+                    $div = $('#TablesGestion');
+                    $div.append('<tr  class="tableRow" id="'+ $id+ '">\n'+
+                    '<td class="TableN">'+ $TableN+ '</td>\n'+
+                    '<td class="NbPersons">'+ $NbPersons+ '</td>\n'+
+                    '<td class="form-inline ">\n'+
+                        '<button type="button" class="btn btn-primary EditButon" >\n'+
+                            $Edit +
+                        '</button>\n'+
+
+                        '<button type="button" class="btn btn-danger butonDelete" >\n'+
+                            $Delete +
+                        '</button>\n'+
+                    '</td>\n'+
+                '</tr>)\n')
 
             },
             error: function(error){
@@ -102,8 +121,8 @@ $(document).ready(function () {
         });
     })
 
-    $('.butonDelete').click(function () {
-        $id = $('#idEdit').val();
+    $('#TablesGestion').on('click', '.butonDelete',function () {
+        $id = $(this).closest('.tableRow').attr('id');
         $.ajax({
             type: 'DELETE',
             url: '/tables/' + $id,

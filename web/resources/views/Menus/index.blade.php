@@ -1,29 +1,56 @@
 @extends('layouts.app')
 
-<link href="{{ asset('css/menus.css') }}" rel="stylesheet">
-@section('content')
-<div class="content_panel">
-        <div class="header_menu">
-                <h1 class="Menu_Title">@lang('menus.menuHeader')</h1>
-                <button id="AddMenuCategory" type="button" class="btn btn-success">@lang('menus.AddCategory')</button>
-        </div>
-        <div class="menu_categories" >
-                @foreach($menu_categories as $menu_category)
-                <div class="menu_category" id="{{ $menu_category->id }}">
-                        <div class="category_header">
-                                <h1 class="menu_category_name">{{ $menu_category->name }}</h1>
-                                <!-- <i class="material-icons ">edit</i> -->
-                                <input  hidden value="{{ $menu_category->name }}" name="{{ $menu_category->name }}">
-                                <i class="material-icons remove_menu_category">remove_circle_outline</i>
-                        </div>
-                        <div class="category_items">
-                                <i class="material-icons add_category_items">add</i>
-                        </div>
-                </div>
+@section('style')
+    <link rel="StyleSheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" type="text/css"/>
+    <link href="{{ asset('css/menus.css') }}" rel="stylesheet">
+@endsection
 
-                @endforeach
+@section('scripts')
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/menus.js') }}"></script>
+@endsection
+
+@section('content')
+<h1>@lang('menus.menuHeader')</h1>
+    <button class="btn btn-success float-right" id="AddMenuCategory">@lang('menus.AddCategory')</button><br/><br/>
+
+    @if (session()->has('success'))
+        <div class="alert-success text-center">
+            @lang('usersList.success_alert')
         </div>
-</div>
+    @endif
+
+    <input type="hidden" id="language_selected" name="language" value="{{ Session::get('locale') }}">
+    <table id="GestionduMenu" class="display">
+        <thead>
+        <tr>
+            <th>@lang('menus.categoryname')</th>
+            <th>@lang('menus.image')</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($menu_categories as $category)
+                <tr class="RowMenuCategory" id="{{ $category->id }}">
+                    <td class="CategoryName">{{ $category->name }}</td>
+                    <td><img  alt="ItemImage" src="/Images/MenuCategory/{{ $category->image }}"></td>
+                    <td class="ActionCase">
+                        <a href="{{ route('menus.show', $category->id) }}" type="button" class="btn btn-success Button SelectCategory" >
+                                @lang('menus.Elements')
+                        </a>
+
+                        <button type="button" class="btn btn-primary Button EditButon" >
+                                @lang('menus.Edit')
+                        </button>
+
+                        <button type="button" class="btn btn-danger  Button butonDelete" >
+                                @lang('menus.Delete')
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 <div class="modal"  id="addModalMenuCategory"tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -34,23 +61,21 @@
                                 </button>
                         </div>
                         <div class="modal-body">
-                                <form method="POST">
+                                <form id="FormAddCategoryMenu" method="POST">
                                         @csrf
                                         <div class="form-group row ADDMenus">
                                         
                                         <label for="AddMenuCategoryName" class="col-md-4 col-form-label text-md-right">@lang('menus.categoryname')</label>
 
                                         <div class="col-md-6">
-                                                <input id="AddMenuCategoryName" type="texte" class="form-control @error('AddMenuCategoryName') is-invalid @enderror"  name="AddMenuCategoryName" required >
-
-                                                @error('AddMenuCategoryName')
-                                                <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
+                                                <input id="AddMenuCategoryName" type="texte" class="form-control @error('AddMenuCategoryName') is-invalid @enderror"  name="name" required >
+                                        </div>
+                                        <label for="AddCategoryImage" class="col-md-4 col-form-label text-md-right">@lang('menus.itemimage')</label>
+                                        <div class="col-md-6">
+                                                <input id="AddCategoryImage"  type="file" step="any" class=" @error('AddCategoryImage') is-invalid @enderror"  name="image" required >
                                         </div>
                                         <div class="col-md-6 offset-md-4">
-                                                <button type="button" class="btn btn-primary butonAddMenuCategory">
+                                                <button type="submit" class="btn btn-primary butonAddMenuCategory">
                                                 @lang('tables.Submit')
                                                 </button>
                                         </div>
@@ -62,34 +87,34 @@
                         </div>
                 </div>
         </div>
-        <div class="modal"  id="addModalCategoryItem"tabindex="-1" role="dialog">
+        <div class="modal"  id="EditModalCategory" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                                <h5 class="modal-title">@lang('menus.AddItemCategory')</h5>
-                                <button type="button" class="close" id="closeAddModalCategoryItem" data-dismiss="modal" aria-label="Close">
+                                <h5 class="modal-title">@lang('menus.EditCategory')</h5>
+                                <button type="button" class="close" id="closeEditModalCategory" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                         </div>
                         <div class="modal-body">
-                                <form method="POST">
-                                        @csrf
+                                <form id="FormEditCategory"  enctype="multipart/form-data">
+                                {{ csrf_field() }}
                                         <div class="form-group row ">
-                                        
-                                        <label for="AddCategoryItemName" class="col-md-4 col-form-label text-md-right">@lang('menus.itemname')</label>
+                                        <input id="EditCategoryid"  hidden type="number" step="any"   name="id" required >
+                                        <label for="EditCategoryItem" class="col-md-4 col-form-label text-md-right">@lang('menus.itemname')</label>
 
                                         <div class="col-md-6">
-                                                <input id="AddCategoryItemName" type="texte" class="form-control @error('AddCategoryItemName') is-invalid @enderror"  name="AddCategoryItemName" required >
-
-                                                @error('AddCategoryItemName')
-                                                <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
+                                                <input id="EditCategoryName" type="texte" class="form-control @error('EditCategoryItem') is-invalid @enderror"  name="name" required >
                                         </div>
+
+                                        <label for="EditCategoryImage" class="col-md-4 col-form-label text-md-right">@lang('menus.itemimage')</label>
+                                        <div class="col-md-6">
+                                                <input id="EditCategoryImage"  type="file" step="any" class=" @error('EditCategoryImage') is-invalid @enderror"  name="image" >
+                                        </div>
+                                        
                                         <div class="col-md-6 offset-md-4">
-                                                <button type="button" class="btn btn-primary butonAddMenuCategory">
-                                                @lang('tables.Submit')
+                                                <button type="submit" class="btn btn-primary butonEditCategory">
+                                                @lang('menus.Submit')
                                                 </button>
                                         </div>
                                         </div>
@@ -100,5 +125,4 @@
                         </div>
                 </div>
         </div>
-<script type="text/javascript" src="{{ URL::asset('js/menus.js') }}"></script>
 @endsection
