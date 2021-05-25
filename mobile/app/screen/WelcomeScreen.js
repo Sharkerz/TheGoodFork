@@ -65,6 +65,10 @@ export default function WelcomeScreen( {navigation}) {
               mode="outlined" onPress={() => navigation.navigate('RegistrationScreen')}>
               Sign Up
             </Button>
+            <Button color='#111219' style={styles.textRegister}
+              mode="outlined" onPress={() => navigation.navigate('HomeScreen')}>
+              Home
+            </Button>
 
         </ImageBackground>
 
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   textHome: {
     fontSize: 40,
     textAlign: 'center',
-    top: 420,
+    top: 360,
     marginBottom: 0,
     color: "#fff",
     fontWeight: "600"
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 226,
     position: 'absolute',
-    top: 150,
+    top: 90,
   },
   logoContainer: {
     width: 200,
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   },
   textLogin: {
     backgroundColor: '#fff',
-    marginTop: 480,
+    marginTop: 400,
     width: 300
   }
 })
