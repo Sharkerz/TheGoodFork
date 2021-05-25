@@ -8,6 +8,8 @@ import WelcomeScreen from './app/screen/WelcomeScreen'
 import ProfileScreen from "./app/screen/Profile";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Tabs from './app/naviguation/Tabs'
 import { theme } from './app/core/theme'
 import { Provider } from 'react-native-paper'
 import * as SecureStore from "expo-secure-store";
@@ -28,24 +30,22 @@ const getAuthStatus = async () => {
 }
 
 export default function App() {
-    const [auth, getAuthStatus] = useState(false)
+    const [auth, getAuthStatus] = useState(true)
     console.log(auth)
     //SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
-  return (
-    <Provider theme={theme}>
-      <NavigationContainer>
+    return (
+        <Provider theme={theme}>
+            <NavigationContainer>
             {!auth ? (
                 <Stack.Navigator screenOptions={{headerShown: false}}>
+                    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                     <Stack.Screen name="LoginScreen" component={LoginScreen} />
                     <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
-                    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                 </Stack.Navigator>
             ) : (
-                <Stack.Navigator screenOptions={{headerShown: false}}>
-                    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-                </Stack.Navigator>
+                <Tabs/>
             )}
-      </NavigationContainer>
-    </Provider> 
-  );
+           </NavigationContainer>
+        </Provider>
+    );
 }

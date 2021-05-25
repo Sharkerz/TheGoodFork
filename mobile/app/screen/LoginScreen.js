@@ -107,10 +107,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignItems: 'center'
     },
-    container: {
-        flex: 1,
-        alignItems: 'center'
-    },
     header: {
         flex: 2,
         justifyContent: 'center',
