@@ -78,9 +78,9 @@
                         @endif
                     </li>
                     <li class="nav-item">
-                        <form action="{{route('logout')}}" method="post">
+                        <form  class="Logout"action="{{route('logout')}}" method="post">
                             @csrf
-                            <input type="submit" class="nav-link" value="@lang('auth.Logout')">
+                            <input type="submit" class="btn btn-danger" value="@lang('auth.Logout')">
                         </form>
                     </li>
                 </ul>

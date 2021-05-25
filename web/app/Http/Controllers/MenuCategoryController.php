@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\menu_category;
+use App\Models\menu_item;
 use Illuminate\Http\Request;
+use Image;
 
 class MenuCategoryController extends Controller
 {
@@ -15,6 +17,15 @@ class MenuCategoryController extends Controller
     public function index()
     {
         $menu_categories = menu_category::all();
+        // $table = [];
+        // foreach ($menu_categories as $category) {
+        //     $item = menu_item::where('category_id', $category->id)->get(); 
+        //         array_push($table, $item);
+        //         // dd($item);
+        //         // die;
+        // }  
+        // dd($table);
+        // die;
         return view('menus.index',[
             'menu_categories' => $menu_categories,
         ]);
@@ -38,18 +49,40 @@ class MenuCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $fields = $request->validate([
+                'name' => 'required|unique:menu_categories|string|max:255',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            ]);
+
+            $image = $request->file('image');
+            $filename = time(). '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuCategory/' . $filename));
+            $image = $filename;
+           
+            $data = menu_category::create([
+                'name' =>$request->input('name'),
+                'image' => $image,
+            ]);
+            $menu_category = menu_category::find($data->id);
+            return response()->json(['success' =>true,'item' =>$menu_category],200);
+            }
+            abort(404);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\menu_category  $menu_category
      * @return \Illuminate\Http\Response
      */
-    public function show(menu_category $menu_category)
+    public function show($id)
     {
-        //
+        $category = menu_category::find($id);
+        $items = menu_item::where('category_id', $id)->get(); 
+        return view('menus.show',[
+            'menu_items' => $items,
+            'category' =>$category
+        ]);
+        
     }
 
     /**
@@ -67,22 +100,56 @@ class MenuCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\menu_category  $menu_category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, menu_category $menu_category)
+    public function update(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $id = $request->input(('id'));
+            if ($request->hasFile('image')) {
+                $fields = $request->validate([
+                    'name' => "required|string|max:255|unique:menu_items,name,$id,id",
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                ]);
+                $image = $request->file('image');
+                $filename = time(). '.' . $image->getClientOriginalExtension();
+                Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuCategory/' . $filename));
+                $image = $filename;
+                $update_item = [
+                    'name' =>$request->input('name'),
+                    'image' => $image,
+                ];
+            }
+            else{
+                $fields = $request->validate([
+                    'name' => "required|string|max:255|unique:menu_items,name,$id,id",
+                ]);
+                $update_item = [
+                    'name' =>$request->input('name'),
+                ];
+            }
+            
+            menu_category::where('id', $request->input('id'))
+            ->update($update_item);
+            $item = menu_category::find($id);
+            return response()->json(['item'=> $item], 200);
+        }
+        abort(404);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\menu_category  $menu_category
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(menu_category $menu_category)
+    public function destroy(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = menu_category::find($request->get('id'));
+            menu_category::where('id', $request->get('id'))
+                ->delete();
+            $image = $data->image;
+            unlink(public_path('/Images/MenuCategory/' . $image));
+            return response()->json(['success' => 'true','id' =>$request->get('id') ], 200);
+            }
+            abort(404);
     }
 }

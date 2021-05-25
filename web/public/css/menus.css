@@ -1,8 +1,144 @@
-.menu_category{
-    flex: 1 1 auto;
+.category_header{
+    flex-direction: row;
     min-height: 1px;
     padding: 1.25rem;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    
+}
+
+.menu_category{
+    flex-direction: column;
     border-radius: 20px;
     background-color: white;
     margin-bottom: 10px;
 }
+
+.header_menu{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+#AddMenuCategory{
+    align-items: flex-end;
+}
+
+.menu_category{
+    display: flex;
+    align-items: center;
+}
+.menu_category_name{
+    display: flex !important;
+}
+
+.menu_category_name{
+    width: 98%;
+}
+
+.Menu_Title{
+    width: 92%;
+}
+
+.butonAddMenuCategory{
+    margin-top: 10px;
+}
+
+.menu_category_name{
+    align-items: center;
+}
+
+.remove_menu_category{
+    align-items: end;
+}
+
+.remove_menu_category:hover{
+    cursor: pointer;
+}
+
+.error{
+    color: red;
+}
+
+.add_category_items:hover{
+    cursor: pointer;
+}
+
+.ADDMenus{
+    box-sizing:border-box !important;
+}
+
+.Button{
+    margin-right: 10px;
+}
+
+.col-md-6{
+    margin-bottom: 5px !important;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 1080px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+      
+    }
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Float four columns side by side */
+.column {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+}
+
+.cardinfo{
+    text-align: center;
+}
+
+.cardAction{
+    display: inline;
+}
+
+.AddElement{
+    width: 20%;
+}
+.CardAdd{
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.AddItemCategory{
+   font-size: 70px !important;
+}
+
+.AddItemCategory:hover{
+    cursor: pointer;
+}
+
+.IconsAdd{
+    top: 50%;
+}
+
+.CardTitle{
+    margin-top: 5px;
+}
+
+.ActionCase{
+    align-items: center;
+}
+
