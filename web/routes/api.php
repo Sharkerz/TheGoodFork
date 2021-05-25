@@ -1,6 +1,8 @@
 <?php
+namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MenuApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +22,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::get('/user_profile', [AuthController::class, 'getProfile']);
     Route::post('/edit_profile', [AuthController::class, 'editProfile']);
+    Route::get('/getCategories', [MenuApiController::class, 'getCategories']);
+    Route::get('/getItems', [MenuApiController::class, 'getItems']);
 });

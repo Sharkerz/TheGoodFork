@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Validator;
 
 class AuthController extends Controller
@@ -130,5 +130,4 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'signed out']);
     }
-
 }

@@ -17,15 +17,6 @@ class MenuCategoryController extends Controller
     public function index()
     {
         $menu_categories = menu_category::all();
-        // $table = [];
-        // foreach ($menu_categories as $category) {
-        //     $item = menu_item::where('category_id', $category->id)->get(); 
-        //         array_push($table, $item);
-        //         // dd($item);
-        //         // die;
-        // }  
-        // dd($table);
-        // die;
         return view('menus.index',[
             'menu_categories' => $menu_categories,
         ]);
