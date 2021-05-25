@@ -1,55 +1,51 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { NativeRouter as Router, Route, Switch } from 'react-router-native'
 import LoginScreen from './app/screen/LoginScreen'
 import RegistrationScreen from './app/screen/RegistrationScreen'
 import WelcomeScreen from './app/screen/WelcomeScreen'
+import ProfileScreen from "./app/screen/Profile";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { theme } from './app/core/theme'
 import { Provider } from 'react-native-paper'
+import * as SecureStore from "expo-secure-store";
 
 const Stack = createStackNavigator()
 
-//a rajouter sur bouton login/register pas oublier les imports
-/* <Link to={'/login'}>
-<Text>Login</Text>
-</Link> */
-
+// get auth status
+const getAuthStatus = async () => {
+    const token = await SecureStore.getItemAsync('secure_token')
+    if (token !== null) {
+        console.log('a')
+        return true
+    }
+    else {
+        console.log('b')
+        return false
+    }
+}
 
 export default function App() {
+    const [auth, getAuthStatus] = useState(false)
+    console.log(auth)
+    //SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
   return (
-    // <WelcomeScreen>
-    //   <Router>
-    //     <View>
-    //         <Switch>
-    //             <Route path="/" exact component={WelcomeScreen}/>
-    //             <Route path="/register" exact component={RegistrationScreen}/>
-    //             <Route path="/login" exact component={LoginScreen}/>
-    //         </Switch>
-    //     </View>
-    //   </Router> 
-    // </WelcomeScreen> 
     <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator
-        screenOptions={{headerShown: false}}
-        initialRouteName="WelcomeScreen">
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        </Stack.Navigator>
+            {!auth ? (
+                <Stack.Navigator screenOptions={{headerShown: false}}>
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
+                    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+                </Stack.Navigator>
+            ) : (
+                <Stack.Navigator screenOptions={{headerShown: false}}>
+                    <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                </Stack.Navigator>
+            )}
       </NavigationContainer>
     </Provider> 
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#872BA2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
