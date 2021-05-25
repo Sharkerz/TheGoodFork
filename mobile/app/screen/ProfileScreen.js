@@ -1,30 +1,33 @@
-import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Image } from 'react-native';
+import React, {Component} from 'react';
+import {ImageBackground, StyleSheet, View, Text, Image, DevSettings} from 'react-native';
 import Background from '../components/Background'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
+import * as SecureStore from "expo-secure-store";
 
-export default function ProfileScreen() {
+class ProfileScreen extends Component {
+  logout = () => {
+    SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
+    DevSettings.reload();
+  }
+
+  render() {
     return (
-
         <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
-
-
-
-          {/* <Background> */}
-            <Paragraph style={styles.textHome}>
-              Profile
-            </Paragraph>
-          {/* </Background> */}
-
-
-
+          <Paragraph style={styles.textHome}>
+            Profile
+          </Paragraph>
+          <Button color='#111219' style={styles.textRegister}
+                  mode="outlined" onPress={() => this.logout()}>
+            Se déconnecter
+          </Button>
         </ImageBackground>
-
-
     );
 }
+}
+
+export default ProfileScreen
 
 const styles = StyleSheet.create({
   textHome: {
