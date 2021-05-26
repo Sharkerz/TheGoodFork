@@ -12,14 +12,14 @@ const Tabs = () => {
             showLabel: false,
             style: {
                 position: 'absolute',
-                bottom: 25,
-                left: 20,
-                right: 20,
-                elevation: 10,
+                // bottom: 25,
+                // left: 20,
+                // right: 20,
+                elevation: 0,
                 backgroundColor: '#111219',
-                borderRadius: 15,
+                // borderRadius: 15,
                 borderTopWidth: 0,
-                height: 80,
+                height: 90,
                 ...styles.shadow
             }
         }}>
@@ -32,6 +32,7 @@ const Tabs = () => {
                         style={{
                             width: 75,
                             height: 75,
+                            marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   
                         </Image>
@@ -47,6 +48,7 @@ const Tabs = () => {
                         style={{
                             width: 75,
                             height: 75,
+                            marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   
                         </Image>
@@ -62,6 +64,7 @@ const Tabs = () => {
                         style={{
                             width: 75,
                             height: 75,
+                            marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   
                         </Image>

@@ -42,34 +42,80 @@ const HomeScreen = () => {
 
 
   const foodData = [
-      {
-      }
+    {
+      id: 1,
+      categories: [2],
+      name: "Tournedos de boeuf et son accompagnement",
+      image: images.entree,
+    },
+    {
+      id: 2,
+      name: "Plats",
+      categories: [2],
+      image: images.plat,
+    },
+    {
+      id: 3,
+      name: "Desserts",
+      categories: [3],
+      image: images.dessert,
+    },
+    {
+      id: 4,
+      name: "Boissons",
+      categories: [4],
+      image: images.vin,
+    },
+    {
+      id: 5,
+      name: "Apéritifs",
+      categories: [5],
+      image: images.aperitif,
+    },
+    {
+      id: 6,
+      name: "Spécialités",
+      categories: [6],
+      image: images.specialite,
+    },  
 
   ]
 
 
   const [categories, setCategories] = React.useState(categoryData)
+  const [selectedCategory, setSelectedCategory] = React.useState(null)
+  const [foods, setFoods] = React.useState(foodData)
 
   function onSelectCategory(category) {
     
     let foodList = foodData.filter(a => a.categories.includes(category.id))
 
     setFoods(foodList)
-    setSelectCategory(category)
+    setSelectedCategory(category)
   }
 
-  function renderMainCategories() {
+//   function getCategoryNameById(id) {
+//     let category = categories.filter(a => a.id == id)
+
+//     if (category.length > 0)
+//         return category[0].name
+
+//     return ""
+// }
+
+  function renderCategories() {
   const renderItem = ({ item }) => {
       return (
         <TouchableOpacity
         style={{
           padding: 4,
-          paddingBottom: 20,
-          backgroundColor: 'transparant',
           borderRadius: 30,
+          paddingLeft: 10,
+          // backgroundColor: (selectedCategory?.id == item.id) ? '#5A5B61' : 'rgba(0,0,0,0)',
           alignItems: 'center',
           justifyContent: 'center',
-          marginRight: 10,
+          flex: 0,
+          marginRight: 5,
           ...styles.shadow
         }}
         onPress={() => onSelectCategory(item)}>
@@ -88,8 +134,8 @@ const HomeScreen = () => {
                 source={item.image}
                 resizeMode="contain"
                 style={{
-                    width: 80,
-                    height: 80,
+                    width: 85,
+                    height: 85,
                     borderRadius: 25
                 }}
             />
@@ -98,21 +144,20 @@ const HomeScreen = () => {
             style={{
                 marginTop: 10,
                 color: '#fff',
-                fontSize: 15
+                fontSize: (selectedCategory?.id == item.id) ? 20 : 15,
             }}
         >
             {item.name}
         </Text>
 
         </TouchableOpacity>
-        
-
+      
       )
   }
 
   return (
-      <View style={{padding: 20}}>
-        <Text style={{ fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
+      <View>
+        <Text style={{ paddingLeft: 20, marginTop: 25, fontSize: 25, fontWeight: '600', color: '#fff'}}>Composez votre menu</Text>
 
         <FlatList
             data={categories}
@@ -125,14 +170,116 @@ const HomeScreen = () => {
       </View>
   )
 }
+
+function renderFoodList() {
+  const renderItem = ({ item }) => (
+      <TouchableOpacity
+          style={{ marginBottom: 20 }}
+          // onPress={() => navigation.navigate("Profile", {
+          //     item,
+          //     currentLocation
+          // })}
+      >
+          {/* Image */}
+          <View
+              style={{
+                  marginBottom: 10
+              }}
+          >
+              <Image
+                  source={item.image}
+                  resizeMode="cover"
+                  style={{
+                      width: "100%",
+                      height: 200,
+                      borderRadius: 15
+                  }}
+              />
+
+              {/* <View
+                  style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      height: 50,
+                      width: 100,
+                      backgroundColor: '#fff',
+                      borderTopRightRadius: 15,
+                      borderBottomLeftRadius: 15,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      ...styles.shadow
+                  }}
+              >
+                <Text style={{ fontSize: 15 }}>{item.name}</Text>
+              </View> */}
+          </View>
+          <Text style={{ fontSize: 16, color: '#fff' }}>{item.name}</Text>
+
+
+
+
+          <View
+              style={{
+                  marginTop: 0,
+                  flexDirection: 'row'
+              }}
+          >
+              {/* Rating */}
+              {/* <Image
+                  source={icons.star}
+                  style={{
+                      height: 20,
+                      width: 20,
+                      tintColor: COLORS.primary,
+                      marginRight: 10
+                  }}
+              /> */}
+              {/* <Text style={{ fontSize: 15 }}>{item.rating}</Text> */}
+
+              {/* Categories */}
+              {/* <View
+                  style={{
+                      flexDirection: 'row',
+                      marginLeft: 10
+                  }}
+              >
+                  {
+                      item.categories.map((categoryId) => {
+                          return (
+                              <View
+                                  style={{ flexDirection: 'row' }}
+                                  key={categoryId}
+                              >
+                                  <Text style={{ fontSize: 15 }}>{getCategoryNameById(categoryId)}</Text>
+                                  <Text style={{ fontSize: 15, color: '#111219' }}> . </Text>
+                              </View>
+                          )
+                      })
+                  }
+
+              </View> */}
+          </View>
+      </TouchableOpacity>
+  )
+
+  return (
+      <FlatList
+          data={foods}
+          keyExtractor={item => `${item.id}`}
+          renderItem={renderItem}
+          contentContainerStyle={{
+              paddingHorizontal: 20,
+              paddingBottom: 270
+          }}
+      />
+  )
+}
+
 return (
   <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
     <SafeAreaView>  
-      
-        <Paragraph style={styles.textHome}>
-          Home
-        </Paragraph>
-      {renderMainCategories()}
+      {renderCategories()}
+      {renderFoodList()}
     </SafeAreaView>
   </ImageBackground>
 
