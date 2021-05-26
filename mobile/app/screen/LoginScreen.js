@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton'
 import axios from 'axios'
 import { SERVER_IP } from '@env';
 import * as SecureStore from "expo-secure-store";
+import AuthService from '../service/AuthService';
 
 class LoginScreen extends React.Component{
     constructor() {
@@ -18,20 +19,21 @@ class LoginScreen extends React.Component{
         }
     }
 
-    login = async () => {
-        axios.post(SERVER_IP + '/api/auth/login', {
-            email: this.state.email,
-            password: this.state.password,
-        })
-            .then(async (response) => {
-                await SecureStore.setItemAsync('secure_token',response.data.access_token)
+
+    handleSubmit = async() =>{
+        await AuthService.Login(this.state.email,this.state.password).then(async(res) =>{
+            if(res.status === 200){
+                await SecureStore.setItemAsync('secure_token',res.data.access_token)
                 const token = await SecureStore.getItemAsync('secure_token')
                 this.props.route.params.auth(true)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
+            }else{
+                console.log(res.data)
+                this.setState({errorMessage : res.data})
+            }
+           
+       })  
+   }
+
 
     emailHandler = (text) => {
         this.setState({email: text})
@@ -54,7 +56,7 @@ render() {
                        mode="flat" secureTextEntry={true} onChangeText={this.passwordHandler}>
             </TextInput>
             <Button color='#111219' style={styles.textRegister}
-                    mode="outlined" onPress={() => this.login()}>
+                    mode="outlined" onPress={() => this.handleSubmit()}>
                 Connexion
             </Button>
         </Background>
