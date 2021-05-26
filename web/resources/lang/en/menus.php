@@ -27,5 +27,6 @@ return [
     'stock' => 'Stock : ',
     'EditItemCategory' =>'Update ',
     'image' =>'Category image',
-    'EditCategory' => 'Update Category: '
+    'EditCategory' => 'Update Category: ',
+    'Update' =>'Update ',
 ];

@@ -30,12 +30,21 @@ class MenuApiController extends Controller
         [
             'category_id' => 'required|int',
         ]);
-        // dd($request['category_id']);return response()->json(['test'=>$request['category_id']]);
+        if($validator->fails()) {
+            return response()->json(
+                $validator->errors()->toJson(), 400
+            );
+        }
         $menu_items = menu_item::where('category_id',$request['category_id'])->get();
-        if($menu_items){
+        if(count($menu_items) >0){
             return response()->json([
                 'status' => 'success',
                 'menu_items' => $menu_items
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'The id you entered is not in our table or the category has no items'
             ]);
         }
         

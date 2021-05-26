@@ -131,7 +131,7 @@
                                         
                                         <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary butonEditCategoryItem">
-                                                @lang('menus.Submit')
+                                                @lang('menus.Update')
                                                 </button>
                                         </div>
                                         </div>

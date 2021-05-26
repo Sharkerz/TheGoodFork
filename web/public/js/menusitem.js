@@ -130,10 +130,9 @@ $(document).ready(function () {
             success: function (Response) {
                     $id = Response.id;
                     $image = Response.item.image;
-                    $name = Response.name;
                     $div = $("#" + Response.id)[0];
                     $div.children[0].children[0].src = "/Images/MenuItem/" +$image;
-                    $div.children[0].children[1].children[0].innerHtml = '<b>' + Response.item.name+ '</b>';
+                    $div.children[0].children[1].children[0].children[0].innerText =  Response.item.name ;
                     $div.children[0].children[1].children[1].innerText = "Price : " + Response.item.price.toFixed(2) + ' €';
                     $PriceElement = $div.children[0].children[1].children[1];
                     $PriceElement.setAttribute('id',Response.item.price.toFixed(2));
