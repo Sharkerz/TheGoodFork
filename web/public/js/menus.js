@@ -48,6 +48,7 @@ $(document).ready(function () {
     $('#closeEditModalCategory').click(function () {
         $('.modal-title')[1].innerText = $title;
         $("#EditModalCategory").css("display", "none");
+        $("#EditCategoryImage").val('');
         $(".error").remove(); 
     })
 
@@ -58,7 +59,7 @@ $(document).ready(function () {
 
     $('#FormAddCategoryMenu').on('submit',function (event) {
         (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
-        (lang ==="fr")? $Delete = "Supprimer" : $Edit ="Delete";
+        (lang ==="fr")? $Delete = "Supprimer" : $Delete ="Delete";
         (lang ==="fr")? $Display = "Voir les élements de la catégorie" : $Display ="Check category items";
         $categoryName = $('#AddMenuCategoryName').val();
         event.preventDefault();
@@ -71,7 +72,6 @@ $(document).ready(function () {
             data: new FormData($(this)[0]),
             success: function (Response) {
                     $id = Response.item.id;
-                    console.log($id)
                     $name = Response.item.name;
                     $("#AddMenuCategoryName").val("");
                     $("#addModalMenuCategory").css("display", "none");
@@ -121,7 +121,8 @@ $(document).ready(function () {
             data: $data,
             success: function (Response) {
                     $("#EditModalCategory").css("display", "none");
-                    $("#" + Response.item.id).children()[0].value = Response.item.name;
+                    $('.modal-title')[1].innerText = $title;
+                    $("#" + Response.item.id).children()[0].innerText = Response.item.name;
                     $("#" + Response.item.id).children()[1].children[0].src = "/Images/MenuCategory/" + Response.item.image;
             },
             error: function(error){
