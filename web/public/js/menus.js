@@ -125,7 +125,9 @@ $(document).ready(function () {
                     $("#" + Response.item.id).children()[1].children[0].src = "/Images/MenuCategory/" + Response.item.image;
             },
             error: function(error){
-                $(".modal-body").append('<h5 class="error">'+ error.responseJSON.errors.NbPersons[0] +'</h5>\n');
+                for (const key in error.responseJSON.errors) {
+                    $(".modal-body").append('<h5 class="error error'+ key +'">'+ error.responseJSON.errors[key] +'</h5>\n');
+                }
             }
         });
     });
