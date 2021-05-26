@@ -14,46 +14,13 @@ class HomeScreen extends React.Component {
     this.state = {
         categories: [],
         foodData: [],
+        categoryContainer: []
     }
 }
-  // const categoryData = [
-  //   {
-  //     id: 1,
-  //     name: "Entrées",
-  //     image: images.entree,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Plats",
-  //     image: images.plat,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Desserts",
-  //     image: images.dessert,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Boissons",
-  //     image: images.vin,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Apéritifs",
-  //     image: images.aperitif,
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "Spécialités",
-  //     image: images.specialite,
-  //   },        
-  // ]
 
-
-
-  // const [categories, setCategories] = React.useState(categoryData)
   componentDidMount(){
     this.getCategories()
+    this.getMenuItems()
   }
 
   getCategories = async () => {
@@ -68,8 +35,8 @@ class HomeScreen extends React.Component {
   }
 
 
-  onSelectCategory = async (category) => {
-    await MenuService.getMenuItems(category.id)
+  getMenuItems = async () => {
+    return await MenuService.getMenuItems()
     .then(async (response) => {
       if(response.status===200){
         this.setState({foodData: response.data.menu_items}) 
@@ -78,6 +45,12 @@ class HomeScreen extends React.Component {
       }
     })
 
+  }
+
+  onSelectCategory = async(category) =>{
+    this.setState({categoryContainer :this.state.foodData.filter(function(item) {
+      return item.category_id == category.id;
+    })})
   }
 
   renderMainCategories() {
@@ -185,7 +158,7 @@ class HomeScreen extends React.Component {
 
     return (
         <FlatList
-            data={this.state.foodData}
+            data={this.state.categoryContainer}
             keyExtractor={item => `${item.id}`}
             renderItem={renderItem}
             contentContainerStyle={{

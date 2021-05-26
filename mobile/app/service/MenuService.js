@@ -21,12 +21,12 @@ class MenuService{
     }
     
     
-    getMenuItems = async (category_id) => {
+    getMenuItems = async () => {
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     }
-    return await axios.get(SERVER_IP + '/api/getItems?category_id=' + category_id, config)
+    return await axios.get(SERVER_IP + '/api/getItems', config)
     .then(async (response) => {
         return response
     })
