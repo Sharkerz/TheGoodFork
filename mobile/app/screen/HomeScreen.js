@@ -5,6 +5,7 @@ import { images } from '../constants';
 import * as SecureStore from "expo-secure-store";
 import axios from 'axios'
 import { SERVER_IP } from '@env';
+import MenuService from '../service/MenuService'
 
 
 class HomeScreen extends React.Component {
@@ -56,38 +57,27 @@ class HomeScreen extends React.Component {
   }
 
   getCategories = async () => {
-    const token = await SecureStore.getItemAsync('secure_token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  
-    axios.get(SERVER_IP + '/api/getCategories', config)
+    await MenuService.getCategories()
     .then(async (response) => {
-        this.setState({categories: response.data.categories})
-    })
-    .catch((err) => {
-        console.log(err)
+      if(response.status===200){
+        this.setState({categories: response.data.categories}) 
+      } else {
+        this.setState({error: response.data}) 
+      }
     })
   }
 
 
   onSelectCategory = async (category) => {
-    const token = await SecureStore.getItemAsync('secure_token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-    console.log(category.id)
-    axios.get(SERVER_IP + '/api/getItems?category_id=' + category.id, config)
+    await MenuService.getMenuItems(category.id)
     .then(async (response) => {
-      this.setState({foodData: response.data.menu_items})
-    })
-    .catch((err) => {
-        console.log(err.response)
+      if(response.status===200){
+        this.setState({foodData: response.data.menu_items}) 
+      } else {
+        this.setState({error: response.data}) 
+      }
     })
 
-    // let foodList = this.state.foodData.filter(a => a.categories.includes(category.id))
-    // setFoods(foodList)
-    // setSelectCategory(category)
   }
 
   renderMainCategories() {
