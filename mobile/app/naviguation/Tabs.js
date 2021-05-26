@@ -19,7 +19,7 @@ const Tabs = () => {
                 backgroundColor: '#111219',
                 // borderRadius: 15,
                 borderTopWidth: 0,
-                height: 90,
+                height: 75,
                 ...styles.shadow
             }
         }}>
@@ -30,8 +30,8 @@ const Tabs = () => {
                         source={require('../assets/houseIcon.png')}
                         resizeMode='contain'
                         style={{
-                            width: 75,
-                            height: 75,
+                            width: 60,
+                            height: 60,
                             marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   
@@ -46,8 +46,8 @@ const Tabs = () => {
                         source={require('../assets/bookingIcon.png')}
                         resizeMode='contain'
                         style={{
-                            width: 75,
-                            height: 75,
+                            width: 60,
+                            height: 60,
                             marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   
@@ -62,8 +62,8 @@ const Tabs = () => {
                         source={require('../assets/profileIcon.png')}
                         resizeMode='contain'
                         style={{
-                            width: 75,
-                            height: 75,
+                            width: 60,
+                            height: 60,
                             marginTop: -15,
                             tintColor: focused ? '#fff' : '#5A5B61'
                         }}>   

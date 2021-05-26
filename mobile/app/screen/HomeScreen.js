@@ -51,6 +51,7 @@ class HomeScreen extends React.Component {
     this.setState({categoryContainer :this.state.foodData.filter(function(item) {
       return item.category_id == category.id;
     })})
+    this.setState({selectedCategory: category})
   }
 
   renderMainCategories() {
@@ -60,12 +61,11 @@ class HomeScreen extends React.Component {
           <TouchableOpacity
           style={{
             padding: 4,
-            paddingBottom: 20,
             backgroundColor: 'transparant',
             borderRadius: 30,
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight: 10,
+            paddingRight: 10,
             ...styles.shadow
           }}
           onPress={() => this.onSelectCategory(item)}>
@@ -82,7 +82,7 @@ class HomeScreen extends React.Component {
               style={{
                   marginTop: 10,
                   color: '#fff',
-                  fontSize: 15
+                  fontSize: (this.state.selectedCategory?.id == item.id) ? 20 : 15,
               }}
           >
               {item.name}
@@ -92,8 +92,8 @@ class HomeScreen extends React.Component {
     }
 
   return (
-      <View style={{padding: 20}}>
-        <Text style={{ fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
+      <View style={{marginLeft: 20}}>
+        <Text style={{ paddingLeft: 20, fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
         <FlatList
             data={this.state.categories}
             horizontal
