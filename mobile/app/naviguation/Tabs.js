@@ -39,7 +39,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Booking" component={MainStackNavigator} options={{
+            <Tab.Screen name="Booking" component={ContactStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 
@@ -55,7 +55,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" component={MainStackNavigator} options={{
+            <Tab.Screen name="Profile" component={ContactStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 

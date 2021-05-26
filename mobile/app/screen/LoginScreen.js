@@ -7,8 +7,8 @@ import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
 import axios from 'axios'
 import { SERVER_IP } from '@env';
-import * as SecureStore from "expo-secure-store";
-import AuthService from '../service/AuthService';
+import * as SecureStore from "expo-secure-store"
+import AuthService from '../service/AuthService'
 
 class LoginScreen extends React.Component{
     constructor() {

@@ -2,165 +2,137 @@ import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import Paragraph from '../components/Paragraph';
 import { images } from '../constants';
+import * as SecureStore from "expo-secure-store";
+import axios from 'axios'
+import { SERVER_IP } from '@env';
+
+
+class HomeScreen extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+        categories: [],
+        foodData: [],
+    }
+}
+  // const categoryData = [
+  //   {
+  //     id: 1,
+  //     name: "Entrées",
+  //     image: images.entree,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Plats",
+  //     image: images.plat,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Desserts",
+  //     image: images.dessert,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Boissons",
+  //     image: images.vin,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Apéritifs",
+  //     image: images.aperitif,
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Spécialités",
+  //     image: images.specialite,
+  //   },        
+  // ]
 
 
 
-const HomeScreen = () => {
-
-  const categoryData = [
-    {
-      id: 1,
-      name: "Entrées",
-      image: images.entree,
-    },
-    {
-      id: 2,
-      name: "Plats",
-      image: images.plat,
-    },
-    {
-      id: 3,
-      name: "Desserts",
-      image: images.dessert,
-    },
-    {
-      id: 4,
-      name: "Boissons",
-      image: images.vin,
-    },
-    {
-      id: 5,
-      name: "Apéritifs",
-      image: images.aperitif,
-    },
-    {
-      id: 6,
-      name: "Spécialités",
-      image: images.specialite,
-    },        
-  ]
-
-
-  const foodData = [
-    {
-      id: 1,
-      categories: [2],
-      name: "Tournedos de boeuf et son accompagnement",
-      image: images.entree,
-    },
-    {
-      id: 2,
-      name: "Plats",
-      categories: [2],
-      image: images.plat,
-    },
-    {
-      id: 3,
-      name: "Desserts",
-      categories: [3],
-      image: images.dessert,
-    },
-    {
-      id: 4,
-      name: "Boissons",
-      categories: [4],
-      image: images.vin,
-    },
-    {
-      id: 5,
-      name: "Apéritifs",
-      categories: [5],
-      image: images.aperitif,
-    },
-    {
-      id: 6,
-      name: "Spécialités",
-      categories: [6],
-      image: images.specialite,
-    },  
-
-  ]
-
-
-  const [categories, setCategories] = React.useState(categoryData)
-  const [selectedCategory, setSelectedCategory] = React.useState(null)
-  const [foods, setFoods] = React.useState(foodData)
-
-  function onSelectCategory(category) {
-    
-    let foodList = foodData.filter(a => a.categories.includes(category.id))
-
-    setFoods(foodList)
-    setSelectedCategory(category)
+  // const [categories, setCategories] = React.useState(categoryData)
+  componentDidMount(){
+    this.getCategories()
   }
 
-//   function getCategoryNameById(id) {
-//     let category = categories.filter(a => a.id == id)
-
-//     if (category.length > 0)
-//         return category[0].name
-
-//     return ""
-// }
-
-  function renderCategories() {
-  const renderItem = ({ item }) => {
-      return (
-        <TouchableOpacity
-        style={{
-          padding: 4,
-          borderRadius: 30,
-          paddingLeft: 10,
-          // backgroundColor: (selectedCategory?.id == item.id) ? '#5A5B61' : 'rgba(0,0,0,0)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 0,
-          marginRight: 5,
-          ...styles.shadow
-        }}
-        onPress={() => onSelectCategory(item)}>
-
-        {/* <View
-            style={{
-                width: 80,
-                height: 80,
-                borderRadius: 25,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: 'transparant'
-            }}
-        > */}
-            <Image
-                source={item.image}
-                resizeMode="contain"
-                style={{
-                    width: 85,
-                    height: 85,
-                    borderRadius: 25
-                }}
-            />
-        {/* </View> */}
-        <Text
-            style={{
-                marginTop: 10,
-                color: '#fff',
-                fontSize: (selectedCategory?.id == item.id) ? 20 : 15,
-            }}
-        >
-            {item.name}
-        </Text>
-
-        </TouchableOpacity>
-      
-      )
+  getCategories = async () => {
+    const token = await SecureStore.getItemAsync('secure_token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  
+    axios.get(SERVER_IP + '/api/getCategories', config)
+    .then(async (response) => {
+        this.setState({categories: response.data.categories})
+    })
+    .catch((err) => {
+        console.log(err)
+    })
   }
+
+
+  onSelectCategory = async (category) => {
+    const token = await SecureStore.getItemAsync('secure_token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    console.log(category.id)
+    axios.get(SERVER_IP + '/api/getItems?category_id=' + category.id, config)
+    .then(async (response) => {
+      this.setState({foodData: response.data.menu_items})
+    })
+    .catch((err) => {
+        console.log(err.response)
+    })
+
+    // let foodList = this.state.foodData.filter(a => a.categories.includes(category.id))
+    // setFoods(foodList)
+    // setSelectCategory(category)
+  }
+
+  renderMainCategories() {
+    const renderItem = ({ item }) => {
+      const image = SERVER_IP + '/Images/MenuCategory/' + item.image
+        return (
+          <TouchableOpacity
+          style={{
+            padding: 4,
+            paddingBottom: 20,
+            backgroundColor: 'transparant',
+            borderRadius: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 10,
+            ...styles.shadow
+          }}
+          onPress={() => this.onSelectCategory(item)}>
+              <Image
+                  source={{ uri: image }}
+                  resizeMode="contain"
+                  style={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 25
+                  }}
+              />
+          <Text
+              style={{
+                  marginTop: 10,
+                  color: '#fff',
+                  fontSize: 15
+              }}
+          >
+              {item.name}
+          </Text>
+          </TouchableOpacity>
+        )
+    }
 
   return (
-      <View>
-        <Text style={{ paddingLeft: 20, marginTop: 25, fontSize: 25, fontWeight: '600', color: '#fff'}}>Composez votre menu</Text>
-
+      <View style={{padding: 20}}>
+        <Text style={{ fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
         <FlatList
-            data={categories}
+            data={this.state.categories}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => `${item.id}`}
@@ -171,125 +143,80 @@ const HomeScreen = () => {
   )
 }
 
-function renderFoodList() {
-  const renderItem = ({ item }) => (
-      <TouchableOpacity
-          style={{ marginBottom: 20 }}
-          // onPress={() => navigation.navigate("Profile", {
-          //     item,
-          //     currentLocation
-          // })}
-      >
-          {/* Image */}
-          <View
-              style={{
-                  marginBottom: 10
-              }}
-          >
-              <Image
-                  source={item.image}
-                  resizeMode="cover"
-                  style={{
-                      width: "100%",
-                      height: 200,
-                      borderRadius: 15
-                  }}
-              />
+  renderFoodList() {
+    const renderItem = ({ item }) => {
+      const image = SERVER_IP + '/Images/MenuItem/' + item.image
+      return (
+        <TouchableOpacity
+            style={{ marginBottom: 20 }}
+            // onPress={() => navigation.navigate("Profile", {
+            //     item,
+            //     currentLocation
+            // })}
+        >
+            <View
+                style={{
+                    marginBottom: 10,
+                }}
+            >
+                <Image
+                    source={{ uri: image }}
+                    resizeMode="cover"
+                    style={{
+                        width: "100%",
+                        height: 170,
+                        borderRadius: 15
+                    }}
+                />
+            </View>
+            <Text style={{ fontSize: 16, color: '#fff' }}>{item.name}</Text>
 
-              {/* <View
-                  style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      height: 50,
-                      width: 100,
-                      backgroundColor: '#fff',
-                      borderTopRightRadius: 15,
-                      borderBottomLeftRadius: 15,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      ...styles.shadow
-                  }}
-              >
-                <Text style={{ fontSize: 15 }}>{item.name}</Text>
-              </View> */}
-          </View>
-          <Text style={{ fontSize: 16, color: '#fff' }}>{item.name}</Text>
+            <View
+                style={{
+                    marginTop: 0,
+                    flexDirection: 'row'
+                }}
+            >
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        marginTop: 5
+                    }}
+                >
 
+                <Text style={{ fontSize: 14, color: '#fff', fontWeight: '600' }}>{item.price.toFixed(2)}€</Text>
 
 
+                </View>
+            </View>
+        </TouchableOpacity>
+      )
+    }
 
-          <View
-              style={{
-                  marginTop: 0,
-                  flexDirection: 'row'
-              }}
-          >
-              {/* Rating */}
-              {/* <Image
-                  source={icons.star}
-                  style={{
-                      height: 20,
-                      width: 20,
-                      tintColor: COLORS.primary,
-                      marginRight: 10
-                  }}
-              /> */}
-              {/* <Text style={{ fontSize: 15 }}>{item.rating}</Text> */}
+    return (
+        <FlatList
+            data={this.state.foodData}
+            keyExtractor={item => `${item.id}`}
+            renderItem={renderItem}
+            contentContainerStyle={{
+                paddingHorizontal: 20,
+                paddingBottom: 270
+            }}
+        />
+    )
+  }
 
-              {/* Categories */}
-              {/* <View
-                  style={{
-                      flexDirection: 'row',
-                      marginLeft: 10
-                  }}
-              >
-                  {
-                      item.categories.map((categoryId) => {
-                          return (
-                              <View
-                                  style={{ flexDirection: 'row' }}
-                                  key={categoryId}
-                              >
-                                  <Text style={{ fontSize: 15 }}>{getCategoryNameById(categoryId)}</Text>
-                                  <Text style={{ fontSize: 15, color: '#111219' }}> . </Text>
-                              </View>
-                          )
-                      })
-                  }
-
-              </View> */}
-          </View>
-      </TouchableOpacity>
-  )
-
-  return (
-      <FlatList
-          data={foods}
-          keyExtractor={item => `${item.id}`}
-          renderItem={renderItem}
-          contentContainerStyle={{
-              paddingHorizontal: 20,
-              paddingBottom: 270
-          }}
-      />
-  )
+  render() {
+    return (
+      <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+        <SafeAreaView>
+          {this.renderMainCategories()}
+          {this.renderFoodList()}
+        </SafeAreaView>
+      </ImageBackground>
+    );
+  }
 }
-
-return (
-  <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
-    <SafeAreaView>  
-      {renderCategories()}
-      {renderFoodList()}
-    </SafeAreaView>
-  </ImageBackground>
-
-
-
-);
-
-}
-
-
 
 const styles = StyleSheet.create({
   textHome: {
