@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { ContactStackNavigator, MainStackNavigator } from './StackNavigator';
+import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator} from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,7 +39,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Booking" component={ContactStackNavigator} options={{
+            <Tab.Screen name="Reservation" component={ContactStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 
@@ -55,7 +55,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" component={ContactStackNavigator} options={{
+            <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 

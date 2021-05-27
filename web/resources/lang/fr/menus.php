@@ -13,7 +13,7 @@ return [
     'menuHeader' => 'Menu',
     'AddCategory' => 'Ajouter une catégorie',
     'ModalTitleAdd' =>'Ajouter une nouvelle catégorie au menu',
-    'categoryname' => 'Nom de la catégorie : ',
+    'categoryname' => 'Nom : ',
     'itemname' => 'Nom de la catégorie :',
     'AddItemCategory' =>'Ajouter un élément ',
     'itemprice' =>'Prix (en €) :',
