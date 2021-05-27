@@ -6,6 +6,7 @@ import ProfileScreen from "../screen/ProfileScreen";
 import RegistrationScreen from "../screen/RegistrationScreen";
 import LoginScreen from "../screen/LoginScreen";
 import BookingScreen from "../screen/BookingScreen";
+import DetailScreen from "../screen/DetailsScreen";
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
@@ -14,6 +15,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="homeScreen" component={HomeScreen} />
       <Stack.Screen name="BookingScreen" component={BookingScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="DetailScreen" component={DetailScreen} />
     </Stack.Navigator>
   );
 };

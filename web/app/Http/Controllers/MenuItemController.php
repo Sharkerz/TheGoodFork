@@ -45,7 +45,8 @@ class MenuItemController extends Controller
                 'price' => 'required|numeric|between:0,99.99',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'category_id' =>'required|int',
-                'stock' =>'required|int'
+                'stock' =>'required|int',
+                'description' => 'required|string'
             ]);
             
             $image = $request->file('image');
@@ -58,10 +59,11 @@ class MenuItemController extends Controller
                 'price' =>$request->input('price'),
                 'image' => $image,
                 'category_id' =>$request->input('category_id'),
-                'stock' =>$request->input('stock')
+                'stock' =>$request->input('stock'),
+                'description' => $request->input('description')
             ]);
             $menu_item = menu_item::find($data->id);
-            return response()->json(['success' =>true,'id'=>$menu_item->id, 'name'=>$menu_item->name,'image'=>$menu_item->image,'price'=>$menu_item->price,'stock'=>$menu_item->stock],200);
+            return response()->json(['success' =>true,'id'=>$menu_item->id, 'name'=>$menu_item->name,'image'=>$menu_item->image,'price'=>$menu_item->price,'stock'=>$menu_item->stock,'description'=>$menu_item->description],200);
             }
             abort(404);
     }
@@ -104,7 +106,8 @@ class MenuItemController extends Controller
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
                     'price' => 'required|numeric|between:0,99.99',
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-                    'stock' =>'required|int'
+                    'stock' =>'required|int',
+                    'description' => 'required|string'
                 ]);
                 $image = $request->file('image');
                 $filename = time(). '.' . $image->getClientOriginalExtension();
@@ -114,19 +117,22 @@ class MenuItemController extends Controller
                     'name' =>$request->input('name'),
                     'price' =>$request->input('price'),
                     'image' => $image,
-                    'stock' =>$request->input('stock')
+                    'stock' =>$request->input('stock'),
+                    'description' => $request->input('description')
                 ];
             }
             else{
                 $fields = $request->validate([
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
                     'price' => 'required|numeric|between:0,99.99',
-                    'stock' =>'required|int'
+                    'stock' =>'required|int',
+                    'description' => 'required|string'
                 ]);
                 $update_item = [
                     'name' =>$request->input('name'),
                     'price' =>$request->input('price'),
-                    'stock' =>$request->input('stock')
+                    'stock' =>$request->input('stock'),
+                    'description' => $request->input('description')
                 ];
             }
             

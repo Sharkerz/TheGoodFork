@@ -29,5 +29,6 @@ return [
     'image' =>'Image de la catégorie',
     'EditCategory' => 'Modifier la catégorie : ',
     'Update' =>'Mettre à jour ',
+    'itemDescription' => 'Description : ',
     
 ];

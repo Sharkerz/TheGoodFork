@@ -112,11 +112,13 @@ class HomeScreen extends React.Component {
       return (
         <TouchableOpacity
             style={{ marginBottom: 20 }}
-            // onPress={() => navigation.navigate("Profile", {
-            //     item,
-            //     currentLocation
-            // })}
+            onPress={() => 
+              this.props.navigation.navigate('DetailScreen', {
+                item,
+            }
+            )}
         >
+          
             <View
                 style={{
                     marginBottom: 10,

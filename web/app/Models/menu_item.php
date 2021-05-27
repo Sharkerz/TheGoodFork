@@ -9,6 +9,6 @@ class menu_item extends Model
 {
     protected $fillable = 
         [
-            'name','price','image','category_id','stock'
+            'name','price','image','category_id','stock','description'
         ];
 }
