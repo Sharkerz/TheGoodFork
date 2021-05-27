@@ -9,6 +9,7 @@ import * as SecureStore from "expo-secure-store";
 class ProfileScreen extends Component {
   logout = () => {
     SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
+    SecureStore.deleteItemAsync('cartSaved').then(r => console.log('deleted cart'))
     DevSettings.reload();
   }
 

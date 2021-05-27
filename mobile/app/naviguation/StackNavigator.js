@@ -8,6 +8,7 @@ import LoginScreen from "../screen/LoginScreen";
 import BookingScreen from "../screen/BookingScreen";
 import DetailScreen from "../screen/DetailsScreen";
 import ReservationScreen from "../screen/ReservationScreen";
+import CartScreen from "../screen/CartScreen"
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
@@ -21,6 +22,7 @@ const MainStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
 const ContactStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -36,4 +38,13 @@ const ProfilStackNavigator = () => {
     </Stack.Navigator>
   );
 };
-export { MainStackNavigator, ContactStackNavigator,ProfilStackNavigator };
+
+const CartStackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Cart" component={CartScreen} />
+    </Stack.Navigator>
+  );
+};
+
+export { MainStackNavigator, ContactStackNavigator,ProfilStackNavigator, CartStackNavigator };
