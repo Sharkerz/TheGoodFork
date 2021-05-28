@@ -1,20 +1,31 @@
 import React  from 'react'
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList,AsyncStorage } from 'react-native';
 import Button from '../components/Button'
 import { SERVER_IP } from '@env';
 import * as SecureStore from "expo-secure-store"
 
 class DetailScreen extends React.Component {
 
-    addToCart = async(item) =>{ 
+    addToCart = async(item) =>{
         const cart = await SecureStore.getItemAsync('cartSaved')
+        const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : 1}
+        console.log(test)
         console.log(cart)
         if(cart) {
             const newCart = JSON.parse(cart)
-            newCart.push(item)
-            await SecureStore.setItemAsync('cartSaved',JSON.stringify(newCart))
+            const exists = newCart.some(v => (v.id === test.id));
+            if(exists){
+                const objIndex = newCart.findIndex((obj => obj.id == test.id));
+                newCart[objIndex].quantité = newCart[objIndex].quantité + 1
+                await SecureStore.setItemAsync('cartSaved',JSON.stringify(newCart))
+                console.log(await SecureStore.getItemAsync('cartSaved'))
+            }else{
+                newCart.push(test)
+                await SecureStore.setItemAsync('cartSaved',JSON.stringify(newCart))
+                console.log(await SecureStore.getItemAsync('cartSaved'))
+            }
         } else {
-            await SecureStore.setItemAsync('cartSaved',JSON.stringify([item]))
+            await SecureStore.setItemAsync('cartSaved',JSON.stringify([test]))
         }
     }
 

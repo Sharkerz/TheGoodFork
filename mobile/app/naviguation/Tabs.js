@@ -55,7 +55,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
+            <Tab.Screen name="Cart" component={CartStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 
@@ -72,7 +72,7 @@ const Tabs = () => {
                     </View>
                 )
             }}  />
-            <Tab.Screen name="Cart" component={CartStackNavigator} options={{
+            <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 
