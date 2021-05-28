@@ -19,6 +19,7 @@ $(document).ready(function () {
         $('#AddCategoryItemName').val('');
         $('#AddCategoryItemPrice').val('');
         $('#AddCategoryItemStock').val('');
+        $('#AddCategoryItemDescription').val('');
         $('#ItemImage').val('');
         $(".error").remove(); 
     })
@@ -44,10 +45,13 @@ $(document).ready(function () {
         $itemPrice = $div[0].children[0].children[1].children[1].getAttribute('id');
         $itemStock = $div[0].children[0].children[1].children[2].getAttribute('id');
         $itemimage = $div[0].children[0].children[0].getAttribute('src');
+        $tempDescription = $div[0].children[0].children[1].children[3].innerText;
+        $itemDescription = $tempDescription.split("Description : ")[1];
         $('#EditCategoryItemName')[0].value = $itemName;
         $('#EditCategoryItemId')[0].value = $id;
         $('#EditCategoryItemPrice')[0].value = $itemPrice;
         $('#EditCategoryItemStock')[0].value = $itemStock;
+        $('#EditCategoryItemDescription')[0].value = $itemDescription;
         $('.modal-title')[1].innerText = $title + $itemName;
         $("#editModal").css("display", "block");
         $("#EditModalCategoryItem").css("display", "block");
@@ -88,6 +92,7 @@ $(document).ready(function () {
                                         '<h3 class="CardTitle"><b>'+ $name +'</b></h3>\n' + 
                                         '<p id="'+ $price.toFixed(2) +'">'+ $PriceTag + $price.toFixed(2) +' €</p>\n' +
                                         '<p id="'+ $stock +'">Stock : '+ $stock +' </p>\n' +
+                                        '<p class="ItemDescription">Description : ' + Response.description +
                                 '</div class="cardinfo">\n'+
                                 '<div class="cardAction">\n'+  
                                         '<button type="button" class="btn btn-primary Button EditButton">\n'+
@@ -102,6 +107,7 @@ $(document).ready(function () {
                     $('#AddCategoryItemName').val('');
                     $('#AddCategoryItemPrice').val('');
                     $('#AddCategoryItemStock').val('');
+                    $('#AddCategoryItemDescription').val('');
                     $('#ItemImage').val('');
             },
             error: function(error){
@@ -131,6 +137,7 @@ $(document).ready(function () {
                     $id = Response.id;
                     $image = Response.item.image;
                     $div = $("#" + Response.id)[0];
+                    $("#" + Response.id).find('.ItemDescription:first')[0].innerText = 'Description : ' + Response.item.description;
                     $div.children[0].children[0].src = "/Images/MenuItem/" +$image;
                     $div.children[0].children[1].children[0].children[0].innerText =  Response.item.name ;
                     $div.children[0].children[1].children[1].innerText = "Price : " + Response.item.price.toFixed(2) + ' €';

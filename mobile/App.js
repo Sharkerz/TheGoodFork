@@ -42,17 +42,21 @@ class App extends React.Component {
     render() {
     return (
         <Provider theme={theme}>
-            <NavigationContainer>
+            
             {!this.state.auth ? (
+                <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                     <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus}} component={LoginScreen} />
                     <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
                 </Stack.Navigator>
+                </NavigationContainer>
             ) : (
+                <NavigationContainer>
                 <Tabs/>
+                </NavigationContainer>
             )}
-           </NavigationContainer>
+           
         </Provider>
     );
     }
