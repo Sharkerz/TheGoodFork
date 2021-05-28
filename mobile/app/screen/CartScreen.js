@@ -1,7 +1,7 @@
 import React  from 'react'
 import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
-import { SERVER_IP } from '@env';
-import * as SecureStore from "expo-secure-store"
+import AsyncStorage from '@react-native-async-storage/async-storage'
+const test = AsyncStorage.getItem('cartSaved')
 
 // const cart =  SecureStore.getItemAsync('cartSaved')
 class CartScreen extends React.Component {
@@ -13,8 +13,8 @@ class CartScreen extends React.Component {
     // this.GetCard = this.GetCard.bind(this);
   }
   GetCard = async() =>{ 
-    const cart =  await SecureStore.getItemAsync('cartSaved')
-    return cart
+    const cart =  await AsyncStorage.getItem('cartSaved')
+    console.log(cart)
     // this.setState({items : cart})
   }
 
@@ -23,7 +23,8 @@ class CartScreen extends React.Component {
   // }
 
      render(){
-      
+      const isFocused = this.props;
+     this.GetCard() 
      
         return(
             <View style={styles.container} source={require("../assets/background2.png")} >
