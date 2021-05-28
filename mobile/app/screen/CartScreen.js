@@ -12,17 +12,24 @@ class CartScreen extends React.Component {
     }
     // this.GetCard = this.GetCard.bind(this);
   }
-  GetCard = async() =>{ 
+  getCard = async() =>{
     const cart =  await AsyncStorage.getItem('cartSaved')
     console.log(cart)
     // this.setState({items : cart})
   }
 
-  // componentDidMount(){
-  //   this.GetCard()
-  // }
 
-     render(){
+  componentDidMount(){
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.getCard();
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+
+    render(){
       const isFocused = this.props;
      this.GetCard() 
      
