@@ -11,6 +11,10 @@ import Tabs from './app/naviguation/Tabs'
 import LoginScreen from './app/screen/LoginScreen'
 import RegistrationScreen from './app/screen/RegistrationScreen'
 import WelcomeScreen from './app/screen/WelcomeScreen'
+import {StatusBar} from "react-native";
+
+// Status bar text color
+StatusBar.setBarStyle('light-content');
 
 class App extends React.Component {
     constructor() {
@@ -42,7 +46,6 @@ class App extends React.Component {
     render() {
     return (
         <Provider theme={theme}>
-            
             {!this.state.auth ? (
                 <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
