@@ -29,9 +29,9 @@ class CartScreen extends React.Component {
     this._unsubscribe();
   }
 
-    render(){
+     render(){
       const isFocused = this.props;
-     this.GetCard() 
+      this.getCard() 
      
         return(
             <View style={styles.container} source={require("../assets/background2.png")} >
