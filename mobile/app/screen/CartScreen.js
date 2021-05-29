@@ -31,7 +31,7 @@ class CartScreen extends React.Component {
 
      render(){
       const isFocused = this.props;
-      this.getCard() 
+      this.getCard()
      
         return(
             <View style={styles.container} source={require("../assets/background2.png")} >
