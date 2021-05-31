@@ -26,7 +26,7 @@ class MenuApiController extends Controller
     }
 
     public function getItems() {
-        $menu_items = menu_item::all();
+        $menu_items = menu_item::where('stock', '>', 0)->get();
         if(count($menu_items) >0){
             return response()->json([
                 'status' => 'success',

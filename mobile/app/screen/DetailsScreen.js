@@ -25,15 +25,12 @@ class DetailScreen extends React.Component {
                 const objIndex = newCart.findIndex((obj => obj.id == test.id));
                 newCart[objIndex].quantité = parseInt(newCart[objIndex].quantité) + parseInt(this.state.quantité)
                 await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
-                console.log(await AsyncStorage.getItem('cartSaved'))
             }else{
                 newCart.push(test)
-                await AsyncStorage.getItem('cartSaved',JSON.stringify(newCart))
-                console.log(await AsyncStorage.getItem('cartSaved'))
+                await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
             }
         } else {
-            console.log('testfail')
-            await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
+            await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))  
         }
     }
 
