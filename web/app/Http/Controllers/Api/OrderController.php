@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\User;
 use Validator;
+use App\Models\menu_item;
+
 class OrderController extends Controller
 {
     public function __construct() {
@@ -17,7 +19,7 @@ class OrderController extends Controller
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
         $orderDetails =  $request['Value'];
-        
+
         $NCommande = Order::pluck('N°Commande')->last();
         if ($NCommande == null){
             $NCommande =1;
@@ -46,21 +48,25 @@ class OrderController extends Controller
             ]
         ));
         foreach( $orderDetails as $item){
-            return $item->name;
-            OrderDetails::create([
-                'order_id' => $order->id,
-                'name' => $item->name,
-            ]);
+           
+            $menu_item = menu_item ::where('id', $item['id'])->first(); 
+            $stock =(int) $menu_item->stock;
+            if ($item['quantité'] > $stock){
+                return Response()->json([
+                    'error' => 'Il reste uniquement '.$stock . ' ' . $item['name'] . ' dans le stock'
+                ], 401);
+            }else{
+                OrderDetails::create([
+                    'order_id' => $order->id,
+                    'name' => $item['name'],
+                    'quantité' => $item['quantité'],
+                    'ready' => 0,
+                    'role' => 'barman'
+                ]);
+                menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantité']]);
+            }
         }
 
-        return response()->json(['userId' => $validator->validated()]);
-        // $menu_categories = menu_category::all();
-        // if($menu_categories){
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'categories' => $menu_categories
-        //     ]);
-        // }
-        
+        return response()->json(['status' => 'sucess'],200);
     }
 }
