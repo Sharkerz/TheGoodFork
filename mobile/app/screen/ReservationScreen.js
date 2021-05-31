@@ -68,7 +68,6 @@ class ReservationScreen extends React.Component {
             <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <ScrollView>
-            {/* <SafeAreaView> */}
                 <Text style={styles.title}>Reservations</Text>
                 <Calendar style={{marginTop: 10}} 
                 theme={{
@@ -175,9 +174,6 @@ class ReservationScreen extends React.Component {
                         Réserver
                 </Button>
             </View>    
-
-
-            {/* </SafeAreaView> */}
             </ScrollView>
             </TouchableWithoutFeedback>
             </View>
@@ -195,7 +191,7 @@ const styles = StyleSheet.create({
       backgroundColor : '#111219'
    },
    title : {
-      marginTop: Platform.OS === 'ios' ? 13 : 40,
+      marginTop: Platform.OS === 'ios' ? 60 : 40,
       paddingLeft: 20,
       fontSize: 30,
       fontWeight: '600',
