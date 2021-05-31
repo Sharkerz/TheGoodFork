@@ -33,7 +33,8 @@ class App extends React.Component {
         const token = await SecureStore.getItemAsync('secure_token')
         if (token !== null) {
             this.setState({auth: true})
-            this.setState({user: JSON.parse(await SecureStore.getItemAsync('user'))})
+            user = await SecureStore.getItemAsync('user')
+            this.setState({user: JSON.parse(user)})
         }
         else {
             this.setState({auth: false})
@@ -44,14 +45,21 @@ class App extends React.Component {
         this.setState({auth: status})
     }
 
+    setUserRole = (userinfo) => {
+        this.setState({user: userinfo})
+    }
+
     render() { 
+        if(this.state.user){
+            console.log(this.state.user['role'])
+        }
     return (
         <Provider theme={theme}>
             {!this.state.auth ? (
                 <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-                    <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus}} component={LoginScreen} />
+                    <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus,user: this.setUserRole}} component={LoginScreen} />
                     <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
                 </Stack.Navigator>
                 </NavigationContainer>
