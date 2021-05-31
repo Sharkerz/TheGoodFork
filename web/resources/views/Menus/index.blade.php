@@ -26,6 +26,7 @@
         <tr>
             <th>@lang('menus.categoryname')</th>
             <th>@lang('menus.image')</th>
+            <th>@lang('menus.type')</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -34,6 +35,7 @@
                 <tr class="RowMenuCategory" id="{{ $category->id }}">
                     <td class="CategoryName">{{ $category->name }}</td>
                     <td><img  alt="ItemImage" src="/Images/MenuCategory/{{ $category->image }}"></td>
+                    <td>{{ $category->role }}</td>
                     <td class="ActionCase">
                         <a href="{{ route('menus.show', $category->id) }}" type="button" class="btn btn-success Button SelectCategory" >
                                 @lang('menus.Elements')
@@ -74,6 +76,13 @@
                                         <div class="col-md-6">
                                                 <input id="AddCategoryImage"  type="file" step="any" class=" @error('AddCategoryImage') is-invalid @enderror"  name="image" required >
                                         </div>
+                                        <label for="AddMenuCategoryRole" class="col-md-4 col-form-label text-md-right">@lang('menus.role')</label>
+                                        <div class="col-md-6">
+                                        <select name="role" type="text" class="form-control" id="AddMenuCategoryRole" required>
+                                                <option value="Barman">@lang('userEdit.barman')</option>
+                                                <option value="Cook">@lang('userEdit.cook')</option>
+                                        </select>
+                                        </div>
                                         <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary butonAddMenuCategory">
                                                 @lang('tables.Submit')
@@ -111,7 +120,13 @@
                                         <div class="col-md-6">
                                                 <input id="EditCategoryImage"  type="file" step="any" class=" @error('EditCategoryImage') is-invalid @enderror"  name="image" >
                                         </div>
-                                        
+                                        <label for="EditMenuCategoryRole" class="col-md-4 col-form-label text-md-right">@lang('menus.role')</label>
+                                        <div class="col-md-6">
+                                        <select name="role" type="text" class="form-control" id="EditMenuCategoryRole" required>
+                                                <option value="Barman">@lang('userEdit.barman')</option>
+                                                <option value="Cook">@lang('userEdit.cook')</option>
+                                        </select>
+                                        </div>
                                         <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary butonEditCategory">
                                                 @lang('menus.Submit')
