@@ -67,7 +67,6 @@ class ProfileScreen extends Component {
                     }
                     }
           />
-
           <Button color='#111219' style={styles.textRegister}
                   mode="outlined" onPress={() => this.logout()}>
             Se déconnecter
@@ -85,7 +84,8 @@ const styles = StyleSheet.create({
   },
   textRegister: {
     color: '#111219',
-    width: 300
+    width: 300,
+    marginBottom: 100
   },
   list: {
     marginTop: 70
