@@ -5,9 +5,9 @@ import {TextInput} from "react-native-paper";
 import AuthService from "../service/AuthService";
 import BackButton from "../components/BackButton";
 import Paragraph from "../components/Paragraph";
-import {CheckBox} from "react-native";
 import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
+import CheckBox from 'react-native-check-box'
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -36,10 +36,6 @@ class EditProfileScreen extends Component {
         this.setState({email: text})
     }
 
-    selectPwdChoiceHandler = (text) => {
-        this.setState({changePwd: text})
-    }
-
     passwordHandler = (text) => {
         this.setState({password: text})
     }
@@ -52,9 +48,6 @@ class EditProfileScreen extends Component {
         console.log(this.state.name)
         console.log(this.state.email)
         console.log(this.state.changePwd)
-        // AuthService.Edit(this.state.name, this.state.email).then((res) => {
-        //     console.log(res)
-        // })
     }
 
   render() {
@@ -73,11 +66,9 @@ class EditProfileScreen extends Component {
 
             <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                 <CheckBox
-                    value={this.state.changePwd}
-                    onValueChange={this.selectPwdChoiceHandler}
-                    style={styles.checkboxPwd}
-                    tintColors={{ true: '#FFFF', false: 'black' }}
-                    label="ah"
+                    isChecked={this.state.changePwd}
+                    onClick={() => {this.setState({changePwd: !this.state.changePwd})}}
+                    checkBoxColor={"white"}
                 />
                 <Text style={styles.labelCheckBox}> Modifier le mot de passe</Text>
             </View>
