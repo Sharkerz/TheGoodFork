@@ -30,5 +30,7 @@ return [
     'EditCategory' => 'Modifier la catégorie : ',
     'Update' =>'Mettre à jour ',
     'itemDescription' => 'Description : ',
+    'type' => 'Category destinée ',
+    'role' => 'Responsible : '
     
 ];

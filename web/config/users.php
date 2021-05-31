@@ -5,6 +5,8 @@ return [
     'roles' => [
         'admin',
         'customer',
+        'barman',
+        'cook'
     ]
 
 ];

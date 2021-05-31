@@ -20,7 +20,8 @@ return [
     'btn_delete' => 'delete account',
     'btn_back' => 'back',
     'success_alert' => 'Success',
-
+    'barman' => 'barman',
+    'cook' => 'cook'
 
 
 ];

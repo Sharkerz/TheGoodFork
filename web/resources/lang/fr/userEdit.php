@@ -20,5 +20,7 @@ return [
     'btn_delete' => 'Supprimer le compte',
     'btn_back' => 'Retour',
     'success_alert' => 'Le compte a bien été modifié !',
+    'barman' => 'barman',
+    'cook' => 'cuisinier'
 
 ];

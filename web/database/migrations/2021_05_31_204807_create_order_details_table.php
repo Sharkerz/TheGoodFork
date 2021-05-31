@@ -20,8 +20,9 @@ class CreateOrderDetailsTable extends Migration
             $table->foreign('order_id')->references('id')->on('orders');
             $table->string('name');
             $table->integer('quantité');
-            $table->enum('role', ['Barman', 'Cooker']);
+            $table->string('role');
             $table->boolean('ready');
+
         });
     }
 

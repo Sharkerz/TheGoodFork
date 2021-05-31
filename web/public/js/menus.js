@@ -25,6 +25,9 @@ $(document).ready(function () {
 
     $('#AddMenuCategory').click(function () {
         $("#addModalMenuCategory").css("display", "block");
+        $("#AddMenuCategoryName").val("");
+        $("#AddCategoryImage").val("");
+        $("#AddMenuCategoryRole").val("");
     })
 
     $('#closeAddModalMenuCategory').click(function () {
@@ -39,8 +42,10 @@ $(document).ready(function () {
         $title = $('.modal-title')[1].innerText;
         $id = $div.attr('id');
         $name = $div[0].children[0].innerHTML;
+        $role = $div[0].children[2].innerHTML;
         $('#EditCategoryName')[0].value = $name;
         $('#EditCategoryid')[0].value = $id;
+        $('#EditMenuCategoryRole')[0].value = $role;
         $('.modal-title')[1].innerText = $title + $name;
         $("#EditModalCategory").css("display", "block");
     })
@@ -80,6 +85,7 @@ $(document).ready(function () {
                         '<tr class="RowMenuCategory odd" id="'+ Response.item.id+'">\n'+
                     '<td class="CategoryName">'+ $name +'</td>\n'+
                     '<td><img  alt="ItemImage" src="/Images/MenuCategory/'+Response.item.image +'"></td>\n'+
+                    '<td>'+ Response.item.role +'</td>\n'+
                     '<td class="ActionCase">\n'+
                         '<a href=menus/'+ $id+' type="button" class="btn btn-success Button SelectCategory" >\n'+
                                 $Display +
@@ -124,6 +130,7 @@ $(document).ready(function () {
                     $('.modal-title')[1].innerText = $title;
                     $("#" + Response.item.id).children()[0].innerText = Response.item.name;
                     $("#" + Response.item.id).children()[1].children[0].src = "/Images/MenuCategory/" + Response.item.image;
+                    $("#" + Response.item.id).children()[2].innerText = Response.item.role;
             },
             error: function(error){
                 for (const key in error.responseJSON.errors) {

@@ -30,4 +30,6 @@ return [
     'EditCategory' => 'Update Category: ',
     'Update' =>'Update ',
     'itemDescription' => 'Description : ',
+    'type' => 'Category destiny',
+    'role' =>  'Manager : '
 ];

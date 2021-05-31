@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\menu_category;
 use App\Models\menu_item;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Image;
+use Config;
 
 class MenuCategoryController extends Controller
 {
@@ -41,9 +43,11 @@ class MenuCategoryController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) {
+            $roles = Config::get('users.roles');
             $fields = $request->validate([
                 'name' => 'required|unique:menu_categories|string|max:255',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'role' => 'required',Rule::in($roles)
             ]);
 
             $image = $request->file('image');
@@ -54,6 +58,7 @@ class MenuCategoryController extends Controller
             $data = menu_category::create([
                 'name' =>$request->input('name'),
                 'image' => $image,
+                'role' => $request->input('role')
             ]);
             $menu_category = menu_category::find($data->id);
             return response()->json(['success' =>true,'item' =>$menu_category],200);
@@ -96,11 +101,13 @@ class MenuCategoryController extends Controller
     public function update(Request $request)
     {
         if ($request->ajax()) {
+            $roles = Config::get('users.roles');
             $id = $request->input(('id'));
             if ($request->hasFile('image')) {
                 $fields = $request->validate([
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                    'role' => 'required',Rule::in($roles)
                 ]);
                 $image = $request->file('image');
                 $filename = time(). '.' . $image->getClientOriginalExtension();
@@ -109,14 +116,18 @@ class MenuCategoryController extends Controller
                 $update_item = [
                     'name' =>$request->input('name'),
                     'image' => $image,
+                    'role' => $request->input('role')
                 ];
             }
             else{
                 $fields = $request->validate([
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
+                    'role' =>'required',Rule::in($roles)
                 ]);
+                
                 $update_item = [
                     'name' =>$request->input('name'),
+                    'role' =>$request->input('role')
                 ];
             }
             
