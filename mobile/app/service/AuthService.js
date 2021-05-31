@@ -32,6 +32,19 @@ class AuthService{
             })
     }
 
+    Edit = async(name,email) =>{
+        return await axios.post(SERVER_IP + '/api/edit_profile', {
+            name: name,
+            email: email,
+        })
+            .then(response => {
+                return response
+            })
+            .catch(err => {
+                return err.response
+            })
+    }
+
     Logout = async() =>{
         return await axios.post(SERVER_IP + '/api/auth/logout')
             .then(response => {
