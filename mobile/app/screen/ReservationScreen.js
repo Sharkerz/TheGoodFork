@@ -1,5 +1,17 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    TouchableOpacity,
+    FlatList,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView,
+    Platform
+} from 'react-native';
 import { SERVER_IP } from '@env';
 import { TextInput } from 'react-native-paper'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
@@ -57,7 +69,7 @@ class ReservationScreen extends React.Component {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <ScrollView>
             {/* <SafeAreaView> */}
-                <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Reservations</Text>
+                <Text style={styles.title}>Reservations</Text>
                 <Calendar style={{marginTop: 10}} 
                 theme={{
                     calendarBackground: '#111219',
@@ -182,6 +194,13 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor : '#111219'
    },
+   title : {
+      marginTop: Platform.OS === 'ios' ? 13 : 40,
+      paddingLeft: 20,
+      fontSize: 30,
+      fontWeight: '600',
+      color: '#fff'
+    },
    service: {
     flex: 1,
     flexDirection : 'row',

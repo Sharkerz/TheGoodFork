@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
-import {ImageBackground, StyleSheet, View, Text, Image, DevSettings, FlatList, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  DevSettings,
+  FlatList,
+  TouchableOpacity,
+  Platform
+} from 'react-native';
 import Button from '../components/Button'
 import * as SecureStore from "expo-secure-store";
 
@@ -44,7 +54,7 @@ class ProfileScreen extends Component {
   render() {
     return (
         <View style={styles.container} >
-          <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Votre Profil</Text>
+          <Text style={styles.title}>Votre Profil</Text>
           <FlatList style={styles.list}
                     data={this.list}
                     renderItem={({item}) =>
@@ -122,6 +132,13 @@ const styles = StyleSheet.create({
   textRowList: {
     color: '#FFFF',
     fontSize: 19,
-  }
+  },
+  title : {
+    marginTop: Platform.OS === 'ios' ? 13 : 40,
+    paddingLeft: 20,
+    fontSize: 30,
+    fontWeight: '600',
+    color: '#fff'
+  },
 
 })

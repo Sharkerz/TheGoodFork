@@ -1,5 +1,15 @@
 import React  from 'react'
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import {
+    ImageBackground,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    TouchableOpacity,
+    FlatList,
+    Platform
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 const test = AsyncStorage.getItem('cartSaved')
 
@@ -36,7 +46,7 @@ class CartScreen extends React.Component {
         return(
             <View style={styles.container}>
         <SafeAreaView>
-            <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Panier</Text>
+            <Text style={styles.title}>Panier</Text>
             <View>
             <FlatList style={styles.data}
                       data={this.state.items}
@@ -59,6 +69,13 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor :'#111219'
+    },
+    title : {
+        marginTop: Platform.OS === 'ios' ? 13 : 40,
+        paddingLeft: 20,
+        fontSize: 30,
+        fontWeight: '600',
+        color: '#fff'
     },
   })
 
