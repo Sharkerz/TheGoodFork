@@ -36,7 +36,7 @@ class CartScreen extends React.Component {
         return(
             <View style={styles.container}>
         <SafeAreaView>
-          <Text style={{paddingLeft: 20, paddingTop: 13, fontSize: 30, fontWeight: '600', color: '#fff'}}>Panier</Text>
+            <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Panier</Text>
             <View>
             <FlatList style={styles.data}
                       data={this.state.items}

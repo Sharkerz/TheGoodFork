@@ -1,5 +1,15 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList} from 'react-native';
+import {
+    ImageBackground,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    TouchableOpacity,
+    FlatList,
+    Platform
+} from 'react-native';
 import Paragraph from '../components/Paragraph';
 import { images } from '../constants';
 import * as SecureStore from "expo-secure-store";
@@ -93,8 +103,8 @@ class HomeScreen extends React.Component {
     }
 
   return (
-      <View style={{marginLeft: 20}}>
-        <Text style={{paddingTop: 13, fontSize: 30, fontWeight: '600', color: '#fff'}}>Categories</Text>
+      <View>
+          <Text style={styles.title}>Categories</Text>
         <FlatList
             data={this.state.categories}
             horizontal
@@ -185,6 +195,13 @@ class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    title : {
+        marginTop: Platform.OS === 'ios' ? 13 : 40,
+        paddingLeft: 20,
+        fontSize: 30,
+        fontWeight: '600',
+        color: '#fff'
+    },
   textHome: {
     fontSize: 40,
     textAlign: 'center',
