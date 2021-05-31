@@ -64,11 +64,11 @@ class DetailScreen extends React.Component {
                                 resizeMode="cover"
                                 style={{
                                     width: "120%",
-                                    height: 450,
+                                    height: 400,
                                 }}/>
-                            <Text style={{ textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
-                            <Text style={{ textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
-                            <Text style={{ textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
+                            <Text style={{paddingLeft: 15, paddingRight: 15,textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
+                            <Text style={{paddingLeft:15, paddingRight: 15, textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
+                            <Text style={{paddingLeft:15, paddingRight: 15,textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
                         <View style={{marginTop: 10, marginLeft: 110, marginRight: 110, alignItems: 'center'}}>
                             <InputSpinner
                                     max={15}
