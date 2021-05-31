@@ -20,7 +20,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            auth: false
+            auth: false,
         };
     }
 
@@ -33,6 +33,7 @@ class App extends React.Component {
         const token = await SecureStore.getItemAsync('secure_token')
         if (token !== null) {
             this.setState({auth: true})
+            this.setState({user: JSON.parse(await SecureStore.getItemAsync('user'))})
         }
         else {
             this.setState({auth: false})
@@ -43,7 +44,7 @@ class App extends React.Component {
         this.setState({auth: status})
     }
 
-    render() {
+    render() { 
     return (
         <Provider theme={theme}>
             {!this.state.auth ? (

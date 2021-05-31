@@ -14,8 +14,9 @@ class CartScreen extends React.Component {
   }
   getCard = async() =>{
     const cart =  await AsyncStorage.getItem('cartSaved')
-    console.log(cart)
-    // this.setState({items : cart})
+    .then(cart => {
+      this.setState({items : JSON.parse(cart)})
+    })
   }
 
 
@@ -29,16 +30,20 @@ class CartScreen extends React.Component {
     this._unsubscribe();
   }
 
-    render(){
+     render(){
       const isFocused = this.props;
-     this.getCard()
-     
+      console.log(this.state.items)
         return(
             <View style={styles.container} source={require("../assets/background2.png")} >
         <SafeAreaView>
             <Text style={{ paddingLeft: 20, fontSize: 30, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>Panier</Text>
             <View>
-            
+            <FlatList style={styles.data}
+                      data={this.state.items}
+                      keyExtractor={item => item.id}
+                      renderItem={({item}) => <Text style={{'color': 'white'}}>{item.name + " quantité : " + item.quantité.toString()}</Text>
+                      }
+            />
             </View>
             
         </SafeAreaView>

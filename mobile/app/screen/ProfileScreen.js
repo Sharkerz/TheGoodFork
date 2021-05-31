@@ -46,27 +46,27 @@ class ProfileScreen extends Component {
         <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
 
           <FlatList style={styles.list}
-              data={this.list}
-              renderItem={({item}) =>
-                {
-                  if (item.navigable) {
-                    return <TouchableOpacity onPress={() => this.navigateFromList(item.title)} style={styles.item}>
+                    data={this.list}
+                    renderItem={({item}) =>
+                    {
+                      if (item.navigable) {
+                        return <TouchableOpacity onPress={() => this.navigateFromList(item.title)} style={styles.item}>
+                          <Text style={styles.textRowList}>{item.key}</Text>
+                        </TouchableOpacity>
+                      }
+                      else {
+                        return <TouchableOpacity style={styles.item}>
+                          <View style={styles.leftViewItem}>
                             <Text style={styles.textRowList}>{item.key}</Text>
-                           </TouchableOpacity>
-                  }
-                  else {
-                    return <TouchableOpacity style={styles.item}>
-                      <View style={styles.leftViewItem}>
-                        <Text style={styles.textRowList}>{item.key}</Text>
-                      </View>
-                      <View style={styles.rightViewItem}>
-                        <Text style={styles.textRowList}>{item.val}</Text>
-                      </View>
-                          </TouchableOpacity>
-                  }
-                }
-              }
-              />
+                          </View>
+                          <View style={styles.rightViewItem}>
+                            <Text style={styles.textRowList}>{item.val}</Text>
+                          </View>
+                        </TouchableOpacity>
+                      }
+                    }
+                    }
+          />
 
           <Button color='#111219' style={styles.textRegister}
                   mode="outlined" onPress={() => this.logout()}>
@@ -74,7 +74,7 @@ class ProfileScreen extends Component {
           </Button>
         </ImageBackground>
     );
-}
+  }
 }
 
 export default ProfileScreen
@@ -113,4 +113,3 @@ const styles = StyleSheet.create({
   }
 
 })
-

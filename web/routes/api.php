@@ -24,4 +24,5 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::post('/edit_profile', [AuthController::class, 'editProfile']);
     Route::get('/getCategories', [MenuApiController::class, 'getCategories']);
     Route::get('/getItems', [MenuApiController::class, 'getItems']);
+    Route::post('/createOrder', [OrderController::class, 'createOrder']);
 });
