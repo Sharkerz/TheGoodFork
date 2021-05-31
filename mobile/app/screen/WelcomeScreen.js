@@ -7,47 +7,8 @@ import BackButton from '../components/BackButton'
 
 export default function WelcomeScreen( {navigation}) {
     return (
-        // <ImageBackground 
-        //     style={styles.background}
-        //     source={require("../assets/background2.png")}>
-        //         <View>
-        //              <Text style={styles.homeText}>TheGoodFork</Text> 
-        //         </View>
 
-        //         <View style={styles.loginButton}>
-        //             <Text style={styles.textContainer}>
-        //                 Login
-        //             </Text>
-        //         </View> 
-        //         <View style={styles.registerButton}>
-        //         <Text style={styles.textContainer}>
-        //                 Register
-        //         </Text>
-        //         </View> 
-        // </ImageBackground>
-
-        // <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
-        //   <View style={styles.header}>
-        //     {/* <Background> */}
-        //       <Paragraph style={styles.textHome}>
-        //         TheGoodFork
-        //         welcome back ! 
-        //       </Paragraph>
-        //     {/* </Background> */}
-        //   </View>
-        //     <View style={styles.footer}>   
-        //       <Button style={styles.textLogin}
-        //         mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
-        //         Login
-        //       </Button>
-        //       <Button color='#111219'
-        //         mode="outlined" onPress={() => navigation.navigate('RegistrationScreen')}>
-        //         Sign Up
-        //       </Button>
-        //     </View>
-        // </ImageBackground>
-
-        <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+        <View style={styles.container}>
 
             <Image style={styles.logo} source={require("../assets/iconfood.png")} />
 
@@ -70,44 +31,11 @@ export default function WelcomeScreen( {navigation}) {
               Home
             </Button>
 
-        </ImageBackground>
+        </View>
 
 
     );
 }
-
-// const styles = StyleSheet.create({
-//     textHome: {
-//       fontSize: 40,
-//       textAlign: 'center',
-//       top: 60,
-//       marginBottom: 0,
-//       color: "#fff"
-//     },
-//     container: {
-//       flex: 1,
-//       width: '100%'
-//     },
-//     header: {
-//       flex: 2,
-//       justifyContent: 'center',
-//       alignItems: 'center'
-//     },
-//     footer: {
-//       backgroundColor: '#fff',
-//       flex: 1.5,
-//       borderTopLeftRadius: 30,
-//       borderTopRightRadius: 30,
-//       paddingVertical: 50,
-//       paddingHorizontal: 50,
-//     },
-//     textRegister: {
-//       color: '#111219'
-//     },
-//     textLogin: {
-//       color: '#fff'
-//     }
-//   })
 
 const styles = StyleSheet.create({
   textHome: {
@@ -131,7 +59,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: "#111219",
   },
   header: {
     flex: 2,

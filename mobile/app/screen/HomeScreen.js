@@ -93,7 +93,7 @@ class HomeScreen extends React.Component {
 
   return (
       <View style={{marginLeft: 20}}>
-        <Text style={{ paddingLeft: 20, fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
+        <Text style={{ paddingTop: 10, fontSize: 30, fontWeight: '600', color: '#fff'}}>Categories</Text>
         <FlatList
             data={this.state.categories}
             horizontal
@@ -173,12 +173,12 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+      <View style={styles.container} >
         <SafeAreaView>
           {this.renderMainCategories()}
           {this.renderFoodList()}
         </SafeAreaView>
-      </ImageBackground>
+      </View>
     );
   }
 }
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: "#111219",
   },
   shadow: {
     shadowColor: '#fff',
