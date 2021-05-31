@@ -5,7 +5,6 @@ import HomeScreen from "../screen/HomeScreen";
 import ProfileScreen from "../screen/ProfileScreen";
 import RegistrationScreen from "../screen/RegistrationScreen";
 import LoginScreen from "../screen/LoginScreen";
-import BookingScreen from "../screen/BookingScreen";
 import DetailScreen from "../screen/DetailsScreen";
 import ReservationScreen from "../screen/ReservationScreen";
 import CartScreen from "../screen/CartScreen"

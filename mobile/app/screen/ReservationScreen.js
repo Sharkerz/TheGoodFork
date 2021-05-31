@@ -1,9 +1,11 @@
-import React  from 'react'
-import { StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import React, {useState} from 'react'
+import { StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import { SERVER_IP } from '@env';
+import { TextInput } from 'react-native-paper'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
-import Button from '../components/Button'
+import Button from '../components/Button';
+import InputSpinner from 'react-native-input-spinner';
 LocaleConfig.locales['fr'] = {
     monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -13,12 +15,16 @@ LocaleConfig.locales['fr'] = {
   };
   LocaleConfig.defaultLocale = 'fr';
 
+
 class ReservationScreen extends React.Component {
     constructor(){
         super();
         this.state = {
             markedDates: {},
             selectedDate: '',
+            shouldShow: false,
+            hourShow: false,
+            middayHoursShow: false,
         }
     }
     
@@ -32,15 +38,27 @@ class ReservationScreen extends React.Component {
                                      selectedColor: color}}
             this.setState({markedDates})
             console.log(this.state.selectedDate)
+            this.setState({shouldShow: true}) 
+    }
+
+    onMomentPressNight = () => {
+        this.setState({nightHoursShow: true}) 
+        this.setState({middayHoursShow: false}) 
+    }
+
+    onMomentPressMidday = () => {
+        this.setState({middayHoursShow: true}) 
+        this.setState({nightHoursShow: false}) 
     }
 
     render(){
         return(
-            <View style={styles.container}  >
-               
-            <SafeAreaView>
-                <Text style={{ paddingLeft: 20, fontSize: 30, fontWeight: '600', color: '#fff'}}>Reservations</Text>
-                <Calendar style={{}} 
+            <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <ScrollView>
+            {/* <SafeAreaView> */}
+                <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Reservations</Text>
+                <Calendar style={{marginTop: 10}} 
                 theme={{
                     calendarBackground: '#111219',
                     dayTextColor: 'white',
@@ -54,16 +72,104 @@ class ReservationScreen extends React.Component {
                     markedDates = {this.state.markedDates}
                     minDate={Date()}
           /> 
-           <Text style={{ paddingLeft: 20, fontSize: 15, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>A quel moment souhaitez-vous réserver?</Text>
-                {/* <View style={styles.service}>
-                <Button color='#111219' style={styles.textRegister}
+            <View>
+                {
+                    this.state.shouldShow ? (
+                        <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '600', color: '#fff',marginBottom: '5%', marginTop: 10}}>A quel moment souhaitez-vous réserver ?</Text>
+                        
+                    ) : null
+                }
+                                {
+                    this.state.shouldShow ? (
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
+                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
+                                    mode="outlined"
+                                    onPress={this.onMomentPressMidday}>
+                                Midi
+                            </Button>
+                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
+                                    mode="outlined" 
+                                    onPress={this.onMomentPressNight}>
+                                Soir
+                            </Button>
+                        </View>
+                        
+                    ) : null
+                }
+            </View>
+
+
+            <View>
+                {
+                    this.state.middayHoursShow ? (
+                        <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '600', color: '#fff', marginTop: 20}}>A quelle heure souhaitez-vous réserver ?</Text>
+                    ) : null
+                }
+                {
+                    this.state.middayHoursShow ? (
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
+                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
+                                    mode="outlined">
+                                12H
+                            </Button>
+                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
+                                    mode="outlined" >
+                                14H
+                            </Button>
+                        </View>
+                    ) : null
+                }
+            </View>
+
+            <View>
+                {
+                    this.state.nightHoursShow ? (
+                        <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '600', color: '#fff', marginTop: 20}}>A quelle heure souhaitez-vous réserver ?</Text>
+                        
+                    ) : null
+                }
+                {
+                    this.state.nightHoursShow ? (
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
+                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
+                                    mode="outlined">
+                                18H
+                            </Button>
+                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
+                                    mode="outlined" >
+                                20H
+                            </Button>
+                        </View>
+                    ) : null
+                }
+            </View>
+
+            <Text style={{ textAlign: 'center', paddingTop: 10, fontSize: 16, fontWeight: '600', color: '#fff',marginBottom: '5%', marginTop: 20}}>Pour combien de personnes ?</Text>
+            <View style={{marginLeft: 110, marginRight: 110, marginBottom: 25}}>
+                <InputSpinner
+                        max={15}
+                        min={1}
+                        step={1}
+                        colorMax={"#fff"}
+                        colorMin={"#fff"}
+                        value={this.state.number}
+                        onChange={(num)=>{console.log(num)}}
+                        textColor={"#fff"}
+                        fontSize={26}>
+                </InputSpinner>
+            </View>
+            <View style={{alignItems:'center', marginBottom: 100}}>
+                <Button style={{width: 200}}  color='#111219'
                     mode="outlined" >
-                Ajouter au panier
+                        Réserver
                 </Button>
-                
-                </View> */}
-            </SafeAreaView>
-          </View>
+            </View>    
+
+
+            {/* </SafeAreaView> */}
+            </ScrollView>
+            </TouchableWithoutFeedback>
+            </View>
             
         )
     }
@@ -81,7 +187,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection : 'row',
     backgroundColor : '#111219'
- },
+    },
+    textLogin: {
+        width: 100,
+        height: 63,
+        backgroundColor: "#1B1C23",
+        borderRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        borderWidth: 2,
+        borderColor: '#5A5B61',
+        color: "#292A32"
+    }
   })
 
 export default ReservationScreen;

@@ -15,7 +15,7 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-        <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+        <View style={styles.container}>
           <Paragraph style={styles.textHome}>
             Profile
           </Paragraph>
@@ -23,7 +23,7 @@ class ProfileScreen extends Component {
                   mode="outlined" onPress={() => this.logout()}>
             Se déconnecter
           </Button>
-        </ImageBackground>
+        </View>
     );
 }
 }
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: "#111219",
   },
   header: {
     flex: 2,

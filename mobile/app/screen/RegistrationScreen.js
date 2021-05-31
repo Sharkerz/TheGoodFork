@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     textHome: {
         fontSize: 40,
         textAlign: 'center',
-        top: 20,
+        top: 0,
         marginBottom: 0,
         color: "#fff",
         fontWeight: "600"
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     },
     textRegister: {
         backgroundColor: '#fff',
-        marginTop: 100,
+        marginTop: 50,
         width: 300
     }
 })

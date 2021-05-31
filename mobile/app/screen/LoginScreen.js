@@ -44,7 +44,7 @@ class LoginScreen extends React.Component{
 
 render() {
     return (
-        <Background>
+        <Background style={styles.container}>
             <BackButton goBack={this.props.navigation.goBack}/>
             <Paragraph style={styles.textHome}>
                 Connectez-vous
@@ -66,9 +66,8 @@ render() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+      flex: 1,
+      backgroundColor: "#111219",
     },
     input: {
         paddingVertical: 5,
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     textHome: {
         fontSize: 40,
         textAlign: 'center',
-        top: 20,
+        top: 40,
         marginBottom: 0,
         color: "#fff",
         fontWeight: "600"
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 50,
     },
     textLogin: {
-        marginTop: 100,
+        marginTop: 90,
         width: 300,
         backgroundColor: "#1B1C23",
         borderRadius: 20,
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
     },
     textRegister: {
         backgroundColor: '#fff',
-        marginTop: 100,
+        marginTop: 50,
         width: 300
     }
 })
