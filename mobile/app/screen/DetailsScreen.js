@@ -59,22 +59,16 @@ class DetailScreen extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <ScrollView>
                         <BackButton goBack={this.props.navigation.goBack}/>
-                        <View style={{
-                                    paddingHorizontal: 20,
-                                    marginTop: 120,
-                                    alignItems:'center'
-                                }}>
                             <Image
                                 source={{ uri: SERVER_IP + '/Images/MenuItem/'+item.image }}
                                 resizeMode="cover"
                                 style={{
                                     width: "120%",
-                                    height: 300,
+                                    height: 450,
                                 }}/>
                             <Text style={{ textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
                             <Text style={{ textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
                             <Text style={{ textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
-                        </View>
                         <View style={{marginTop: 10, marginLeft: 110, marginRight: 110, alignItems: 'center'}}>
                             <InputSpinner
                                     max={15}
@@ -87,7 +81,7 @@ class DetailScreen extends React.Component {
                                     textColor={"#fff"}
                                     fontSize={26}>
                             </InputSpinner>
-                            <Button style={{width: 210, marginTop: 25}}  color='#111219'
+                            <Button style={{width: 210, marginTop: 25, marginBottom: 100}}  color='#111219'
                                     mode="outlined" onPress={() => this.addToCart(item)}>
                                 Ajouter au panier
                             </Button>
