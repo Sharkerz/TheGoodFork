@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 class ProfileScreen extends Component {
   logout = () => {
     SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
+    SecureStore.deleteItemAsync('user').then(r => console.log('deleted'))
     AsyncStorage.removeItem('cartSaved').then(r => console.log('deleted cart'))
     DevSettings.reload();
   }
