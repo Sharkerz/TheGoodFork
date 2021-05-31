@@ -7,7 +7,7 @@ import BackButton from "../components/BackButton";
 import Paragraph from "../components/Paragraph";
 import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
-import CheckBox from 'react-native-check-box'
+import { CheckBox } from 'react-native-elements'
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -66,11 +66,13 @@ class EditProfileScreen extends Component {
 
             <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                 <CheckBox
-                    isChecked={this.state.changePwd}
-                    onClick={() => {this.setState({changePwd: !this.state.changePwd})}}
-                    checkBoxColor={"white"}
+                    center
+                    checked={this.state.changePwd}
+                    onPress={() => this.setState({changePwd: !this.state.changePwd})}
+                    title={<Text style={{color: 'white'}} >Modifier le mot de passe</Text>}
+                    containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                 />
-                <Text style={styles.labelCheckBox}> Modifier le mot de passe</Text>
+                {/*<Text style={styles.labelCheckBox}> Modifier le mot de passe</Text>*/}
             </View>
 
             {this.state.changePwd ? (
