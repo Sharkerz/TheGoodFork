@@ -14,28 +14,24 @@ class DetailScreen extends React.Component {
                 quantité : 1
             }
         }
-    addToCart = async(item) =>{
-        const cart = await AsyncStorage.getItem('cartSaved')
-        const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : this.state.quantité}
-        if(cart) {
-            console.log('test')
-            const newCart = JSON.parse(cart)
-            const exists = newCart.some(v => (v.id === test.id));
-            if(exists){
-                const objIndex = newCart.findIndex((obj => obj.id == test.id));
-                newCart[objIndex].quantité = parseInt(newCart[objIndex].quantité) + parseInt(this.state.quantité)
-                await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
-                console.log(await AsyncStorage.getItem('cartSaved'))
-            }else{
-                newCart.push(test)
-                await AsyncStorage.getItem('cartSaved',JSON.stringify(newCart))
-                console.log(await AsyncStorage.getItem('cartSaved'))
+        addToCart = async(item) =>{
+            const cart = await AsyncStorage.getItem('cartSaved')
+            const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : this.state.quantité}
+            if(cart) {
+                const newCart = JSON.parse(cart)
+                const exists = newCart.some(v => (v.id === test.id));
+                if(exists){
+                    const objIndex = newCart.findIndex((obj => obj.id == test.id));
+                    newCart[objIndex].quantité = parseInt(newCart[objIndex].quantité) + parseInt(this.state.quantité)
+                    await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                }else{
+                    newCart.push(test)
+                    await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                }
+            } else {
+                await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
             }
-        } else {
-            console.log('testfail')
-            await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
         }
-    }
 
     quantityHandler = (text) => {
         this.setState({quantité: text})
