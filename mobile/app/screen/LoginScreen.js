@@ -26,7 +26,10 @@ class LoginScreen extends React.Component{
                 await SecureStore.setItemAsync('secure_token',res.data.access_token)
                 await SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 const token = await SecureStore.getItemAsync('secure_token')
+                const user = JSON.parse(await SecureStore.getItemAsync('user'))
                 this.props.route.params.auth(true)
+                console.log(user['role'])
+                this.props.route.params.user(user)
             }else{
                 console.log(res.data)
                 this.setState({errorMessage : res.data})
