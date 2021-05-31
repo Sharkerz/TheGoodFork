@@ -13,7 +13,7 @@ return [
     'menuHeader' => 'Menu',
     'AddCategory' => 'Add a new category',
     'ModalTitleAdd' =>'Add new category to the menu',
-    'categoryname' => 'Category name :',
+    'categoryname' => 'Name :',
     'AddItemCategory' => 'Add a new item ',
     'itemname' => 'Category name :',
     'itemprice' =>'Price (in €):',
@@ -29,4 +29,5 @@ return [
     'image' =>'Category image',
     'EditCategory' => 'Update Category: ',
     'Update' =>'Update ',
+    'itemDescription' => 'Description : ',
 ];

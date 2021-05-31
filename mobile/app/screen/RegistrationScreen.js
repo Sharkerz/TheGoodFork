@@ -1,107 +1,69 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Component } from 'react'
 import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Background from '../components/Background'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
-import axios from 'axios'
-import { SERVER_IP } from '@env';
+import AuthService from '../service/AuthService';
 
-const RegistrationScreen = ( {navigation} ) => {
-
-    const [email, setEmail] = useState("")
-    const [name, setName] = useState("")
-    const [password, setPassword] = useState("")
-
-    const [isSubmit, setIsSubmit] = useState(false)
-
-    useEffect(() => {
-        const authentificate = async () => {
-            axios.post(SERVER_IP + '/api/auth/register', {
-                email: email,
-                name: name,
-                password: password,
-                password_confirmation: password,
-            }
-            )
-            .then((response) => {
-                console.log(response)
-                setIsSubmit(false)
-            })
-            .catch((err) => {
-                console.log(err)
-                setIsSubmit(false)
-            })
+class RegistrationScreen  extends Component{
+    constructor() {
+        super();
+        this.state = {
+            name:"",
+            email: "",
+            password: "",
         }
-        if (isSubmit) authentificate()
-    }, [isSubmit])
-
-    const emailHandler = (text) => {
-        setEmail(text)
-    }
-    const nameHandler = (text) => {
-        setName(text)
-    }
-    const passwordHandler = (text) => {
-        setPassword(text)
     }
 
+    handleSubmit = async() =>{
+         await AuthService.Register(this.state.email,this.state.name,this.state.password).then(res =>{
+             if(res.status === 201){
+                this.props.navigation.navigate('LoginScreen')
+             }else{
+                 this.setState({errorMessage : res.data})
+             }
+            
+        })  
+    }
+    nameHandler = (text) => {
+        this.setState({name: text})
+    }
+    emailHandler = (text) => {
+        this.setState({email: text})
+    }
+    passwordHandler = (text) => {
+        this.setState({password: text})
+    }
+    render(){
     return (
-        // <View style={styles.container}>
-        //     <TextInput 
-        //     placeholder="Email" 
-        //     style={styles.input} 
-        //     autoCapitalize="none" 
-        //     onChangeText={emailHandler}
-        //     />
-        //     <TextInput 
-        //     placeholder="Name" 
-        //     style={styles.input}
-        //     onChangeText={nameHandler}
-        //     />
-        //     <TextInput 
-        //     placeholder="Password" 
-        //     style={styles.input} 
-        //     secureTextEntry={true} 
-        //     autoCapitalize="none"
-        //     onChangeText={passwordHandler}
-        //     />
-        //     <View style={styles.buttonContainer}>
-        //         <Button title="Register" onPress={() => setIsSubmit(true)}/>
-        //     </View>
-        // </View>
-        // <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
         <Background>
-        <BackButton goBack={navigation.goBack} />
-
-
-
+        <BackButton goBack={this.props.navigation.goBack} />
         {/* <Background> */}
         <Paragraph style={styles.textHome}>
             Inscrivez-vous
         </Paragraph>
-        {/* </Background> */}
 
-
-        <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textLogin} label="Name"
-            mode="flat" onChangeText={nameHandler}>
+        <TextInput underlineColor="transparent" underlineColorAndroid="transparent" name="name" selectionColor='#5A5B61' style={styles.textLogin} label="Name"
+            mode="flat" onChangeText={this.nameHandler}>
         </TextInput>
         <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textEmail} label="Email"
-            mode="flat" onChangeText={emailHandler}>
+            mode="flat" onChangeText={this.emailHandler}>
         </TextInput>
         <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textPassword} label="Password"
-            mode="flat" secureTextEntry={true} onChangeText={passwordHandler}>
+            mode="flat" secureTextEntry={true} onChangeText={this.passwordHandler}>
         </TextInput>
-
+        <Text className="error">{ this.state.errorMessage}</Text>
         <Button color='#111219' style={styles.textRegister}
-              mode="outlined" onPress={() => setIsSubmit(true)}>
+              mode="outlined" onPress={() => this.handleSubmit()}>
         S'enregistrer
         </Button>
 
     {/* </ImageBackground> */}
         </Background>
     )
+}
 }
 
 const styles = StyleSheet.create({

@@ -28,6 +28,7 @@
                                         <h3 class="CardTitle"><b>{{$item->name}}</b></h3> 
                                         <p id="{{number_format($item->price, 2)}}">@lang('menus.price') {{number_format($item->price, 2)}} €</p> 
                                         <p id="{{ $item->stock }}">@lang('menus.stock') {{ $item->stock }} </p> 
+                                        <p class="ItemDescription">@lang('menus.itemDescription'){{ $item->description }}</p>
                                 </div class="cardinfo">
                                 <div class="cardAction">   
                                         <button type="button" class="btn btn-primary Button EditButton">
@@ -77,6 +78,10 @@
                                         <div class="col-md-6">
                                                 <input id="AddCategoryItemStock"  type="number" step="any" class="form-control @error('AddCategoryItemStock') is-invalid @enderror"  name="stock" required >
                                         </div>
+                                        <label for="AddCategoryItemDescription" class="col-md-4 col-form-label text-md-right">@lang('menus.itemDescription')</label>
+                                        <div class="col-md-6">
+                                                <textarea id="AddCategoryItemDescription"  type="texte" step="any" class="form-control @error('AddCategoryItemDescription') is-invalid @enderror"  name="description" required ></textarea>
+                                        </div>
                                         <label for="ItemImage" class="col-md-4 col-form-label text-md-right">@lang('menus.itemimage')</label>
                                         <div class="col-md-6">
                                                 <input id="ItemImage"  type="file" step="any" class=" @error('ItemImage') is-invalid @enderror"  name="image" required >
@@ -124,6 +129,12 @@
                                         <div class="col-md-6">
                                                 <input id="EditCategoryItemStock"  type="number" step="any" class="form-control @error('EditCategoryItemStock') is-invalid @enderror"  name="stock" required >
                                         </div>
+
+                                        <label for="EditCategoryItemDescription" class="col-md-4 col-form-label text-md-right">@lang('menus.itemDescription')</label>
+                                        <div class="col-md-6">
+                                                <textarea id="EditCategoryItemDescription"  type="texte" step="any" class="form-control @error('EditCategoryItemDescription') is-invalid @enderror"  name="description" required ></textarea>
+                                        </div>
+
                                         <label for="EditItemImage" class="col-md-4 col-form-label text-md-right">@lang('menus.itemimage')</label>
                                         <div class="col-md-6">
                                                 <input id="EditItemImage"  type="file" step="any" class=" @error('EditItemImage') is-invalid @enderror"  name="image" >

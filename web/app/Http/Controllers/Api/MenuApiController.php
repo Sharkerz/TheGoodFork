@@ -25,17 +25,8 @@ class MenuApiController extends Controller
         
     }
 
-    public function getItems(Request $request) {
-        $validator = Validator::make($request->all(),
-        [
-            'category_id' => 'required|int',
-        ]);
-        if($validator->fails()) {
-            return response()->json(
-                $validator->errors()->toJson(), 400
-            );
-        }
-        $menu_items = menu_item::where('category_id',$request['category_id'])->get();
+    public function getItems() {
+        $menu_items = menu_item::all();
         if(count($menu_items) >0){
             return response()->json([
                 'status' => 'success',
