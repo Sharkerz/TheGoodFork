@@ -1,11 +1,12 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList} from 'react-native';
 import Paragraph from '../components/Paragraph';
 import { images } from '../constants';
 import * as SecureStore from "expo-secure-store";
 import axios from 'axios'
 import { SERVER_IP } from '@env';
 import MenuService from '../service/MenuService'
+import { ScrollView } from 'react-native';
 
 
 class HomeScreen extends React.Component {
@@ -93,7 +94,7 @@ class HomeScreen extends React.Component {
 
   return (
       <View style={{marginLeft: 20}}>
-        <Text style={{ paddingLeft: 20, fontSize: 25, fontWeight: '600', color: '#fff'}}>Categories</Text>
+        <Text style={{paddingTop: 13, fontSize: 30, fontWeight: '600', color: '#fff'}}>Categories</Text>
         <FlatList
             data={this.state.categories}
             horizontal
@@ -173,12 +174,12 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+      <View style={styles.container}>
         <SafeAreaView>
           {this.renderMainCategories()}
           {this.renderFoodList()}
         </SafeAreaView>
-      </ImageBackground>
+      </View>
     );
   }
 }
@@ -194,6 +195,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor :'#111219'
   },
   shadow: {
     shadowColor: '#fff',

@@ -87,7 +87,7 @@ class ReservationScreen extends React.Component {
                                     onPress={this.onMomentPressMidday}>
                                 Midi
                             </Button>
-                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
+                            <Button style={{width: 130, marginLeft: 30}} color='#111219'
                                     mode="outlined" 
                                     onPress={this.onMomentPressNight}>
                                 Soir
@@ -97,7 +97,6 @@ class ReservationScreen extends React.Component {
                     ) : null
                 }
             </View>
-
 
             <View>
                 {

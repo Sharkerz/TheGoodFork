@@ -35,16 +35,16 @@ class ProfileScreen extends Component {
       val: '22',
       navigable: false
     },
-    {
-      key: 'Editer mon profil',
-      navigable: true
-    }
+    // {
+    //   key: 'Editer mon profil',
+    //   navigable: true
+    // }
   ]
 
   render() {
     return (
-        <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
-
+        <View style={styles.container} >
+          <Text style={{ paddingLeft: 20, paddingTop: 60, fontSize: 30, fontWeight: '600', color: '#fff'}}>Votre Profil</Text>
           <FlatList style={styles.list}
                     data={this.list}
                     renderItem={({item}) =>
@@ -67,11 +67,17 @@ class ProfileScreen extends Component {
                     }
                     }
           />
-          <Button color='#111219' style={styles.textRegister}
-                  mode="outlined" onPress={() => this.logout()}>
-            Se déconnecter
-          </Button>
-        </ImageBackground>
+          <View style={{alignItems:'center'}}>
+            <Button color='#111219' style={styles.editButton}
+              mode="outlined" onPress={() => this.navigateFromList()}>
+              Editer mon profil
+            </Button>
+            <Button color='#111219' style={styles.disconnectButton}
+                    mode="outlined" onPress={() => this.logout()}>
+              Se déconnecter
+            </Button>
+          </View>
+        </View>
     );
   }
 }
@@ -81,14 +87,20 @@ export default ProfileScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#111219',
   },
-  textRegister: {
+  disconnectButton: {
     color: '#111219',
     width: 300,
     marginBottom: 100
   },
+  editButton: {
+    color: '#111219',
+    width: 300,
+    marginBottom: 10,
+  },
   list: {
-    marginTop: 70
+    marginTop: 40,
   },
   item: {
     padding: 16,

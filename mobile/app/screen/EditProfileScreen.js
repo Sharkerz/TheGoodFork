@@ -7,6 +7,7 @@ import AuthService from "../service/AuthService";
 import BackButton from "../components/BackButton";
 import Paragraph from "../components/Paragraph";
 import {CheckBox} from "react-native";
+import Background from '../components/Background'
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -55,7 +56,7 @@ class EditProfileScreen extends Component {
 
   render() {
     return (
-        <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+        <Background style={styles.container}>
             <BackButton goBack={this.props.navigation.goBack}/>
             <Paragraph style={styles.textTitle}>
                 Editer mon profil
@@ -67,7 +68,7 @@ class EditProfileScreen extends Component {
                        mode="flat" onChangeText={this.emailHandler} autoCompleteType="email" keyboardType="email-address" value={this.state.email}>
             </TextInput>
 
-            <View style={{ flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                 <CheckBox
                     value={this.state.changePwd}
                     onValueChange={this.selectPwdChoiceHandler}
@@ -79,7 +80,7 @@ class EditProfileScreen extends Component {
             </View>
 
             {this.state.changePwd ? (
-                <View>
+                <View style={{alignItems:'center'}}>
                     <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.input} label="mot de passe"
                                mode="flat" onChangeText={this.passwordHandler} value={this.state.password}>
                     </TextInput>
@@ -98,7 +99,7 @@ class EditProfileScreen extends Component {
             </View>
 
 
-        </ImageBackground>
+        </Background>
     );
 }
 }
@@ -106,9 +107,9 @@ class EditProfileScreen extends Component {
 export default EditProfileScreen
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 60,
+    container: {
+        flex: 1,
+        paddingTop: 60,
   },
     input : {
         marginBottom: 20,
@@ -118,12 +119,14 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         borderWidth: 2,
         borderColor: '#5A5B61',
-        color: "#292A32"
+        color: "#292A32",
+        width: 300
     },
     viewSave: {
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: -30
     },
     submitBtn: {
         backgroundColor: '#fff',
@@ -134,15 +137,16 @@ const styles = StyleSheet.create({
     textTitle: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: 30,
-        marginBottom: 10,
+        marginTop: 10,
+        marginBottom: 40,
         color: "#fff",
         fontWeight: "600"
     },
     labelCheckBox: {
       color: 'white',
         marginTop: 5
-    }
+    },
+    
 
 })
 

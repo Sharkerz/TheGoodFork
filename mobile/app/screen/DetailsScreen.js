@@ -1,5 +1,5 @@
 import React  from 'react'
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
@@ -46,11 +46,12 @@ class DetailScreen extends React.Component {
             <View style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    <SafeAreaView>
+                    {/* <SafeAreaView> */}
+                    <ScrollView>
                         <BackButton goBack={this.props.navigation.goBack}/>
                         <View style={{
                                     paddingHorizontal: 20,
-                                    marginTop: 70,
+                                    marginTop: 120,
                                     alignItems:'center'
                                 }}>
                             <Image
@@ -81,7 +82,8 @@ class DetailScreen extends React.Component {
                                 Ajouter au panier
                             </Button>
                         </View>
-                    </SafeAreaView>
+                    </ScrollView>
+                    {/* </SafeAreaView> */}
                 </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             </View>
