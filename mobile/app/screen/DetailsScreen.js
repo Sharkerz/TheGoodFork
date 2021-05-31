@@ -1,44 +1,56 @@
 import React  from 'react'
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import { SERVER_IP } from '@env';
-import * as SecureStore from "expo-secure-store"
 
 
 class DetailScreen extends React.Component {
-
+        constructor(){
+            super();
+            this.state = {
+                quantité : 1
+            }
+        }
     addToCart = async(item) =>{
-        const cart = await SecureStore.getItemAsync('cartSaved')
-        const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : 1}
-        console.log(test)
-        console.log(cart)
+        const cart = await AsyncStorage.getItem('cartSaved')
+        const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : this.state.quantité}
         if(cart) {
+            console.log('test')
             const newCart = JSON.parse(cart)
             const exists = newCart.some(v => (v.id === test.id));
             if(exists){
                 const objIndex = newCart.findIndex((obj => obj.id == test.id));
-                newCart[objIndex].quantité = newCart[objIndex].quantité + 1
-                await SecureStore.setItemAsync('cartSaved',JSON.stringify(newCart))
-                console.log(await SecureStore.getItemAsync('cartSaved'))
+                newCart[objIndex].quantité = parseInt(newCart[objIndex].quantité) + parseInt(this.state.quantité)
+                await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                console.log(await AsyncStorage.getItem('cartSaved'))
             }else{
                 newCart.push(test)
-                await SecureStore.setItemAsync('cartSaved',JSON.stringify(newCart))
-                console.log(await SecureStore.getItemAsync('cartSaved'))
+                await AsyncStorage.getItem('cartSaved',JSON.stringify(newCart))
+                console.log(await AsyncStorage.getItem('cartSaved'))
             }
         } else {
-            await SecureStore.setItemAsync('cartSaved',JSON.stringify([test]))
+            console.log('testfail')
+            await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
         }
+    }
+
+    quantityHandler = (text) => {
+        this.setState({quantité: text})
     }
 
     render(){
         const item = this.props.route.params.item;
-        console.log(item)
         return(
             <ImageBackground style={styles.container} source={require("../assets/background2.png")} >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <SafeAreaView>
+            
+        
         <BackButton goBack={this.props.navigation.goBack}/>
+        
             <View style={{
                         paddingHorizontal: 20,
                         marginTop: 90,
@@ -57,9 +69,10 @@ class DetailScreen extends React.Component {
             <Text style={{ textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
             <Text style={{ textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
             </View>
+            
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <TextInput underlineColor="transparent" underlineColorAndroid="transparent" name="Quantité" selectionColor='#5A5B61' style={styles.textLogin} label="Quantité"
-            mode="flat" keyboardType="numbers-and-punctuation" onChangeText={this.nameHandler}>
+            mode="flat" keyboardType="numbers-and-punctuation" keyboardType ="number-pad" placeholder="1" onChangeText={this.quantityHandler}>
             </TextInput>
             <Button style={{width: 210}}  color='#111219'
                     mode="outlined" onPress={() => this.addToCart(item)}>
@@ -67,6 +80,7 @@ class DetailScreen extends React.Component {
             </Button>
             </View>
         </SafeAreaView>
+        </TouchableWithoutFeedback>
       </ImageBackground>
         )
     }
