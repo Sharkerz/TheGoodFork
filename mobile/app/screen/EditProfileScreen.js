@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {ImageBackground, StyleSheet, View, Text, Image, DevSettings, FlatList, TouchableOpacity} from 'react-native';
 import Button from '../components/Button'
-import * as SecureStore from "expo-secure-store";
 import {TextInput} from "react-native-paper";
 import AuthService from "../service/AuthService";
 import BackButton from "../components/BackButton";
 import Paragraph from "../components/Paragraph";
 import {CheckBox} from "react-native";
 import Background from '../components/Background'
+import * as SecureStore from "expo-secure-store";
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -21,8 +21,11 @@ class EditProfileScreen extends Component {
         }
     }
 
-    componentDidMount() {
-        //get users data
+    async componentDidMount() {
+        await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+            this.setState({name: res.name})
+            this.setState({email: res.email})
+        })
     }
 
     nameHandler = (text) => {

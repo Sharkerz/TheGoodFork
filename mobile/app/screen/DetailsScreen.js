@@ -1,5 +1,16 @@
 import React  from 'react'
-import { ImageBackground, StyleSheet, View, Text, Image, SafeAreaView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+    ImageBackground,
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    SafeAreaView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    KeyboardAvoidingView,
+    ScrollView
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
@@ -46,7 +57,6 @@ class DetailScreen extends React.Component {
             <View style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                    {/* <SafeAreaView> */}
                     <ScrollView>
                         <BackButton goBack={this.props.navigation.goBack}/>
                         <View style={{
@@ -83,7 +93,6 @@ class DetailScreen extends React.Component {
                             </Button>
                         </View>
                     </ScrollView>
-                    {/* </SafeAreaView> */}
                 </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             </View>

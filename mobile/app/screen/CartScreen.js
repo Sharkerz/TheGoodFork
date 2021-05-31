@@ -40,7 +40,7 @@ class CartScreen extends React.Component {
             <View>
             <FlatList style={styles.data}
                       data={this.state.items}
-                      keyExtractor={item => item.id}
+                      keyExtractor={item => item.id.toString()}
                       renderItem={({item}) => <Text style={{'color': 'white'}}>{item.name + " quantité : " + item.quantité.toString()}</Text>
                       }
             />
