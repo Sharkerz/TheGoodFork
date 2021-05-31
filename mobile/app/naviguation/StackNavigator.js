@@ -9,6 +9,7 @@ import BookingScreen from "../screen/BookingScreen";
 import DetailScreen from "../screen/DetailsScreen";
 import ReservationScreen from "../screen/ReservationScreen";
 import CartScreen from "../screen/CartScreen"
+import EditProfileScreen from "../screen/EditProfileScreen";
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
@@ -35,6 +36,7 @@ const ProfilStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="editProfile" component={EditProfileScreen} />
     </Stack.Navigator>
   );
 };

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ImageBackground, StyleSheet, View, Text, Image, DevSettings, FlatList} from 'react-native';
+import {ImageBackground, StyleSheet, View, Text, Image, DevSettings, FlatList, TouchableOpacity} from 'react-native';
 import Button from '../components/Button'
 import * as SecureStore from "expo-secure-store";
 
@@ -11,7 +11,7 @@ class ProfileScreen extends Component {
   }
 
   navigateFromList = () => {
-    //this.props.navigation
+    this.props.navigation.navigate('editProfile')
   }
 
   list = [
@@ -36,7 +36,7 @@ class ProfileScreen extends Component {
       navigable: false
     },
     {
-      title: 'Editer mon profil',
+      key: 'Editer mon profil',
       navigable: true
     }
   ]
@@ -50,19 +50,19 @@ class ProfileScreen extends Component {
               renderItem={({item}) =>
                 {
                   if (item.navigable) {
-                    return <View style={styles.item}>
-                            <Text onPress={() => this.navigateFromList(item.title)} style={styles.textRowList}>{item.title}</Text>
-                           </View>
+                    return <TouchableOpacity onPress={() => this.navigateFromList(item.title)} style={styles.item}>
+                            <Text style={styles.textRowList}>{item.key}</Text>
+                           </TouchableOpacity>
                   }
                   else {
-                    return <View style={styles.item}>
+                    return <TouchableOpacity style={styles.item}>
                       <View style={styles.leftViewItem}>
                         <Text style={styles.textRowList}>{item.key}</Text>
                       </View>
                       <View style={styles.rightViewItem}>
                         <Text style={styles.textRowList}>{item.val}</Text>
                       </View>
-                          </View>
+                          </TouchableOpacity>
                   }
                 }
               }
