@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\menu_category;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -48,7 +49,7 @@ class OrderController extends Controller
             ]
         ));
         foreach( $orderDetails as $item){
-           
+            $role = menu_category::where('id',$item['category_id'])->first();
             $menu_item = menu_item ::where('id', $item['id'])->first(); 
             $stock =(int) $menu_item->stock;
             if ($item['quantité'] > $stock){
@@ -61,7 +62,7 @@ class OrderController extends Controller
                     'name' => $item['name'],
                     'quantité' => $item['quantité'],
                     'ready' => 0,
-                    'role' => 'barman'
+                    'role' => $role->role
                 ]);
                 menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantité']]);
             }
