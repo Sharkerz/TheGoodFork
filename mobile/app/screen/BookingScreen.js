@@ -178,7 +178,7 @@ class BookingScreen extends React.Component {
                     ) : null
                 }
             </View>
-            {this.state.shouldShow  && this.state.Service && this.state.hour? (
+            {this.state.shouldShow  && this.state.Service && this.state.hour ? (
             <Text style={{ textAlign: 'center', paddingTop: 10, fontSize: 16, fontWeight: '600', color: '#fff',marginBottom: '5%', marginTop: 20}}>Pour combien de personnes ?</Text>
             ) : null}
             <View style={{marginLeft: 110, marginRight: 110, marginBottom: 25}}>
