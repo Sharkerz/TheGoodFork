@@ -18,10 +18,11 @@ class BookingController extends Controller
 
     public function createBooking(Request $request) {
         $userId = auth('api')->user()['id'];
+        //return $userId;
         $user = User::find($userId);
         $users = User::all()->pluck('id');
         if ($user->role == 'waiters'){
-            
+
             $validator = Validator::make($request->all(),[
                 'date' => 'required|date_format:Y-m-d',
                 'Service' => 'required|string',
@@ -51,10 +52,10 @@ class BookingController extends Controller
             ->whereNotIn('id',$bookings)
             ->where('NbPersons','>=',$request['nbPersons'])
             ->first();
-        if($table == null){
+        if(empty($table)){
             return response()->json([
                         'status' => 'failed',
-                        'message' => 'Aucune table est disponbile pour votre créneau'
+                        'message' => 'Aucune table n\'est disponbile pour votre créneau'
                     ]);
         }
         if($user->role == 'waiters'){
@@ -71,9 +72,9 @@ class BookingController extends Controller
                     'userId' => $userId
                 ]);
         }
-        
+
         Booking::create($booking);
-        return response()->json(['status' => 'sucess'],200);
-        
+        return response()->json(['status' => 'success'],200);
+
     }
 }
