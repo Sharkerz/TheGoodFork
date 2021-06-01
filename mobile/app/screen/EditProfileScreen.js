@@ -55,7 +55,8 @@ class EditProfileScreen extends Component {
                 this.setState({password: "", confirm_password: "", changePwd: false})
                 Toast.show({
                     text1: 'Succès',
-                    text2: "Modification bien prise en compte.👋"
+                    text2: "Modification bien prise en compte.👋",
+                    topOffset: 50,
                 });
             }
         })
@@ -131,13 +132,12 @@ const styles = StyleSheet.create({
     viewSave: {
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     submitBtn: {
         backgroundColor: '#fff',
         marginTop: 100,
         width: 300,
-        alignItems: 'center'
     },
     textTitle: {
         fontSize: 30,
