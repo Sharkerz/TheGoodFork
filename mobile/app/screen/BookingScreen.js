@@ -1,23 +1,13 @@
 import React, {useState} from 'react'
-import {
-    StyleSheet,
-    View,
-    Text,
-    Image,
-    SafeAreaView,
-    TouchableOpacity,
-    FlatList,
-    TouchableWithoutFeedback,
-    Keyboard,
-    ScrollView,
-    Platform
-} from 'react-native';
+import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity} from 'react-native';
 import { SERVER_IP } from '@env';
 import { TextInput } from 'react-native-paper'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import Button from '../components/Button';
 import InputSpinner from 'react-native-input-spinner';
+import BookingService from '../service/BookingService'
+import Toast from 'react-native-toast-message';
 LocaleConfig.locales['fr'] = {
     monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -37,7 +27,9 @@ class BookingScreen extends React.Component {
             shouldShow: false,
             hourShow: false,
             middayHoursShow: false,
+            hourlist : ['12:00','14:00','18:00','20:00']
         }
+        this.SetHour = this.SetHour.bind(this);
     }
     
     onDayPress = async(day) => {
@@ -49,18 +41,47 @@ class BookingScreen extends React.Component {
                                      selected: true,
                                      selectedColor: color}}
             this.setState({markedDates})
-            console.log(this.state.selectedDate)
             this.setState({shouldShow: true}) 
     }
 
     onMomentPressNight = () => {
         this.setState({nightHoursShow: true}) 
         this.setState({middayHoursShow: false}) 
+        this.setState({Service : 'Soir'})
     }
 
     onMomentPressMidday = () => {
         this.setState({middayHoursShow: true}) 
         this.setState({nightHoursShow: false}) 
+        this.setState({Service : 'Midi'})
+    }
+
+    SetHour = (hour) => {
+        this.setState({hour:hour})
+    }
+
+    setNbPersons = (num) => {
+        this.setState({NbPersons:num})
+    }
+
+    handleSubmit = async() =>{
+        var object = {date : this.state.selectedDate,Service : this.state.Service,userName : '',hour : this.state.hour,nbPersons : this.state.NbPersons}
+        await BookingService.create(object).then(async(res) =>{
+            if(res.status === 200){
+                Toast.show({
+                    text1: 'Succès',
+                    text2: "Votre Réservation a été prise en compte "
+                });
+            }else{
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                });
+            }
+           
+       })  
     }
 
     render(){
@@ -90,19 +111,19 @@ class BookingScreen extends React.Component {
                         
                     ) : null
                 }
-                                {
+                    {
                     this.state.shouldShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
-                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
-                                    mode="outlined"
+                            <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#ff0000' : '#ffffff'}]} 
                                     onPress={this.onMomentPressMidday}>
-                                Midi
-                            </Button>
-                            <Button style={{width: 130, marginLeft: 30}} color='#111219'
-                                    mode="outlined" 
+                                    <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#000000'}]}>Midi</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.nightHoursShow ? '#ff0000' : '#ffffff'}]} 
                                     onPress={this.onMomentPressNight}>
-                                Soir
-                            </Button>
+                                    <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#000000'}]}>Soir</Text>
+                            </TouchableOpacity>
                         </View>
                         
                     ) : null
@@ -118,14 +139,16 @@ class BookingScreen extends React.Component {
                 {
                     this.state.middayHoursShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
-                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
-                                    mode="outlined">
-                                12H
-                            </Button>
-                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
-                                    mode="outlined" >
-                                14H
-                            </Button>
+                             <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[0] ? '#ff0000' : '#ffffff'}]} 
+                                    onPress={(event) => this.SetHour(this.state.hourlist[0])}>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[0] ? '#ffffff' : '#000000'}]}>12H</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[1] ? '#ff0000' : '#ffffff'}]} 
+                                    onPress={(event) => this.SetHour(this.state.hourlist[1])}>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[1] ? '#ffffff' : '#000000'}]}>14H</Text>
+                            </TouchableOpacity>
                         </View>
                     ) : null
                 }
@@ -141,38 +164,44 @@ class BookingScreen extends React.Component {
                 {
                     this.state.nightHoursShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
-                            <Button style={{width: 130, marginRight: 30}}  color='#111219'
-                                    mode="outlined">
-                                18H
-                            </Button>
-                            <Button style={{width: 130, marginLeft: 30}}  color='#111219'
-                                    mode="outlined" >
-                                20H
-                            </Button>
+                             <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[2] ? '#ff0000' : '#ffffff'}]} 
+                                    onPress={(event) => this.SetHour(this.state.hourlist[2])}>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[2] ? '#ffffff' : '#000000'}]}>18H</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[3] ? '#ff0000' : '#ffffff'}]} 
+                                    onPress={(event) => this.SetHour(this.state.hourlist[3])}>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[3] ? '#ffffff' : '#000000'}]}>20H</Text>
+                            </TouchableOpacity>
                         </View>
                     ) : null
                 }
             </View>
-
+            {this.state.shouldShow  && this.state.Service && this.state.hour? (
             <Text style={{ textAlign: 'center', paddingTop: 10, fontSize: 16, fontWeight: '600', color: '#fff',marginBottom: '5%', marginTop: 20}}>Pour combien de personnes ?</Text>
+            ) : null}
             <View style={{marginLeft: 110, marginRight: 110, marginBottom: 25}}>
-                <InputSpinner
+                {this.state.shouldShow  && this.state.Service  && this.state.hour ? (<InputSpinner
                         max={15}
                         min={1}
                         step={1}
                         colorMax={"#fff"}
                         colorMin={"#fff"}
                         value={this.state.number}
-                        onChange={(num)=>{console.log(num)}}
+                        onChange={(num)=>{this.setNbPersons(num)}}
                         textColor={"#fff"}
                         fontSize={26}>
-                </InputSpinner>
+                </InputSpinner>) : null }
+                
             </View>
             <View style={{alignItems:'center', marginBottom: 100}}>
+            {this.state.shouldShow  && this.state.Service && this.state.hour ? (
                 <Button style={{width: 200}}  color='#111219'
-                    mode="outlined" >
+                    mode="outlined" onPress={this.handleSubmit} >
                         Réserver
                 </Button>
+            ) : null }
             </View>    
             </ScrollView>
             </TouchableWithoutFeedback>
@@ -212,6 +241,22 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#5A5B61',
         color: "#292A32"
+    },
+    Button:{
+       marginTop:10,
+       marginLeft:20,
+        paddingTop:10,
+        paddingBottom:10,
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff',
+        width:130,
+      },
+      TextButton:{
+        color:'#fff',
+        textAlign:'center',
+        paddingLeft : 10,
+        paddingRight : 10
     }
   })
 
