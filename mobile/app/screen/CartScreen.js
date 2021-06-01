@@ -8,7 +8,8 @@ import {
     SafeAreaView,
     TouchableOpacity,
     FlatList,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 import Button from '../components/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -50,7 +51,7 @@ class CartScreen extends React.Component {
       console.log(this.state.items)
         return(
             <View style={styles.container}>
-        <SafeAreaView>
+            <ScrollView>
             <Text style={styles.title}>Panier</Text>
             <View>
             <FlatList style={styles.data}
@@ -94,18 +95,18 @@ class CartScreen extends React.Component {
                       }
             />
             </View>
-            <View style={{alignItems:'center', top: '30%'}}>
+            <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" onPress={() => this.navigateFromList()}>
+                mode="outlined" >
                 Sur place
               </Button>
-              <Button color='#111219' style={styles.shippingButton}
-                      mode="outlined" onPress={() => this.logout()}>
+              <Button color='#111219' style={styles.pickupButton}
+                      mode="outlined" >
                 À emporter
               </Button>
             </View>
             
-        </SafeAreaView>
+          </ScrollView>
       </View>
         )
     }
@@ -118,11 +119,11 @@ const styles = StyleSheet.create({
       backgroundColor :'#111219'
     },
     title : {
-        marginTop: Platform.OS === 'ios' ? 13 : 40,
-        paddingLeft: 20,
-        fontSize: 30,
-        fontWeight: '600',
-        color: '#fff'
+      marginTop: Platform.OS === 'ios' ? 60 : 40,
+      paddingLeft: 20,
+      fontSize: 30,
+      fontWeight: '600',
+      color: '#fff'
     },
     item: {
       padding: 16,
@@ -159,10 +160,10 @@ const styles = StyleSheet.create({
       width: 250,
       marginBottom: 10
     },
-    editButton: {
+    pickupButton: {
       color: '#111219',
-      width: 150,
-      marginBottom: 10,
+      width: 250,
+      marginBottom: 100,
     },
   })
 
