@@ -17,7 +17,7 @@ class ProfileScreen extends Component {
     constructor() {
       super();
       this.state = {
-        name: "ahj",
+        name: "",
         email: ""
       }
     }
