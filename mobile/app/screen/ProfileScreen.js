@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
   },
   title : {
-    marginTop: Platform.OS === 'ios' ? 13 : 40,
+    marginTop: Platform.OS === 'ios' ? 60 : 40,
     paddingLeft: 20,
     fontSize: 30,
     fontWeight: '600',
