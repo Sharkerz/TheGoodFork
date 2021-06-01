@@ -6,7 +6,6 @@ import { Provider } from 'react-native-paper'
 import * as SecureStore from "expo-secure-store";
 const Stack = createStackNavigator()
 import { LogBox } from 'react-native';
-
 import Tabs from './app/naviguation/Tabs'
 import LoginScreen from './app/screen/LoginScreen'
 import RegistrationScreen from './app/screen/RegistrationScreen'

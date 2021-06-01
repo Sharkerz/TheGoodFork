@@ -6,7 +6,6 @@ export default function Background({ children }) {
     return (
     <View
         style={styles.background}>
-
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             {children}
         </KeyboardAvoidingView>
