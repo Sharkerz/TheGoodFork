@@ -48,6 +48,7 @@ class EditProfileScreen extends Component {
     submitChange = () => {
         Keyboard.dismiss()
         ProfileService.Edit(this.state.name, this.state.email, this.state.password, this.state.confirm_password).then((res) => {
+            console.log(res.data)
             if (res.data.status === "success") {
                 this.setState({name: res.data.user.name})
                 this.setState({email: res.data.user.email})
@@ -55,7 +56,15 @@ class EditProfileScreen extends Component {
                 this.setState({password: "", confirm_password: "", changePwd: false})
                 Toast.show({
                     text1: 'Succès',
-                    text2: "Modification bien prise en compte.👋"
+                    text2: "Modification bien prise en compte 🎉",
+                });
+            }
+            else {
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: res.data[Object.keys(res.data)[0]].toString(),
                 });
             }
         })

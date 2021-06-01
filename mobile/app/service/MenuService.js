@@ -9,7 +9,11 @@ class MenuService{
     getCategories = async () => {
         const token = await SecureStore.getItemAsync('secure_token')
         const config = {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: {
+                Authorization: `Bearer ${token}` ,
+                'Content-Language': 'fr'
+            }
+
         }
         return await axios.get(SERVER_IP + '/api/getCategories', config)
         .then(async (response) => {

@@ -26,10 +26,6 @@ export default function WelcomeScreen( {navigation}) {
               mode="outlined" onPress={() => navigation.navigate('RegistrationScreen')}>
               Sign Up
             </Button>
-            <Button color='#111219' style={styles.textRegister}
-              mode="outlined" onPress={() => navigation.navigate('HomeScreen')}>
-              Home
-            </Button>
 
         </View>
 
