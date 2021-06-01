@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Keyboard, Alert} from 'react-native';
+import {StyleSheet, View, Text, Keyboard} from 'react-native';
 import Button from '../components/Button'
 import {TextInput} from "react-native-paper";
 import BackButton from "../components/BackButton";
@@ -8,6 +8,7 @@ import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
 import { CheckBox } from 'react-native-elements'
 import ProfileService from "../service/ProfileService";
+import Toast from 'react-native-simple-toast';
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -52,7 +53,7 @@ class EditProfileScreen extends Component {
                 this.setState({email: res.data.user.email})
                 SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 this.setState({password: "", confirm_password: "", changePwd: false})
-                Alert("Modification bien prise en compte")
+                Toast.show("Modification bien prise en compte.");
             }
         })
     }
@@ -128,7 +129,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -30
     },
     submitBtn: {
         backgroundColor: '#fff',
