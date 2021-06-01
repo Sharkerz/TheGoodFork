@@ -21,6 +21,7 @@ return [
     'btn_back' => 'Retour',
     'success_alert' => 'Le compte a bien été modifié !',
     'barman' => 'barman',
-    'cook' => 'cuisinier'
+    'cook' => 'cuisinier',
+    'waiters' => 'serveur'
 
 ];

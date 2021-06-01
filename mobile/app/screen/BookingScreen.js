@@ -28,7 +28,7 @@ LocaleConfig.locales['fr'] = {
   LocaleConfig.defaultLocale = 'fr';
 
 
-class ReservationScreen extends React.Component {
+class BookingScreen extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -215,4 +215,4 @@ const styles = StyleSheet.create({
     }
   })
 
-export default ReservationScreen;
+export default BookingScreen;

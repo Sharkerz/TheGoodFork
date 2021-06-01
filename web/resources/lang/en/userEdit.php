@@ -21,7 +21,8 @@ return [
     'btn_back' => 'back',
     'success_alert' => 'Success',
     'barman' => 'barman',
-    'cook' => 'cook'
+    'cook' => 'cook',
+    'waiters' => 'waiters'
 
 
 ];
