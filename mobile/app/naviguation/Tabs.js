@@ -39,7 +39,7 @@ const Tabs = () => {
                     </View>
                 )
             }} />
-            <Tab.Screen name="Reservation" component={ContactStackNavigator} options={{
+            <Tab.Screen name="Booking" component={ContactStackNavigator} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                         <Image 

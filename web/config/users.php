@@ -6,7 +6,8 @@ return [
         'admin',
         'customer',
         'barman',
-        'cook'
+        'cook',
+        'waiters'
     ]
 
 ];

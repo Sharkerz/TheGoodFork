@@ -6,7 +6,7 @@ import ProfileScreen from "../screen/ProfileScreen";
 import RegistrationScreen from "../screen/RegistrationScreen";
 import LoginScreen from "../screen/LoginScreen";
 import DetailScreen from "../screen/DetailsScreen";
-import ReservationScreen from "../screen/ReservationScreen";
+import BookingScreen from "../screen/BookingScreen";
 import CartScreen from "../screen/CartScreen"
 import EditProfileScreen from "../screen/EditProfileScreen";
 const Stack = createStackNavigator();
@@ -15,10 +15,9 @@ const MainStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="homeScreen" component={HomeScreen} />
-      {/* <Stack.Screen name="ReservationScreen" component={ReservationScreen} /> */}
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="DetailScreen" component={DetailScreen} />
-      <Stack.Screen name="Reservation" component={ReservationScreen} />
+      <Stack.Screen name="Booking" component={BookingScreen} />
     </Stack.Navigator>
   );
 };
@@ -26,7 +25,7 @@ const MainStackNavigator = () => {
 const ContactStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Reservation" component={ReservationScreen} />
+      <Stack.Screen name="Booking" component={BookingScreen} />
     </Stack.Navigator>
   );
 };
