@@ -77,6 +77,7 @@ class App extends React.Component {
 /* Ignore warnings */
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
+    'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.'
 ]);
 
 export default App;

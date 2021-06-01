@@ -140,13 +140,12 @@ const styles = StyleSheet.create({
     viewSave: {
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     submitBtn: {
         backgroundColor: '#fff',
         marginTop: 100,
         width: 300,
-        alignItems: 'center'
     },
     textTitle: {
         fontSize: 30,
