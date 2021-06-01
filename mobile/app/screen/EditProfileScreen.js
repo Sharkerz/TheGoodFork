@@ -8,7 +8,7 @@ import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
 import { CheckBox } from 'react-native-elements'
 import ProfileService from "../service/ProfileService";
-import Toast from 'react-native-simple-toast';
+import Toast from 'react-native-toast-message';
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -53,7 +53,10 @@ class EditProfileScreen extends Component {
                 this.setState({email: res.data.user.email})
                 SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 this.setState({password: "", confirm_password: "", changePwd: false})
-                Toast.show("Modification bien prise en compte.");
+                Toast.show({
+                    text1: 'Succès',
+                    text2: "Modification bien prise en compte.👋"
+                });
             }
         })
     }

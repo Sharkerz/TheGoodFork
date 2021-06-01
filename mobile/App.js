@@ -12,6 +12,7 @@ import LoginScreen from './app/screen/LoginScreen'
 import RegistrationScreen from './app/screen/RegistrationScreen'
 import WelcomeScreen from './app/screen/WelcomeScreen'
 import {StatusBar} from "react-native";
+import Toast from 'react-native-toast-message';
 
 // Status bar text color
 StatusBar.setBarStyle('light-content');
@@ -68,7 +69,7 @@ class App extends React.Component {
                 <Tabs/>
                 </NavigationContainer>
             )}
-           
+            <Toast ref={(ref) => Toast.setRef(ref)} />
         </Provider>
     );
     }
