@@ -27,9 +27,9 @@ class LoginScreen extends React.Component{
                 await SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 const token = await SecureStore.getItemAsync('secure_token')
                 const user = JSON.parse(await SecureStore.getItemAsync('user'))
-                this.props.route.params.auth(true)
-                console.log(user['role'])
                 this.props.route.params.user(user)
+                this.props.route.params.auth(true)
+                
             }else{
                 Toast.show({
                     type: 'error',

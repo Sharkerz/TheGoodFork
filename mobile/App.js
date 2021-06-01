@@ -32,9 +32,9 @@ class App extends React.Component {
     getAuthStatus = async () => {
         const token = await SecureStore.getItemAsync('secure_token')
         if (token !== null) {
-            this.setState({auth: true})
             user = await SecureStore.getItemAsync('user')
             this.setState({user: JSON.parse(user)})
+            this.setState({auth: true})   
         }
         else {
             this.setState({auth: false})
@@ -50,22 +50,19 @@ class App extends React.Component {
     }
 
     render() { 
-        if(this.state.user){
-            console.log(this.state.user['role'])
-        }
     return (
         <Provider theme={theme}>
-            {!this.state.auth ? (
+            {this.state.auth ? (
+                <NavigationContainer>
+                <Tabs user={this.state.user}/>
+                </NavigationContainer>
+            ) : (
                 <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                     <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus,user: this.setUserRole}} component={LoginScreen} />
                     <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
                 </Stack.Navigator>
-                </NavigationContainer>
-            ) : (
-                <NavigationContainer>
-                <Tabs/>
                 </NavigationContainer>
             )}
             <Toast ref={(ref) => Toast.setRef(ref)} />
