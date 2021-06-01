@@ -117,12 +117,12 @@ class BookingScreen extends React.Component {
                             <TouchableOpacity
                                     style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
                                     onPress={this.onMomentPressMidday}>
-                                    <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>Midi</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>MIDI</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                     style={[styles.Button,{backgroundColor: this.state.nightHoursShow ? '#111219' : '#ffffff'}]} 
                                     onPress={this.onMomentPressNight}>
-                                    <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#111219'}]}>Soir</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#111219'}]}>SOIR</Text>
                             </TouchableOpacity>
                         </View>
                         
@@ -245,18 +245,21 @@ const styles = StyleSheet.create({
     Button:{
        marginTop:10,
        marginLeft:20,
-        paddingTop:10,
-        paddingBottom:10,
         borderRadius:10,
         borderWidth: 1,
         borderColor: '#fff',
         width:130,
+        height: 60,
+        justifyContent:'center'
       },
       TextButton:{
         color:'#fff',
         textAlign:'center',
         paddingLeft : 10,
-        paddingRight : 10
+        paddingRight : 10,
+        fontWeight: 'bold',
+        fontSize: 15,
+        lineHeight: 26
     }
   })
 

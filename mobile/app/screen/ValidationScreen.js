@@ -9,8 +9,9 @@ import {
     TouchableOpacity,
     FlatList,
     Platform,
-    ScrollView
+    ScrollView,
 } from 'react-native';
+import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -54,28 +55,28 @@ class ValidationScreen extends React.Component {
             <View style={styles.container}>
             <SafeAreaView>
             <BackButton goBack={this.props.navigation.goBack}/>
-            <View style={{alignItems:'center', marginTop: 100}}>
-              <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" >
-                Sur place
-              </Button>
-              <Button color='#111219' style={styles.pickupButton}
-                      mode="outlined" >
-                À emporter
-              </Button>
-            </View>
-            <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
+            <View style={{alignItems: 'center', marginTop: 100}}>
+                <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textLogin} label="Remarque (allergies, suppléments, ect...)"
+                       mode="flat" onChangeText={this.emailHandler}>
+                </TextInput>
                 <TouchableOpacity
                         style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
                         onPress={this.onMomentPressMidday}>
-                        <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>Midi</Text>
+                        <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>SUR PLACE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                        style={[styles.Button,{backgroundColor: this.state.nightHoursShow ? '#111219' : '#ffffff'}]} 
-                        onPress={this.onMomentPressNight}>
-                        <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#111219'}]}>Soir</Text>
+                        style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
+                        onPress={this.onMomentPressMidday}>
+                        <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
             </View>
+            <View style={{alignItems: 'center', marginTop: 150}}>
+                <Button style={{width: 350}}  color='#111219'
+                    mode="outlined" onPress={this.handleSubmit} >
+                        Valider la commande
+                </Button> 
+            </View>
+
           </SafeAreaView>
       </View>
         )
@@ -137,20 +138,37 @@ const styles = StyleSheet.create({
     },
     Button:{
         marginTop:10,
-        marginLeft:20,
-         paddingTop:10,
-         paddingBottom:10,
-         borderRadius:10,
-         borderWidth: 1,
-         borderColor: '#fff',
-         width:130,
+        marginVertical: 10,
+        paddingVertical: 10,
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff',
+        width:250,
+        height: 65,
+        justifyContent: 'center'
        },
-       TextButton:{
-         color:'#fff',
-         textAlign:'center',
-         paddingLeft : 10,
-         paddingRight : 10
-     }
+    TextButton:{
+        color:'#fff',
+        textAlign:'center',
+        paddingLeft : 10,
+        paddingRight : 10,
+        fontWeight: 'bold',
+        fontSize: 15,
+        lineHeight: 26
+     },
+     textLogin: {
+        width: 350,
+        backgroundColor: "#1B1C23",
+        borderRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        borderWidth: 2,
+        borderColor: '#5A5B61',
+        color: "#292A32",
+        marginBottom: 30,
+        paddingBottom: 20
+    },
+    
   })
 
 export default ValidationScreen;
