@@ -9,6 +9,7 @@ import DetailScreen from "../screen/DetailsScreen";
 import BookingScreen from "../screen/BookingScreen";
 import CartScreen from "../screen/CartScreen"
 import EditProfileScreen from "../screen/EditProfileScreen";
+import ValidationScreen from "../screen/ValidationScreen";
 const Stack = createStackNavigator();
 
 const MainStackNavigator = () => {
@@ -43,6 +44,7 @@ const CartStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="Validation" component={ValidationScreen} />
     </Stack.Navigator>
   );
 };

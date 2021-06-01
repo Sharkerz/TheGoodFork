@@ -21,7 +21,9 @@ class LoginScreen extends React.Component{
 
     handleSubmit = async() =>{
         Keyboard.dismiss()
+        console.log("test");
         await AuthService.Login(this.state.email,this.state.password).then(async(res) =>{
+            console.log(res);
             if(res.status === 200){
                 await SecureStore.setItemAsync('secure_token',res.data.access_token)
                 await SecureStore.setItemAsync('user',JSON.stringify(res.data.user))

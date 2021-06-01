@@ -97,12 +97,8 @@ class CartScreen extends React.Component {
             </View>
             <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" >
-                Sur place
-              </Button>
-              <Button color='#111219' style={styles.pickupButton}
-                      mode="outlined" >
-                À emporter
+                mode="outlined" onPress={() => this.props.navigation.navigate('Validation')}>
+                Commandez
               </Button>
             </View>
             
@@ -158,12 +154,7 @@ const styles = StyleSheet.create({
     shippingButton: {
       color: '#111219',
       width: 250,
-      marginBottom: 10
-    },
-    pickupButton: {
-      color: '#111219',
-      width: 250,
-      marginBottom: 100,
+      marginBottom: 150
     },
   })
 

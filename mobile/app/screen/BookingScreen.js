@@ -115,14 +115,14 @@ class BookingScreen extends React.Component {
                     this.state.shouldShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
                             <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
                                     onPress={this.onMomentPressMidday}>
-                                    <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#000000'}]}>Midi</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>Midi</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.nightHoursShow ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.nightHoursShow ? '#111219' : '#ffffff'}]} 
                                     onPress={this.onMomentPressNight}>
-                                    <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#000000'}]}>Soir</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.nightHoursShow ? '#ffffff' : '#111219'}]}>Soir</Text>
                             </TouchableOpacity>
                         </View>
                         
@@ -140,14 +140,14 @@ class BookingScreen extends React.Component {
                     this.state.middayHoursShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
                              <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[0] ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[0] ? '#111219' : '#ffffff'}]} 
                                     onPress={(event) => this.SetHour(this.state.hourlist[0])}>
-                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[0] ? '#ffffff' : '#000000'}]}>12H</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[0] ? '#ffffff' : '#111219'}]}>12H</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[1] ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[1] ? '#111219' : '#ffffff'}]} 
                                     onPress={(event) => this.SetHour(this.state.hourlist[1])}>
-                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[1] ? '#ffffff' : '#000000'}]}>14H</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[1] ? '#ffffff' : '#111219'}]}>14H</Text>
                             </TouchableOpacity>
                         </View>
                     ) : null
