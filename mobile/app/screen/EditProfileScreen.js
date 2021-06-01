@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Keyboard, Platform, ToastAndroid} from 'react-native';
+import {StyleSheet, View, Text, Keyboard, Alert} from 'react-native';
 import Button from '../components/Button'
 import {TextInput} from "react-native-paper";
 import BackButton from "../components/BackButton";
@@ -8,7 +8,6 @@ import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
 import { CheckBox } from 'react-native-elements'
 import ProfileService from "../service/ProfileService";
-import * as AlertIOS from "react-native";
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -53,11 +52,7 @@ class EditProfileScreen extends Component {
                 this.setState({email: res.data.user.email})
                 SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 this.setState({password: "", confirm_password: "", changePwd: false})
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show("Modification bien prise en compte", ToastAndroid.SHORT)
-                } else {
-                    AlertIOS.alert("Modification bien prise en compte");
-                }
+                Alert("Modification bien prise en compte")
             }
         })
     }
