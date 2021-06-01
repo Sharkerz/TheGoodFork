@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'
-import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native'
+import {View, Text, StyleSheet, ImageBackground, Image, Keyboard} from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Background from '../components/Background'
 import Button from '../components/Button'
@@ -19,6 +19,7 @@ class RegistrationScreen  extends Component{
     }
 
     handleSubmit = async() =>{
+        Keyboard.dismiss()
          await AuthService.Register(this.state.email,this.state.name,this.state.password).then(res =>{
              if(res.status === 201){
                 this.props.navigation.navigate('LoginScreen')

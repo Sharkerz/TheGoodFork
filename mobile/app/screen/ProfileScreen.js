@@ -14,41 +14,56 @@ import Button from '../components/Button'
 import * as SecureStore from "expo-secure-store";
 
 class ProfileScreen extends Component {
+    constructor() {
+      super();
+      this.state = {
+        name: "ahj",
+        email: ""
+      }
+    }
+
+  async componentDidMount() {
+    await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+      this.setState({name: res.name})
+      this.setState({email: res.email})
+    }).then(() => {
+      // this.list[0].push('val')
+      // console.log(this.list)
+    })
+  }
+
   logout = () => {
     SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
     SecureStore.deleteItemAsync('cartSaved').then(r => console.log('deleted cart'))
     DevSettings.reload();
   }
 
-  navigateFromList = () => {
-    this.props.navigation.navigate('editProfile')
-  }
 
   list = [
     {
+      key: 'Pseudo',
+      val: ''
+    },
+    {
+      key: 'Email',
+      val: '',
+    },
+    {
       key: '🎟️ Points de fidelité',
       val: '45',
-      navigable: false
     },
     {
       key: '🍽️ Visites',
       val: '6',
-      navigable: false
     },
     {
       key: '🍕 Nourriture',
       val: '8',
-      navigable: false
     },
     {
       key: '🍺 Boissons',
       val: '22',
-      navigable: false
     },
-    // {
-    //   key: 'Editer mon profil',
-    //   navigable: true
-    // }
   ]
 
   render() {
@@ -58,28 +73,25 @@ class ProfileScreen extends Component {
           <FlatList style={styles.list}
                     data={this.list}
                     renderItem={({item}) =>
-                    {
-                      if (item.navigable) {
-                        return <TouchableOpacity onPress={() => this.navigateFromList(item.title)} style={styles.item}>
-                          <Text style={styles.textRowList}>{item.key}</Text>
-                        </TouchableOpacity>
-                      }
-                      else {
+                      {
                         return <TouchableOpacity style={styles.item}>
                           <View style={styles.leftViewItem}>
                             <Text style={styles.textRowList}>{item.key}</Text>
                           </View>
                           <View style={styles.rightViewItem}>
-                            <Text style={styles.textRowList}>{item.val}</Text>
+                            {item.key === "Pseudo"
+                                ? <Text style={styles.textRowList}>{this.state.name}</Text>
+                                : item.key === "Email" ? <Text style={styles.textRowList}>{this.state.email}</Text>
+                                : <Text style={styles.textRowList}>{item.val}</Text>
+                            }
                           </View>
                         </TouchableOpacity>
                       }
                     }
-                    }
           />
           <View style={{alignItems:'center'}}>
             <Button color='#111219' style={styles.editButton}
-              mode="outlined" onPress={() => this.navigateFromList()}>
+              mode="outlined" onPress={() => this.props.navigation.navigate('editProfile')}>
               Editer mon profil
             </Button>
             <Button color='#111219' style={styles.disconnectButton}

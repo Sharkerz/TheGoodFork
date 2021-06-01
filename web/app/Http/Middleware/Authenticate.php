@@ -20,7 +20,9 @@ class Authenticate extends Middleware
         }
         // API guard
         else {
-            abort(response()->json('Erreur lors de l\'authentification', 403));
+            abort(response()->json([
+                'error' => 'Erreur lors de l\'authentification'
+            ], 403));
         }
 
     }

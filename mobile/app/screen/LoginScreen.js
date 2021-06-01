@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet} from 'react-native'
+import {Keyboard, StyleSheet} from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Background from '../components/Background'
 import Button from '../components/Button'
@@ -20,6 +20,7 @@ class LoginScreen extends React.Component{
 
 
     handleSubmit = async() =>{
+        Keyboard.dismiss()
         await AuthService.Login(this.state.email,this.state.password).then(async(res) =>{
             if(res.status === 200){
                 await SecureStore.setItemAsync('secure_token',res.data.access_token)
