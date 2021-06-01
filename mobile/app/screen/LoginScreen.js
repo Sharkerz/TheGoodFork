@@ -1,14 +1,13 @@
-import React, {useState, useEffect, Component} from 'react'
-import {View, Text, StyleSheet, ImageBackground, Image, DevSettings} from 'react-native'
+import React from 'react'
+import {StyleSheet} from 'react-native'
 import { TextInput } from 'react-native-paper'
 import Background from '../components/Background'
 import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
-import axios from 'axios'
-import { SERVER_IP } from '@env';
 import * as SecureStore from "expo-secure-store"
 import AuthService from '../service/AuthService'
+import Toast from "react-native-toast-message";
 
 class LoginScreen extends React.Component{
     constructor() {
@@ -31,8 +30,12 @@ class LoginScreen extends React.Component{
                 console.log(user['role'])
                 this.props.route.params.user(user)
             }else{
-                console.log(res.data)
-                this.setState({errorMessage : res.data})
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                });
             }
            
        })  

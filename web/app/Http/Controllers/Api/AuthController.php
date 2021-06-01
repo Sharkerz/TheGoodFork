@@ -25,7 +25,7 @@ class AuthController extends Controller
         ]);
         if($validator->fails()) {
             return response()->json(
-                $validator->errors()->toJson(), 400
+                $validator->errors()->jsonSerialize(), 400
             );
         }
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         if(! $token = auth('api')->attempt($validator->validated())) {
             return Response()->json([
-                'error' => 'Unauthorized'
+                'error' => 'Erreur lors de l\'authentification'
             ], 401);
         }
         return $this->createNewToken($token);
@@ -96,7 +96,7 @@ class AuthController extends Controller
             ]);
         if($validator->fails()) {
             return response()->json(
-                $validator->errors()->toJson(), 400
+                $validator->errors()->jsonSerialize(), 400
             );
         }
 

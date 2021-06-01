@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 import BackButton from '../components/BackButton'
 import AuthService from '../service/AuthService';
+import Toast from "react-native-toast-message";
 
 class RegistrationScreen  extends Component{
     constructor() {
@@ -22,7 +23,12 @@ class RegistrationScreen  extends Component{
              if(res.status === 201){
                 this.props.navigation.navigate('LoginScreen')
              }else{
-                 this.setState({errorMessage : res.data})
+                 Toast.show({
+                     type: 'error',
+                     visibilityTime: 6000,
+                     text1: 'Erreur',
+                     text2: res.data[Object.keys(res.data)[0]].toString(),
+                 });
              }
             
         })  
@@ -98,10 +104,6 @@ const styles = StyleSheet.create({
     logoContainer: {
         width: 200,
         position: 'absolute',
-        alignItems: 'center'
-    },
-    container: {
-        flex: 1,
         alignItems: 'center'
     },
     header: {
