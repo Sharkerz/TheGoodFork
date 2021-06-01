@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {ImageBackground, StyleSheet, View, Text, Image, DevSettings, FlatList, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Keyboard, Platform, ToastAndroid} from 'react-native';
 import Button from '../components/Button'
 import {TextInput} from "react-native-paper";
-import AuthService from "../service/AuthService";
 import BackButton from "../components/BackButton";
 import Paragraph from "../components/Paragraph";
 import Background from '../components/Background'
 import * as SecureStore from "expo-secure-store";
 import { CheckBox } from 'react-native-elements'
+import ProfileService from "../service/ProfileService";
+import * as AlertIOS from "react-native";
 
 class EditProfileScreen extends Component {
     constructor() {
@@ -45,9 +46,20 @@ class EditProfileScreen extends Component {
     }
 
     submitChange = () => {
-        console.log(this.state.name)
-        console.log(this.state.email)
-        console.log(this.state.changePwd)
+        Keyboard.dismiss()
+        ProfileService.Edit(this.state.name, this.state.email, this.state.password, this.state.confirm_password).then((res) => {
+            if (res.data.status === "success") {
+                this.setState({name: res.data.user.name})
+                this.setState({email: res.data.user.email})
+                SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
+                this.setState({password: "", confirm_password: "", changePwd: false})
+                if (Platform.OS === 'android') {
+                    ToastAndroid.show("Modification bien prise en compte", ToastAndroid.SHORT)
+                } else {
+                    AlertIOS.alert("Modification bien prise en compte");
+                }
+            }
+        })
     }
 
   render() {
@@ -72,16 +84,15 @@ class EditProfileScreen extends Component {
                     title={<Text style={{color: 'white'}} >Modifier le mot de passe</Text>}
                     containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                 />
-                {/*<Text style={styles.labelCheckBox}> Modifier le mot de passe</Text>*/}
             </View>
 
             {this.state.changePwd ? (
                 <View style={{alignItems:'center'}}>
                     <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.input} label="mot de passe"
-                               mode="flat" onChangeText={this.passwordHandler} value={this.state.password}>
+                               mode="flat" onChangeText={this.passwordHandler} value={this.state.password} secureTextEntry={true}>
                     </TextInput>
                     <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.input} label="confirmation"
-                               mode="flat" onChangeText={this.passwordConfirmationHandler}  value={this.state.confirm_password}>
+                               mode="flat" onChangeText={this.passwordConfirmationHandler}  value={this.state.confirm_password} secureTextEntry={true}>
                     </TextInput>
                 </View>
             ) : null}
