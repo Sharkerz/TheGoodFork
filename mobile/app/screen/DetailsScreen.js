@@ -53,12 +53,13 @@ class DetailScreen extends React.Component {
     render(){
         const item = this.props.route.params.item;
         return(
-            
             <View style={styles.container}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <ScrollView>
-                        <BackButton goBack={this.props.navigation.goBack}/>
+                        <View style={styles.backBtn}>
+                            <BackButton goBack={this.props.navigation.goBack}/>
+                        </View>
                             <Image
                                 source={{ uri: SERVER_IP + '/Images/MenuItem/'+item.image }}
                                 resizeMode="cover"
@@ -110,6 +111,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#5A5B61',
         color: "#292A32"
+    },
+    backBtn: {
+        position: 'absolute'
     }
   })
 
