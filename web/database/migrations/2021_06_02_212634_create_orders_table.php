@@ -15,14 +15,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->integer('N°Commande');
-            $table->integer('N°Reservation')->nullable();
-            $table->float('Prix_Totale');
+            $table->integer('numOrder');
+            $table->integer('numBooking')->nullable();
+            $table->float('prixTotal');
             $table->integer('userId');
             $table->boolean('onSite')->default(0);
             $table->dateTime('hour')->nullable();
-            $table->boolean('ready')->default(0);
+            $table->boolean('ready')->default(0);$table->boolean('validated')->default(0);
+            $table->longText('comment')->nullable();
+		    $table->timestamps();
         });
     }
 

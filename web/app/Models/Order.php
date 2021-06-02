@@ -10,6 +10,6 @@ class Order extends Model
 
     protected $fillable = 
         [
-            'N°Commande','N°Reservation','Prix_Totale','userId','onSite','hour','ready','comment','validated'
+            'numOrder','numBooking','prixTotal','userId','onSite','hour','ready','comment','validated'
         ];
 }

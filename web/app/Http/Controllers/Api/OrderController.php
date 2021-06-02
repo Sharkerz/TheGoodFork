@@ -21,7 +21,7 @@ class OrderController extends Controller
         $user = User::find($userId);
         $orderDetails =  $request['Value'];
 
-        $NCommande = Order::pluck('N°Commande')->last();
+        $NCommande = Order::pluck('numOrder')->last();
         if ($NCommande == null){
             $NCommande =1;
         }else{
@@ -29,10 +29,10 @@ class OrderController extends Controller
         }
         $validator = Validator::make($request->all(),
         [
-            'N°Reservation' => 'nullable|int',
+            'numOrder' => 'nullable|int',
             'onSite' => 'required|boolean',
             'hour' => 'nullable|date_format:Y-m-d H:i',
-            'Prix_Totale' => 'nullable|numeric|between:0,499.99',
+            'prixTotal' => 'nullable|numeric|between:0,499.99',
             'comment' => 'nullable|string'
         ]);
         if($validator->fails()) {
@@ -44,7 +44,7 @@ class OrderController extends Controller
         $order = Order::create(array_merge(
             $validator->validated(),
             [
-                'N°Commande' => $NCommande,
+                'numOrder' => $NCommande,
                 'ready' => false,
                 'userId' => $userId
             ]
@@ -53,7 +53,8 @@ class OrderController extends Controller
             $role = menu_category::where('id',$item['category_id'])->first();
             $menu_item = menu_item ::where('id', $item['id'])->first(); 
             $stock =(int) $menu_item->stock;
-            if ($item['quantité'] > $stock){
+            if ($item['quantity'] > $stock){
+                OrderDetails::where('order_id','=',$order->id)->delete();
                 Order::find($order->id)->delete();
                 return Response()->json([
                     'error' => 'Il reste uniquement '.$stock . ' ' . $item['name'] . ' dans le stock'
@@ -62,12 +63,12 @@ class OrderController extends Controller
                 OrderDetails::create([
                     'order_id' => $order->id,
                     'name' => $item['name'],
-                    'quantité' => $item['quantité'],
+                    'quantity' => $item['quantity'],
                     'ready' => 0,
                     'image' =>$item['image'],
                     'role' => $role->role
                 ]);
-                menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantité']]);
+                menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
 

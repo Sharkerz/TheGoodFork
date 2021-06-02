@@ -41,7 +41,7 @@ class ValidationScreen extends React.Component {
       var cost = 0.00
       this.setState({items : cartParsed})
       cartParsed.forEach(element => {
-        cost += element.quantité  //j'utilise la quantité pour le cost pasque t'as pas stocké le cost dans les items et je sais plus où c'est
+        cost += parseFloat(element.price)  
       })
       this.setState({cost : cost})
       console.log(this.state.cost)
@@ -77,10 +77,10 @@ class ValidationScreen extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     }
     await axios.post(SERVER_IP + '/api/createOrder', { 
-      //N°Reservation: resNumber,     stp change ce nom mdr
+      numOrder: resNumber,    
       onSite: onSite,
       hour: time,
-      Prix_Totale: cost,
+      prixTotal: cost,
       Value: items,
       comment: comment
     }, config)

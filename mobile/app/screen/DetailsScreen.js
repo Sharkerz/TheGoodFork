@@ -24,18 +24,18 @@ class DetailScreen extends React.Component {
         constructor(){
             super();
             this.state = {
-                quantité : 1
+                quantity : 1
             }
         }
         addToCart = async(item) =>{
             const cart = await AsyncStorage.getItem('cartSaved')
-            const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantité : this.state.quantité}
+            const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantity : this.state.quantity,price: item.price.toFixed(2)}
             if(cart) {
                 const newCart = JSON.parse(cart)
                 const exists = newCart.some(v => (v.id === test.id));
                 if(exists){
                     const objIndex = newCart.findIndex((obj => obj.id == test.id));
-                    newCart[objIndex].quantité = parseInt(newCart[objIndex].quantité) + parseInt(this.state.quantité)
+                    newCart[objIndex].quantity = parseInt(newCart[objIndex].quantity) + parseInt(this.state.quantity)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
                 }else{
                     newCart.push(test)
@@ -47,7 +47,7 @@ class DetailScreen extends React.Component {
         }
 
     quantityHandler = (text) => {
-        this.setState({quantité: text})
+        this.setState({quantity: text})
     }
 
     render(){

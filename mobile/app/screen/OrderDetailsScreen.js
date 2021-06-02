@@ -68,7 +68,7 @@ class OrdersDetailsScreen extends React.Component {
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commande :{item['N°Commande']}</Text>
+                <Text style={styles.title}>Commande :{item['numOrder']}</Text>
                 <View>
                 <FlatList style={styles.data}
                           data={this.state.orderDetails}
@@ -76,7 +76,6 @@ class OrdersDetailsScreen extends React.Component {
                           renderItem={({item}) => 
                           
                           <TouchableOpacity style={styles.item}>
-                            {/* <Text style={{'color': 'white'}}>{item.name + " quantité : " + item.quantité.toString()}</Text> */}
                               <View style={styles.leftViewItem} flexDirection='row'>
                                 <Image
                                   source={{ uri: SERVER_IP + '/Images/MenuItem/'+ item.image }}
@@ -88,7 +87,7 @@ class OrdersDetailsScreen extends React.Component {
                                 <Text style={styles.textRowListTitle}>{item.name}</Text>
                               </View>
                               <View style={styles.rightViewItem} flexDirection='row'>
-                                <Text style={styles.textRowList}>{item.quantité}</Text>
+                                <Text style={styles.textRowList}>{item.quantity}</Text>
                               </View>
                           </TouchableOpacity>
                           }

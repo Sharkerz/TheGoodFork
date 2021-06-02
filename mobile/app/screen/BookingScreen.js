@@ -65,7 +65,7 @@ class BookingScreen extends React.Component {
     }
 
     handleSubmit = async() =>{
-        var object = {date : this.state.selectedDate,Service : this.state.Service,userName : '',hour : this.state.hour,nbPersons : this.state.NbPersons}
+        var object = {date : this.state.selectedDate,service : this.state.Service,userName : '',hour : this.state.hour,nbPersons : this.state.NbPersons}
         await BookingService.create(object).then(async(res) =>{
             if(res.status === 200){
                 Toast.show({

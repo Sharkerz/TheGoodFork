@@ -9,7 +9,7 @@ class Booking extends Model
 {
     protected $fillable = 
         [
-            'tableId','userId','userName','date','hour','Service','nbPersons'
+            'tableId','userId','userName','date','hour','service','nbPersons'
         ];
 
     public function Tables()

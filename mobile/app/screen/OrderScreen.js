@@ -61,7 +61,7 @@ class OrderScreen extends React.Component {
                           }
                           )}>
                               <View style={styles.leftViewItem} flexDirection='row'>
-                                <Text style={styles.textRowListTitle}>Commande {item['N°Commande']}</Text>
+                                <Text style={styles.textRowListTitle}>Commande {item['numOrder']}</Text>
                               </View>
                           </TouchableOpacity>
                           }
