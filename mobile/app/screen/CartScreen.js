@@ -34,6 +34,17 @@ class CartScreen extends React.Component {
     })
   }
 
+  saveQuantity = async(id,num) =>{
+    const items = this.state.items
+    const objIndex = items.findIndex((obj => obj.id == id))
+    items[objIndex].quantité = num
+    if(items[objIndex].quantité == 0){
+      items.splice(objIndex,1)
+    }
+    this.setState({items : items})
+    await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
+  }
+
 
   componentDidMount(){
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -47,8 +58,6 @@ class CartScreen extends React.Component {
 
      render(){
       const isFocused = this.props;
-
-      console.log(this.state.items)
         return(
             <View style={styles.container}>
             <ScrollView>
@@ -79,7 +88,7 @@ class CartScreen extends React.Component {
                                       colorMax={"#fff"}
                                       colorMin={"#fff"}
                                       value={item.quantité}
-                                      onChange={this.quantityHandler}
+                                      onChange={(num)=>{this.saveQuantity(item.id,num)}}
                                       textColor={"#fff"}
                                       buttonPressTextColor={'#fff'}
                                       buttonTextColor={'#111219'}
@@ -89,7 +98,6 @@ class CartScreen extends React.Component {
                                       height={40}
                                       width={120}>
                               </InputSpinner>
-                            {/* <Text style={styles.textRowList}>{item.quantité.toString()}</Text> */}
                           </View>
                       </TouchableOpacity>
                       }
@@ -97,12 +105,8 @@ class CartScreen extends React.Component {
             </View>
             <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" >
-                Sur place
-              </Button>
-              <Button color='#111219' style={styles.pickupButton}
-                      mode="outlined" >
-                À emporter
+                mode="outlined" onPress={() => this.props.navigation.navigate('Validation')}>
+                Commandez
               </Button>
             </View>
             
@@ -158,12 +162,7 @@ const styles = StyleSheet.create({
     shippingButton: {
       color: '#111219',
       width: 250,
-      marginBottom: 10
-    },
-    pickupButton: {
-      color: '#111219',
-      width: 250,
-      marginBottom: 100,
+      marginBottom: 150
     },
   })
 
