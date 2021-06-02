@@ -29,7 +29,7 @@ const Tabs = ({ user }) => {
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
-                                source={require('../assets/houseIcon.png')}
+                                source={require('../assets/List.png')}
                                 resizeMode='contain'
                                 style={{
                                     width: 60,
