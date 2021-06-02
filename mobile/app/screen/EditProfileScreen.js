@@ -51,7 +51,6 @@ class EditProfileScreen extends Component {
             this.setState({password: "", confirm_password: ""})
         }
         ProfileService.Edit(this.state.name, this.state.email, this.state.password, this.state.confirm_password).then((res) => {
-            console.log(res.data)
             if (res.data.status === "success") {
                 this.setState({name: res.data.user.name})
                 this.setState({email: res.data.user.email})

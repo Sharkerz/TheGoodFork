@@ -9,7 +9,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     KeyboardAvoidingView,
-    ScrollView
+    ScrollView, TouchableOpacity
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TextInput } from 'react-native-paper'
@@ -57,9 +57,13 @@ class DetailScreen extends React.Component {
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <ScrollView>
-                        <View style={styles.backBtn}>
-                            <BackButton goBack={this.props.navigation.goBack}/>
-                        </View>
+                        <TouchableOpacity style={styles.backBtn} onPress={this.props.navigation.goBack}>
+                            <Image
+                                source={require('../assets/backButton.png')}
+                                style={{width: 60, height: 60, position: 'absolute'}}
+                            />
+                        </TouchableOpacity>
+
                             <Image
                                 source={{ uri: SERVER_IP + '/Images/MenuItem/'+item.image }}
                                 resizeMode="cover"
@@ -113,7 +117,12 @@ const styles = StyleSheet.create({
         color: "#292A32"
     },
     backBtn: {
-        position: 'absolute'
+        position: 'absolute',
+        top: 400,
+        marginLeft: 10,
+        height: 70,
+        width: 70,
+        backgroundColor: 'red'
     }
   })
 
