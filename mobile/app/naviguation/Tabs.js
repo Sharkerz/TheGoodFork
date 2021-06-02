@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator, CartStackNavigator} from './StackNavigator';
+import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator, CartStackNavigator,OrderStackNavigator} from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +25,22 @@ const Tabs = ({ user }) => {
                         ...styles.shadow
                     }
                 }}>
+                    <Tab.Screen name="Orders" component={OrderStackNavigator} options={{
+                        tabBarIcon: ({focused}) => (
+                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+                                <Image 
+                                source={require('../assets/houseIcon.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 60,
+                                    height: 60,
+                                    marginTop: -15,
+                                    tintColor: focused ? '#fff' : '#5A5B61'
+                                }}>   
+                                </Image>
+                            </View>
+                        )
+                    }} />
                     <Tab.Screen name="Home" component={MainStackNavigator} options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>

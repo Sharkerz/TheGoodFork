@@ -27,8 +27,8 @@
                                 <div class="cardinfo">
                                         <h3 class="CardTitle"><b>{{$item->name}}</b></h3> 
                                         <p id="{{number_format($item->price, 2)}}">@lang('menus.price') {{number_format($item->price, 2)}} €</p> 
-                                        <p id="{{ $item->stock }}">@lang('menus.stock') {{ $item->stock }} </p> 
-                                        <p class="ItemDescription">@lang('menus.itemDescription'){{ $item->description }}</p>
+                                        <p id="stock{{ $item->stock }}" value="{{ $item->stock }}">@lang('menus.stock') {{ $item->stock }} </p> 
+                                        <p class="ItemDescription" >@lang('menus.itemDescription'){{ $item->description }}</p>
                                 </div class="cardinfo">
                                 <div class="cardAction">   
                                         <button type="button" class="btn btn-primary Button EditButton">
