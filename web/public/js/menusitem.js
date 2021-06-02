@@ -43,7 +43,7 @@ $(document).ready(function () {
         $id = $div.attr('id');
         $itemName = $div[0].children[0].children[1].children[0].innerText;
         $itemPrice = $div[0].children[0].children[1].children[1].getAttribute('id');
-        $itemStock = $div[0].children[0].children[1].children[2].getAttribute('id');
+        $itemStock = $div[0].children[0].children[1].children[2].getAttribute('value');
         $itemimage = $div[0].children[0].children[0].getAttribute('src');
         $tempDescription = $div[0].children[0].children[1].children[3].innerText;
         $itemDescription = $tempDescription.split("Description : ")[1];
@@ -91,7 +91,7 @@ $(document).ready(function () {
                                 '<div class="cardinfo">\n' +
                                         '<h3 class="CardTitle"><b>'+ $name +'</b></h3>\n' + 
                                         '<p id="'+ $price.toFixed(2) +'">'+ $PriceTag + $price.toFixed(2) +' €</p>\n' +
-                                        '<p id="'+ $stock +'">Stock : '+ $stock +' </p>\n' +
+                                        '<p id="stock'+ $stock +'" value="'+$stock +'">Stock : '+ $stock +' </p>\n' +
                                         '<p class="ItemDescription">Description : ' + Response.description +
                                 '</div class="cardinfo">\n'+
                                 '<div class="cardAction">\n'+  
@@ -144,7 +144,7 @@ $(document).ready(function () {
                     $PriceElement = $div.children[0].children[1].children[1];
                     $PriceElement.setAttribute('id',Response.item.price.toFixed(2));
                     $StockElement = $div.children[0].children[1].children[2];
-                    $StockElement.setAttribute('id',Response.item.stock);
+                    $StockElement.setAttribute('id',"stock"+Response.item.stock);
                     $StockElement.innerText = "Stock : " + Response.item.stock;
                     $("#EditModalCategoryItem").css("display", "none");
             },

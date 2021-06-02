@@ -40,9 +40,13 @@ class CartScreen extends React.Component {
     items[objIndex].quantité = num
     if(items[objIndex].quantité == 0){
       items.splice(objIndex,1)
+      console.log(items)
+      await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
+      this.getCard()
+    }else{
+      this.setState({items : items})
+      await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
     }
-    this.setState({items : items})
-    await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
   }
 
 
