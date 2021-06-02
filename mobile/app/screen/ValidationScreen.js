@@ -71,12 +71,12 @@ class ValidationScreen extends React.Component {
     this.validate(this.state.resNumber, this.state.onSite, this.state.time, this.state.cost, this.state.items, this.state.comment)
   }
 
-  validate = async(resNumber, onSite, time, cost, items, comment) =>{
+  validate = async(resNumber, onSite, time, cost, items, comment) =>{   //requete dans fonction pour t'aider a la deplacer beness
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    await axios.post(SERVER_IP + '/api/createOrder', {
+    await axios.post(SERVER_IP + '/api/createOrder', { 
       //N°Reservation: resNumber,     stp change ce nom mdr
       onSite: onSite,
       hour: time,
