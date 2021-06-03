@@ -54,7 +54,7 @@ class MenuCategoryController extends Controller
             $filename = time(). '.' . $image->getClientOriginalExtension();
             Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuCategory/' . $filename));
             $image = $filename;
-           
+
             $data = menu_category::create([
                 'name' =>$request->input('name'),
                 'image' => $image,
@@ -73,12 +73,12 @@ class MenuCategoryController extends Controller
     public function show($id)
     {
         $category = menu_category::find($id);
-        $items = menu_item::where('category_id', $id)->get(); 
-        return view('menus.show',[
+        $items = menu_item::where('category_id', $id)->get();
+        return view('Menus.show',[
             'menu_items' => $items,
             'category' =>$category
         ]);
-        
+
     }
 
     /**
@@ -124,13 +124,13 @@ class MenuCategoryController extends Controller
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
                     'role' =>'required',Rule::in($roles)
                 ]);
-                
+
                 $update_item = [
                     'name' =>$request->input('name'),
                     'role' =>strtolower($request->input('role'))
                 ];
             }
-            
+
             menu_category::where('id', $request->input('id'))
             ->update($update_item);
             $item = menu_category::find($id);

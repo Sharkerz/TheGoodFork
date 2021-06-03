@@ -47,8 +47,10 @@ class EditProfileScreen extends Component {
 
     submitChange = () => {
         Keyboard.dismiss()
+        if(!this.state.changePwd) {
+            this.setState({password: "", confirm_password: ""})
+        }
         ProfileService.Edit(this.state.name, this.state.email, this.state.password, this.state.confirm_password).then((res) => {
-            console.log(res.data)
             if (res.data.status === "success") {
                 this.setState({name: res.data.user.name})
                 this.setState({email: res.data.user.email})
@@ -108,7 +110,12 @@ class EditProfileScreen extends Component {
 
             <View style={styles.viewSave}>
                 <Button color='#111219' style={styles.submitBtn}
-                        mode="outlined" onPress={() => this.submitChange()}>
+                        mode="outlined" onPress={() => {
+                            this.submitChange()
+                            if(!this.state.changePwd) {
+                                this.setState({password: "", confirm_password: ""})
+                            }
+                        }}>
                     Enregistrer
                 </Button>
             </View>

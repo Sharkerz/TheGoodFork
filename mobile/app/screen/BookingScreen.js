@@ -67,7 +67,7 @@ class BookingScreen extends React.Component {
     handleSubmit = async() =>{
         var object = {date : this.state.selectedDate,service : this.state.Service,userName : '',hour : this.state.hour,nbPersons : this.state.NbPersons}
         await BookingService.create(object).then(async(res) =>{
-            if(res.status === 200){
+            if(res.data.status === "success"){
                 Toast.show({
                     text1: 'Succès',
                     text2: "Votre Réservation a été prise en compte "
@@ -77,7 +77,7 @@ class BookingScreen extends React.Component {
                     type: 'error',
                     visibilityTime: 6000,
                     text1: 'Erreur',
-                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                    text2: res.data.message.toString(),
                 });
             }
            
