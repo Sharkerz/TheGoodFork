@@ -73,6 +73,7 @@ class ValidationScreen extends React.Component {
 
   timeHandler = (event, date) => {
     this.setState({time: date})
+    console.log(date)
   }
 
   handleSubmit(){
@@ -81,8 +82,16 @@ class ValidationScreen extends React.Component {
 
   SiteHandler =() =>{
     this.setState({onSite : true})
+    this.setState({visible : true})
   }
 
+  handleConfirm = (event, date) =>{
+    this.setState({time: date})
+    this.setState({visible : false})
+  }
+  hidePicker = (event, date) =>{
+    this.setState({visible : false})
+  }
   validate = async(resNumber, onSite, time, cost, items, comment) =>{   //requete dans fonction pour t'aider a la deplacer beness
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
@@ -128,6 +137,7 @@ class ValidationScreen extends React.Component {
                 {
                     this.state.onSite ? (
                       <DateTimePicker 
+                      isVisible={this.state.visible}
                       testID="dateTimePicker"
                       minimumDate={new Date()}
                       locale="fr-FR"
@@ -135,7 +145,9 @@ class ValidationScreen extends React.Component {
                       mode={'date'}
                       is24Hour={true}
                       display="default"
+                      onConfirm={this.handleConfirm}
                       onChange={this.dateHandler}
+                      onCancel={this.hidePicker}
                       style={{width: '100%'}}
                     />
                     // <DateTimePicker
@@ -169,7 +181,7 @@ class ValidationScreen extends React.Component {
                       is24Hour={true}
                       display="default"
                       onChange={this.timeHandler}
-                      timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
+                      timeZoneOffsetInSeconds={3600} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
                     />
                     ) : null
                 }
