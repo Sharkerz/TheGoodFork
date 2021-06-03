@@ -17,6 +17,8 @@ class OrderController extends Controller
         $this->middleware('auth:api');
     }
     public function createOrder(Request $request) {
+        $drinks = 0;
+        $food = 0;
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
         $orderDetails =  $request['Value'];
@@ -73,6 +75,11 @@ class OrderController extends Controller
        
         foreach( $orderDetails as $item){
             $role = menu_category::where('id',$item['category_id'])->first();
+            if($role->role == 'barman'){
+                $drinks +=1;
+            }else{
+                $food +=1;
+            }
             $menu_item = menu_item ::where('id', $item['id'])->first(); 
             $stock =(int) $menu_item->stock;
             if ($item['quantity'] > $stock){
@@ -93,6 +100,11 @@ class OrderController extends Controller
                 menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
+        $fidelityPoints =  round($request['prixTotal']/10,0);
+        if ($user->role != 'waiters'){
+            User::where('id', '=',$userId)
+                ->update(['fidelityPoints' => $user->fidelityPoints  + $fidelityPoints]);
+            }
 
         return response()->json(['status' => 'sucess'],200);
     }

@@ -43,6 +43,9 @@ $(document).ready(function () {
         $id = $div.attr('id');
         $name = $div[0].children[0].innerHTML;
         $role = $div[0].children[2].innerHTML;
+        if($role != 'barman'){
+            $role = 'cook'
+        }
         $('#EditCategoryName')[0].value = $name;
         $('#EditCategoryid')[0].value = $id;
         $('#EditMenuCategoryRole')[0].value = $role;
@@ -126,11 +129,15 @@ $(document).ready(function () {
             contentType: false,
             data: $data,
             success: function (Response) {
+                    $role = Response.item.role;
+                    if($role != 'barman'){
+                        (lang ==="fr")? $role = "cuisinier" : $role ="cook";
+                    }
                     $("#EditModalCategory").css("display", "none");
                     $('.modal-title')[1].innerText = $title;
                     $("#" + Response.item.id).children()[0].innerText = Response.item.name;
                     $("#" + Response.item.id).children()[1].children[0].src = "/Images/MenuCategory/" + Response.item.image;
-                    $("#" + Response.item.id).children()[2].innerText = Response.item.role;
+                    $("#" + Response.item.id).children()[2].innerText = $role;
             },
             error: function(error){
                 for (const key in error.responseJSON.errors) {

@@ -121,7 +121,9 @@
     align-items: center;
     justify-content: center;
 }
-
+.AddElement:hover{
+    cursor: pointer;
+}
 .AddItemCategory{
    font-size: 70px !important;
 }

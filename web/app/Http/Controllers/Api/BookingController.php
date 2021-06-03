@@ -64,6 +64,8 @@ class BookingController extends Controller
                     'tableId' => $table->id,
                 ]);
         }else{
+            User::where('id','=',$userId)
+            ->update(['visites' => $user->visites + 1]);
             $booking = array_merge(
                 $validator->validated(),
                 [

@@ -7,7 +7,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#AddItemCategory').click(function () {
+    $('#AddDiv').click(function () {
         $categoryid = $('#Category_id').val();
         $('#AddCategoryItemCategory_Id')[0].value = $categoryid;
         $("#addModalCategoryItem").css("display", "block");

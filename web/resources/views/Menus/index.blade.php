@@ -35,7 +35,7 @@
                 <tr class="RowMenuCategory" id="{{ $category->id }}">
                     <td class="CategoryName">{{ $category->name }}</td>
                     <td><img  alt="ItemImage" src="/Images/MenuCategory/{{ $category->image }}"></td>
-                    <td>{{ $category->role }}</td>
+                    <td>@lang('userEdit.' . $category->role)</td>
                     <td class="ActionCase">
                         <a href="{{ route('menus.show', $category->id) }}" type="button" class="btn btn-success Button SelectCategory" >
                                 @lang('menus.Elements')

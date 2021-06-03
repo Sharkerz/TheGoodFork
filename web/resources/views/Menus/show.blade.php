@@ -41,7 +41,7 @@
                         </div>
                 </div>       
                @endforeach
-               <div class="AddElement" id="">
+               <div class="AddElement" id="AddDiv">
                         <div class="card CardAdd">
                                 <div class="IconsAdd">
                                         <i id="AddItemCategory" class="material-icons large AddItemCategory">add</i>
