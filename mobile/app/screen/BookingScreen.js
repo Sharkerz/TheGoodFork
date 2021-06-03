@@ -167,14 +167,14 @@ class BookingScreen extends React.Component {
                     this.state.nightHoursShow ? (
                         <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
                              <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[2] ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[2] ? '#111219' : '#ffffff'}]} 
                                     onPress={(event) => this.SetHour(this.state.hourlist[2])}>
-                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[2] ? '#ffffff' : '#000000'}]}>18H</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[2] ? '#ffffff' : '#111219'}]}>18H</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[3] ? '#ff0000' : '#ffffff'}]} 
+                                    style={[styles.Button,{backgroundColor: this.state.hour == this.state.hourlist[3] ? '#111219' : '#ffffff'}]} 
                                     onPress={(event) => this.SetHour(this.state.hourlist[3])}>
-                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[3] ? '#ffffff' : '#000000'}]}>20H</Text>
+                                    <Text style={[styles.TextButton,{color: this.state.hour == this.state.hourlist[3] ? '#ffffff' : '#111219'}]}>20H</Text>
                             </TouchableOpacity>
                         </View>
                     ) : null
