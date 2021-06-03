@@ -58,10 +58,10 @@ class DetailScreen extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <ScrollView>
                         <TouchableOpacity style={styles.backBtn} onPress={this.props.navigation.goBack}>
-                            <Image
-                                source={require('../assets/backButton.png')}
-                                style={{width: 60, height: 60, position: 'absolute'}}
-                            />
+                                <Image
+                                    source={require('../assets/backButton.png')}
+                                    style={{width: 60, height: 60}}
+                                />
                         </TouchableOpacity>
 
                             <Image
@@ -71,7 +71,7 @@ class DetailScreen extends React.Component {
                                     width: "120%",
                                     height: 400,
                                 }}/>
-                            <Text style={{paddingLeft: 15, paddingRight: 15,textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
+                            <Text style={{width: 400, paddingLeft: 15, paddingRight: 15,textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
                             <Text style={{paddingLeft:15, paddingRight: 15, textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
                             <Text style={{paddingLeft:15, paddingRight: 15,textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
                         <View style={{marginTop: 10, marginLeft: 110, marginRight: 110, alignItems: 'center'}}>
@@ -117,12 +117,14 @@ const styles = StyleSheet.create({
         color: "#292A32"
     },
     backBtn: {
-        position: 'absolute',
-        top: 400,
-        marginLeft: 10,
+        flexDirection:"row",
+        top: 420,
         height: 70,
         width: 70,
-        backgroundColor: 'red'
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
     }
   })
 
