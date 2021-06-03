@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SERVER_IP } from '@env';
 import { ScrollView } from 'react-native';
+import Button from '../components/Button';
 import OrderService from '../service/OrderService'
 
 
@@ -49,7 +50,7 @@ class OrderScreen extends React.Component {
                 <View style={styles.container}>
                 <ScrollView>
                 <Text style={styles.title}>Commandes à valider</Text>
-                <View>
+                <View style={{marginTop: 40}}>
                 <FlatList style={styles.data}
                           data={this.state.ordertovalidate}
                           keyExtractor={item => item.id.toString()}
@@ -66,6 +67,12 @@ class OrderScreen extends React.Component {
                           </TouchableOpacity>
                           }
                 />
+                </View>
+                <View style={styles.validation}>
+                <Button color='#111219' style={{width: 350}}
+                    mode="outlined" onPress={() =>this.handleSubmit(item.id)} >
+                        Voir les commandes en cours
+                </Button>
                 </View>
                 
               </ScrollView>
@@ -111,6 +118,10 @@ class OrderScreen extends React.Component {
         leftViewItem: {
           justifyContent: 'center',
           alignItems: 'flex-start',
+        },
+        validation: {
+          alignItems :'center',
+          marginTop: 100
         },
       })
 

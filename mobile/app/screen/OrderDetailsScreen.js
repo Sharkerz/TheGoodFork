@@ -70,11 +70,9 @@ class OrdersDetailsScreen extends React.Component {
                 <View style={styles.container}>
                 <ScrollView>
                 <BackButton goBack={this.props.navigation.goBack}/>
-                <View style={{alignItems: 'center'}}>
                   <Text style={styles.title}>Commande N°{item['numOrder']}</Text>
-                </View>
 
-                <View>
+                <View style={{marginTop: 40}}>
                 <FlatList style={styles.data}
                           data={this.state.orderDetails}
                           keyExtractor={item => item.id.toString()}
@@ -124,7 +122,8 @@ class OrdersDetailsScreen extends React.Component {
           fontWeight: '600',
           color: '#fff',
           textAlign: 'center',
-          width: 210 
+          marginLeft: 85,
+          marginRight: 85
         },
         item: {
           padding: 16,

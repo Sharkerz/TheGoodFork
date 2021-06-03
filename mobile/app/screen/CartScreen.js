@@ -110,7 +110,7 @@ class CartScreen extends React.Component {
             <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
                 mode="outlined" onPress={() => this.props.navigation.navigate('Validation')}>
-                Commandez
+                Commander
               </Button>
             </View>
             
