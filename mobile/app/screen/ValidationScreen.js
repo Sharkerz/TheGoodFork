@@ -10,7 +10,7 @@ import {
     FlatList,
     Platform,
     ScrollView,
-    Modal
+    TouchableWithoutFeedback
 } from 'react-native';
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
@@ -20,21 +20,30 @@ import InputSpinner from 'react-native-input-spinner'
 import { SERVER_IP } from '@env'
 import axios from 'axios'
 import * as SecureStore from "expo-secure-store"
-import DateTimePickerModal from '@react-native-community/datetimepicker'
-
+import {Calendar} from 'react-native-calendars';
+import {LocaleConfig} from 'react-native-calendars';
+import RNPickerSelect from 'react-native-picker-select';
+LocaleConfig.locales['fr'] = {
+  monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+  monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+  dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+  dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+  today: 'Aujourd\'hui'
+};
+LocaleConfig.defaultLocale = 'fr';
 
 class ValidationScreen extends React.Component {
   constructor(){
     super();
     this.state = {
+      markedDates: {},
       resNumber: null,
-      onSite: false,  //remplacer les deux bouton par un checker qui modifie le state de onSite en true ou false ? à toi de voir Seb pour dire quand c'est sur place ou non t'as juste a modifier ce state en true ou false
+      onSite: true,  //remplacer les deux bouton par un checker qui modifie le state de onSite en true ou false ? à toi de voir Seb pour dire quand c'est sur place ou non t'as juste a modifier ce state en true ou false
       time: null,
       cost: 0.00,
       items: [],
       comment: "",
-      date : new Date(),
-      time : new Date()
+      onSiteSelected : false
     }
   }
   getCard = async() =>{
@@ -51,6 +60,18 @@ class ValidationScreen extends React.Component {
     })
   }
 
+  onDayPress = async(day) => {
+    await this.setState({selectedDate : day.dateString})
+    this.setState({markedDates : {}})
+        const color = 'red'
+        const markedDates = {...this.state.markedDates,
+                             [this.state.selectedDate]: {
+                                 selected: true,
+                                 selectedColor: color}}
+        this.setState({markedDates})
+        this.setState({shouldShow: true}) 
+}
+
 
   componentDidMount(){
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -66,32 +87,21 @@ class ValidationScreen extends React.Component {
     this.setState({comment: text})
   }
 
-  dateHandler = (event, date) => {
-    this.setState({date: date})
-    this.setState({dateChange : true})
-  }
-
-  timeHandler = (event, date) => {
-    this.setState({time: date})
-    console.log(date)
-  }
-
   handleSubmit(){
     this.validate(this.state.resNumber, this.state.onSite, this.state.time, this.state.cost, this.state.items, this.state.comment)
   }
 
-  SiteHandler =() =>{
-    this.setState({onSite : true})
-    this.setState({visible : true})
+  TakeAWayHandler =() =>{
+    this.setState({onSite : false})
+    this.setState({onSiteSelected : true})
   }
 
-  handleConfirm = (event, date) =>{
-    this.setState({time: date})
-    this.setState({visible : false})
+  onSiteHandler =() =>{
+    this.setState({onSite : true})
+    this.setState({onSiteSelected : true})
   }
-  hidePicker = (event, date) =>{
-    this.setState({visible : false})
-  }
+
+
   validate = async(resNumber, onSite, time, cost, items, comment) =>{   //requete dans fonction pour t'aider a la deplacer beness
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
@@ -115,86 +125,65 @@ class ValidationScreen extends React.Component {
 
      render(){
       const isFocused = this.props;
-
         return(
             <View style={styles.container}>
-            <SafeAreaView>
+            <ScrollView>
             <BackButton goBack={this.props.navigation.goBack}/>
-            <View style={{alignItems: 'center', marginTop: 100}}>
+              <View style={{alignItems: 'center', marginTop: 100}}>
                 <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textLogin} label="Remarque (allergies, suppléments, ect...)"
                        mode="flat" onChangeText={this.commentHandler}>
                 </TextInput>
                 <TouchableOpacity
                         style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
-                        onPress={this.onMomentPressMidday}>
+                        onPress={this.onSiteHandler}>
                         <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>SUR PLACE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                         style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
-                        onPress={this.SiteHandler}>
+                        onPress={this.TakeAWayHandler}>
                         <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
-                {
-                    this.state.onSite ? (
-                      <DateTimePickerModal 
-                      isVisible={this.state.visible}
-                      testID="dateTimePicker"
-                      minimumDate={new Date()}
-                      locale="fr-FR"
-                      value={this.state.date}
-                      mode={'date'}
-                      is24Hour={true}
-                      display="default"
-                      onConfirm={this.handleConfirm}
-                      onChange={this.dateHandler}
-                      onCancel={this.hidePicker}
-                      style={{width: '100%'}}
-                    />
-                    // <DateTimePicker
-                    //  style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
-                    //   value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
-                    //   mode={'time'}
-                    //   is24Hour={true}
-                    //   display="default"
-                    //   onChange={this.dateHandler}
-                    //   timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
-                    // />
+              </View>
+              {
+                    !this.state.onSite && this.state.onSiteSelected ? (
+                      <View>
+                        <Calendar style={{marginTop: 10}} 
+                        theme={{
+                            calendarBackground: '#111219',
+                            dayTextColor: 'white',
+                            monthTextColor: 'white',
+                            textDisabledColor: 'grey',
+                        }}
+                            minDate={'2021-04-30'}
+                            onDayPress={this.onDayPress}
+                            hideExtraDays={true}
+                            firstDay={1}
+                            markedDates = {this.state.markedDates}
+                            minDate={Date()}/> 
+                            <View>
+
+                           
+                            <RNPickerSelect
+                              onValueChange={(value) => console.log(value)}
+                              items={[
+                                  { label: 'Football', value: 'football' },
+                                  { label: 'Baseball', value: 'baseball' },
+                                  { label: 'Hockey', value: 'hockey' },
+                              ]}
+                          />
+                           </View>
+                  </View>
+                        
                     ) : null
                 }
-                 {
-                    this.state.date && this.state.dateChange ? (
-                    //   <DateTimePicker 
-                    //   testID="dateTimePicker"
-                    //   minimumDate={new Date()}
-                    //   locale="fr-FR"
-                    //   value={this.state.date}
-                    //   mode={'date'}
-                    //   is24Hour={true}
-                    //   display="default"
-                    //   onChange={this.dateHandler}
-                    //   style={{width: '100%'}}
-                    // />
-                    <DateTimePickerModal
-                     style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
-                      value={this.state.time} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
-                      mode={'time'}
-                      is24Hour={true}
-                      display="default"
-                      onChange={this.timeHandler}
-                      timeZoneOffsetInSeconds={3600} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
-                    />
-                    ) : null
-                }
-                
-            </View>
-            <View style={{alignItems: 'center', marginTop: 150}}>
+              
+            <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
                 <Button style={{width: 350}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande
                 </Button> 
             </View>
-
-          </SafeAreaView>
+                </ScrollView>
       </View>
         )
     }

@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity} from 'react-native';
-import { SERVER_IP } from '@env';
-import { TextInput } from 'react-native-paper'
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import Button from '../components/Button';
 import InputSpinner from 'react-native-input-spinner';
