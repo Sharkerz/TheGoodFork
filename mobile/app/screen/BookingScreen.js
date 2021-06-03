@@ -70,7 +70,8 @@ class BookingScreen extends React.Component {
             if(res.data.status === "success"){
                 Toast.show({
                     text1: 'Succès',
-                    text2: "Votre Réservation a été prise en compte "
+                    text2: "Votre Réservation a été prise en compte ",
+                    topOffset: 60,
                 });
             }else{
                 Toast.show({
@@ -78,6 +79,7 @@ class BookingScreen extends React.Component {
                     visibilityTime: 6000,
                     text1: 'Erreur',
                     text2: res.data.message.toString(),
+                    topOffset: 60,
                 });
             }
            

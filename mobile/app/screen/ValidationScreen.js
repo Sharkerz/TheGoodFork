@@ -10,6 +10,7 @@ import {
     FlatList,
     Platform,
     ScrollView,
+    Modal
 } from 'react-native';
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
@@ -19,7 +20,7 @@ import InputSpinner from 'react-native-input-spinner'
 import { SERVER_IP } from '@env'
 import axios from 'axios'
 import * as SecureStore from "expo-secure-store"
-import DateTimePicker from '@react-native-community/datetimepicker'
+import DateTimePickerModal from '@react-native-community/datetimepicker'
 
 
 class ValidationScreen extends React.Component {
@@ -32,6 +33,8 @@ class ValidationScreen extends React.Component {
       cost: 0.00,
       items: [],
       comment: "",
+      date : new Date(),
+      time : new Date()
     }
   }
   getCard = async() =>{
@@ -41,7 +44,7 @@ class ValidationScreen extends React.Component {
       var cost = 0.00
       this.setState({items : cartParsed})
       cartParsed.forEach(element => {
-        cost += parseFloat(element.price)  
+        cost += parseFloat(element.price) * element.quantity  
       })
       this.setState({cost : cost})
       console.log(this.state.cost)
@@ -65,12 +68,30 @@ class ValidationScreen extends React.Component {
 
   dateHandler = (event, date) => {
     this.setState({date: date})
+    this.setState({dateChange : true})
+  }
+
+  timeHandler = (event, date) => {
+    this.setState({time: date})
+    console.log(date)
   }
 
   handleSubmit(){
     this.validate(this.state.resNumber, this.state.onSite, this.state.time, this.state.cost, this.state.items, this.state.comment)
   }
 
+  SiteHandler =() =>{
+    this.setState({onSite : true})
+    this.setState({visible : true})
+  }
+
+  handleConfirm = (event, date) =>{
+    this.setState({time: date})
+    this.setState({visible : false})
+  }
+  hidePicker = (event, date) =>{
+    this.setState({visible : false})
+  }
   validate = async(resNumber, onSite, time, cost, items, comment) =>{   //requete dans fonction pour t'aider a la deplacer beness
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
@@ -110,17 +131,61 @@ class ValidationScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                         style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
-                        onPress={this.onMomentPressMidday}>
+                        onPress={this.SiteHandler}>
                         <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
-                {/*<DateTimePicker    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb*/}
-                {/*  value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle*/}
-                {/*  mode={'time'}*/}
-                {/*  is24Hour={true}*/}
-                {/*  display="default"*/}
-                {/*  onChange={this.dateHandler}*/}
-                {/*  timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)*/}
-                {/*/>*/}
+                {
+                    this.state.onSite ? (
+                      <DateTimePickerModal 
+                      isVisible={this.state.visible}
+                      testID="dateTimePicker"
+                      minimumDate={new Date()}
+                      locale="fr-FR"
+                      value={this.state.date}
+                      mode={'date'}
+                      is24Hour={true}
+                      display="default"
+                      onConfirm={this.handleConfirm}
+                      onChange={this.dateHandler}
+                      onCancel={this.hidePicker}
+                      style={{width: '100%'}}
+                    />
+                    // <DateTimePicker
+                    //  style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
+                    //   value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
+                    //   mode={'time'}
+                    //   is24Hour={true}
+                    //   display="default"
+                    //   onChange={this.dateHandler}
+                    //   timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
+                    // />
+                    ) : null
+                }
+                 {
+                    this.state.date && this.state.dateChange ? (
+                    //   <DateTimePicker 
+                    //   testID="dateTimePicker"
+                    //   minimumDate={new Date()}
+                    //   locale="fr-FR"
+                    //   value={this.state.date}
+                    //   mode={'date'}
+                    //   is24Hour={true}
+                    //   display="default"
+                    //   onChange={this.dateHandler}
+                    //   style={{width: '100%'}}
+                    // />
+                    <DateTimePickerModal
+                     style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
+                      value={this.state.time} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
+                      mode={'time'}
+                      is24Hour={true}
+                      display="default"
+                      onChange={this.timeHandler}
+                      timeZoneOffsetInSeconds={3600} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
+                    />
+                    ) : null
+                }
+
             </View>
             <View style={{alignItems: 'center', marginTop: 150}}>
                 <Button style={{width: 350}}  color='#111219'
