@@ -116,7 +116,7 @@ class MenuCategoryController extends Controller
                 $update_item = [
                     'name' =>$request->input('name'),
                     'image' => $image,
-                    'role' => $request->input('role')
+                    'role' =>strtolower($request->input('role'))
                 ];
             }
             else{
@@ -127,7 +127,7 @@ class MenuCategoryController extends Controller
                 
                 $update_item = [
                     'name' =>$request->input('name'),
-                    'role' =>$request->input('role')
+                    'role' =>strtolower($request->input('role'))
                 ];
             }
             

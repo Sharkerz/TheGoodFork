@@ -18,7 +18,8 @@ class CreateOrdersTable extends Migration
             $table->integer('numOrder');
             $table->integer('numBooking')->nullable();
             $table->float('prixTotal');
-            $table->integer('userId');
+            $table->integer('userId')->nullable();
+            $table->string('userName')->nullable();
             $table->boolean('onSite')->default(0);
             $table->dateTime('hour')->nullable();
             $table->boolean('ready')->default(0);$table->boolean('validated')->default(0);

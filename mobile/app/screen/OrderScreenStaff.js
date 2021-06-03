@@ -8,35 +8,32 @@ import {
     FlatList,
     Platform
 } from 'react-native';
-import { SERVER_IP } from '@env';
 import { ScrollView } from 'react-native';
 import OrderService from '../service/OrderService'
 
 
-class OrderScreen extends React.Component {
+class OrderScreenStaff extends React.Component {
     constructor(){
         super();
         this.state = {
-            items: [],
+            orders: [],
         }
-        this.getOrders = this.getOrders.bind(this)
+        this.getStaffOrders = this.getStaffOrders.bind(this)
       }
-      getOrders = async() =>{
-        await OrderService.ordertovalidate().then(async(res) =>{
+      getStaffOrders = async() =>{
+        await OrderService.ordersForStaff().then(async(res) =>{
             if(res.status === 200){
-                // console.log(res.data.ordertovalidate)
-                this.setState({ordertovalidate : res.data.ordertovalidate})
+                this.setState({orders : res.data.orders})
+                this.setState({orderDetails : res.data.oderdetails})
             }else{
                 console.log(res)
             }
            
        })  
       }
-    
-
       componentDidMount(){
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-          this.getOrders();
+          this.getStaffOrders();
         });
       }
     
@@ -45,23 +42,24 @@ class OrderScreen extends React.Component {
       }
     
          render(){
+           const orderDetails = this.state.orderDetails
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commandes à valider</Text>
+                <Text style={styles.title}>Commandes</Text>
                 <View>
                 <FlatList style={styles.data}
-                          data={this.state.ordertovalidate}
+                          data={this.state.orders}
                           keyExtractor={item => item.id.toString()}
                           renderItem={({item}) => 
                           
                           <TouchableOpacity style={styles.item} onPress={() => 
-                            this.props.navigation.navigate('OrdersDetails', {
-                              item,
+                            this.props.navigation.navigate('OrdersDetailsForStaff', {
+                              orderDetails,numOrder : item['numOrder'],reload : this.getBarmanOrders 
                           }
                           )}>
                               <View style={styles.leftViewItem} flexDirection='row'>
-                                <Text style={styles.textRowListTitle}>Commande N°{item['numOrder']}</Text>
+                                <Text style={styles.textRowListTitle}>Commande {item['numOrder']}</Text>
                               </View>
                           </TouchableOpacity>
                           }
@@ -101,9 +99,9 @@ class OrderScreen extends React.Component {
           fontSize: 16,
         },
         textRowListTitle: {
-          width: 250,
+          width: 130,
           color: '#FFFF',
-          fontSize: 20,
+          fontSize: 16,
           fontWeight: '600',
           marginLeft: 10,
           paddingTop: 5
@@ -114,4 +112,4 @@ class OrderScreen extends React.Component {
         },
       })
 
-export default OrderScreen;
+export default OrderScreenStaff;

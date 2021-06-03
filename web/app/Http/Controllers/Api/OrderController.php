@@ -27,28 +27,50 @@ class OrderController extends Controller
         }else{
             $NCommande = $NCommande +1;
         }
+        if ($user->role == 'waiters'){
         $validator = Validator::make($request->all(),
-        [
-            'numOrder' => 'nullable|int',
-            'onSite' => 'required|boolean',
-            'hour' => 'nullable|date_format:Y-m-d H:i',
-            'prixTotal' => 'nullable|numeric|between:0,499.99',
-            'comment' => 'nullable|string'
-        ]);
+            [
+                'numOrder' => 'nullable|int',
+                'onSite' => 'required|boolean',
+                'hour' => 'nullable|date_format:Y-m-d H:i',
+                'prixTotal' => 'nullable|numeric|between:0,499.99',
+                'comment' => 'nullable|string',
+                'userName' => 'required|string'
+            ]);
+        }else{
+            $validator = Validator::make($request->all(),
+            [
+                'numOrder' => 'nullable|int',
+                'onSite' => 'required|boolean',
+                'hour' => 'nullable|date_format:Y-m-d H:i',
+                'prixTotal' => 'nullable|numeric|between:0,499.99',
+                'comment' => 'nullable|string'
+            ]);
+        }
         if($validator->fails()) {
             return response()->json(
                 $validator->errors()->toJson(), 400
             );
         }
-        
-        $order = Order::create(array_merge(
-            $validator->validated(),
-            [
-                'numOrder' => $NCommande,
-                'ready' => false,
-                'userId' => $userId
-            ]
-        ));
+        if ($user->role == 'waiters'){
+            $order = Order::create(array_merge(
+                $validator->validated(),
+                [
+                    'numOrder' => $NCommande,
+                    'ready' => false,
+                ]
+            ));
+        }else{
+            $order = Order::create(array_merge(
+                $validator->validated(),
+                [
+                    'numOrder' => $NCommande,
+                    'ready' => false,
+                    'userId' => $userId
+                ]
+            ));
+        }
+       
         foreach( $orderDetails as $item){
             $role = menu_category::where('id',$item['category_id'])->first();
             $menu_item = menu_item ::where('id', $item['id'])->first(); 
@@ -86,7 +108,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'No order to validate or error'
-            ]);
+            ],400);
         }
     }
     public function orderDetails($id) {
@@ -101,7 +123,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'No Details for this order'
-            ]);
+            ],400);
         }
     }
     
@@ -113,4 +135,57 @@ class OrderController extends Controller
             'orderValidated' => 'Commande validée'
         ]);
     }
+
+    public function ordersForStaff() {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+        $orders = Order::where('validated', '=',1)
+            ->where('ready', '=', 0)
+            ->get();
+        if(!$orders->isEmpty()){
+            foreach($orders as $key => $order){
+                $orderdetails = OrderDetails::where('order_id', '=',$order->id)
+                ->where('role', '=',$user->role)
+                ->where('ready', '=',0)
+                ->get();
+                if($orderdetails->isEmpty()){
+                    unset($orders[$key]);
+                }
+            }
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders,
+            'oderdetails' => $orderdetails
+        ]);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'No order is waiting for you '
+        ]);  
+    }
+    public function itemsReady(Request $request) {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+        OrderDetails::where('order_id', '=',$request->order_id)
+            ->where('role', '=', $user->role)
+            ->update(['ready' =>1]);
+        $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready'); 
+        if (in_array(0,$orderItems->toArray())){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The elements are ready',
+            ]);
+        }else{
+            Order::where('id', '=',$request->order_id)->update(['ready' =>1]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The order is ready',
+            ]);
+        }
+       
+           
+        
+    }
+    
+    
 }
