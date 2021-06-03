@@ -20,7 +20,7 @@ import InputSpinner from 'react-native-input-spinner'
 import { SERVER_IP } from '@env'
 import axios from 'axios'
 import * as SecureStore from "expo-secure-store"
-import DateTimePicker from '@react-native-community/datetimepicker'
+import DateTimePickerModal from '@react-native-community/datetimepicker'
 
 
 class ValidationScreen extends React.Component {
@@ -136,7 +136,7 @@ class ValidationScreen extends React.Component {
                 </TouchableOpacity>
                 {
                     this.state.onSite ? (
-                      <DateTimePicker 
+                      <DateTimePickerModal 
                       isVisible={this.state.visible}
                       testID="dateTimePicker"
                       minimumDate={new Date()}
@@ -174,7 +174,7 @@ class ValidationScreen extends React.Component {
                     //   onChange={this.dateHandler}
                     //   style={{width: '100%'}}
                     // />
-                    <DateTimePicker
+                    <DateTimePickerModal
                      style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
                       value={this.state.time} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
                       mode={'time'}
