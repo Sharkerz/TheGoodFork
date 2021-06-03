@@ -72,15 +72,15 @@ class OrderController extends Controller
                 ]
             ));
         }
-       
+
         foreach( $orderDetails as $item){
             $role = menu_category::where('id',$item['category_id'])->first();
             if($role->role == 'barman'){
-                $drinks +=1;
+                $drinks += 1 * $item['quantity'];
             }else{
-                $food +=1;
+                $food += 1 * $item['quantity'];
             }
-            $menu_item = menu_item ::where('id', $item['id'])->first(); 
+            $menu_item = menu_item ::where('id', $item['id'])->first();
             $stock =(int) $menu_item->stock;
             if ($item['quantity'] > $stock){
                 OrderDetails::where('order_id','=',$order->id)->delete();
@@ -103,7 +103,12 @@ class OrderController extends Controller
         $fidelityPoints =  round($request['prixTotal']/10,0);
         if ($user->role != 'waiters'){
             User::where('id', '=',$userId)
-                ->update(['fidelityPoints' => $user->fidelityPoints  + $fidelityPoints]);
+                ->update([
+                    'fidelity' => $user->fidelity  + $fidelityPoints,
+                    'numbersVisit' => $user->numbersVisit  + 1,
+                    'numbersCookOrder' => $user->numbersCookOrder  + $food,
+                    'numbersBarOrder' => $user->numbersBarOrder  + $drinks
+                ]);
             }
 
         return response()->json(['status' => 'sucess'],200);
@@ -125,7 +130,7 @@ class OrderController extends Controller
     }
     public function orderDetails($id) {
         $orderDetails = OrderDetails::where('order_id', '=', $id)->get();
-        
+
         if(count($orderDetails) >0){
             return response()->json([
                 'status' => 'success',
@@ -138,7 +143,7 @@ class OrderController extends Controller
             ],400);
         }
     }
-    
+
     public function validateOrders(Request $request) {
         Order::where('id', '=', $request['id'])
             ->update(['validated' => 1]);
@@ -173,7 +178,7 @@ class OrderController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'No order is waiting for you '
-        ]);  
+        ]);
     }
     public function itemsReady(Request $request) {
         $userId = auth('api')->user()['id'];
@@ -181,7 +186,7 @@ class OrderController extends Controller
         OrderDetails::where('order_id', '=',$request->order_id)
             ->where('role', '=', $user->role)
             ->update(['ready' =>1]);
-        $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready'); 
+        $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready');
         if (in_array(0,$orderItems->toArray())){
             return response()->json([
                 'status' => 'success',
@@ -194,10 +199,10 @@ class OrderController extends Controller
                 'message' => 'The order is ready',
             ]);
         }
-       
-           
-        
+
+
+
     }
-    
-    
+
+
 }

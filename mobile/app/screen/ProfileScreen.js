@@ -13,24 +13,43 @@ import {
 import Button from '../components/Button'
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProfileService from "../service/ProfileService";
 
 class ProfileScreen extends Component {
     constructor() {
       super();
       this.state = {
         name: "",
-        email: ""
+        email: "",
+        fidelity: 0,
+        numbersCookOrder: 0,
+        numbersBarOrder: 0,
+        numbersVisit: 0
       }
     }
 
-  async componentDidMount() {
-    await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
-      this.setState({name: res.name})
-      this.setState({email: res.email})
-    }).then(() => {
-      // this.list[0].push('val')
-      // console.log(this.list)
-    })
+    loadData = async () => {
+      await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+        this.setState({name: res.name})
+        this.setState({email: res.email})
+      });
+      ProfileService.getInfos().then((res) => {
+        this.setState({fidelity: res.fidelity})
+        this.setState({numbersCookOrder: res.numbersCookOrder})
+        this.setState({numbersBarOrder: res.numbersBarOrder})
+        this.setState({numbersVisit: res.numbersVisit})
+      })
+
+    }
+    componentDidMount() {
+      this._unsubscribe = this.props.navigation.addListener('focus', () => {
+        // Load details user data
+        this.loadData()
+      });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   logout = () => {
@@ -42,27 +61,33 @@ class ProfileScreen extends Component {
 
   list = [
     {
+      title: 'Pseudo',
       key: 'Pseudo',
       val: ''
     },
     {
+      title: 'Email',
       key: 'Email',
       val: '',
     },
     {
-      key: '🎟️ Points de fidelité',
+      key: 'fidelity',
+      title: '🎟️ Points de fidelité',
       val: '45',
     },
     {
-      key: '🍽️ Visites',
+      key: 'numbersVisit',
+      title: '🍽️ Visites',
       val: '6',
     },
     {
-      key: '🍕 Nourriture',
+      key: 'numbersCookOrder',
+      title: '🍕 Nourriture',
       val: '8',
     },
     {
-      key: '🍺 Boissons',
+      key: 'numbersBarOrder',
+      title: '🍺 Boissons',
       val: '22',
     },
   ]
@@ -77,12 +102,16 @@ class ProfileScreen extends Component {
                       {
                         return <TouchableOpacity style={styles.item}>
                           <View style={styles.leftViewItem}>
-                            <Text style={styles.textRowList}>{item.key}</Text>
+                            <Text style={styles.textRowList}>{item.title}</Text>
                           </View>
                           <View style={styles.rightViewItem}>
                             {item.key === "Pseudo"
                                 ? <Text style={styles.textRowList}>{this.state.name}</Text>
                                 : item.key === "Email" ? <Text style={styles.textRowList}>{this.state.email}</Text>
+                                : item.key === "fidelity" ? <Text style={styles.textRowList}>{this.state.fidelity}</Text>
+                                : item.key === "numbersVisit" ? <Text style={styles.textRowList}>{this.state.numbersVisit}</Text>
+                                : item.key === "numbersCookOrder" ? <Text style={styles.textRowList}>{this.state.numbersCookOrder}</Text>
+                                : item.key === "numbersBarOrder" ? <Text style={styles.textRowList}>{this.state.numbersBarOrder}</Text>
                                 : <Text style={styles.textRowList}>{item.val}</Text>
                             }
                           </View>

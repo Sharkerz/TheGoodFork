@@ -113,14 +113,14 @@ class ValidationScreen extends React.Component {
                         onPress={this.onMomentPressMidday}>
                         <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
-                <DateTimePicker    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
-                  value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
-                  mode={'time'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={this.dateHandler}
-                  timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)
-                />
+                {/*<DateTimePicker    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb*/}
+                {/*  value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle*/}
+                {/*  mode={'time'}*/}
+                {/*  is24Hour={true}*/}
+                {/*  display="default"*/}
+                {/*  onChange={this.dateHandler}*/}
+                {/*  timeZoneOffsetInMinutes={120} //la date est en UTC, c'est sensé la mettre en UTC+2 mais jcp pk ça marche pas (a faire dans le date handler ?)*/}
+                {/*/>*/}
             </View>
             <View style={{alignItems: 'center', marginTop: 150}}>
                 <Button style={{width: 350}}  color='#111219'
