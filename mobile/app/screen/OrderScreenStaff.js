@@ -46,8 +46,8 @@ class OrderScreenStaff extends React.Component {
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commandes</Text>
-                <View>
+                <Text style={styles.title}>Commandes à préparer</Text>
+                <View style={{marginTop: 40}}>
                 <FlatList style={styles.data}
                           data={this.state.orders}
                           keyExtractor={item => item.id.toString()}
@@ -59,7 +59,7 @@ class OrderScreenStaff extends React.Component {
                           }
                           )}>
                               <View style={styles.leftViewItem} flexDirection='row'>
-                                <Text style={styles.textRowListTitle}>Commande {item['numOrder']}</Text>
+                                <Text style={styles.textRowListTitle}>Commande N°{item['numOrder']}</Text>
                               </View>
                           </TouchableOpacity>
                           }
@@ -74,42 +74,46 @@ class OrderScreenStaff extends React.Component {
     
     
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor :'#111219'
-        },
-        title : {
-          marginTop: Platform.OS === 'ios' ? 60 : 40,
-          paddingLeft: 20,
-          fontSize: 30,
-          fontWeight: '600',
-          color: '#fff'
-        },
-        item: {
-          padding: 16,
-          marginVertical: 1,
-          marginHorizontal: 0,
-          borderBottomColor: '#343434',
-          borderBottomWidth: 0.2,
-          flexDirection: 'row',
-          color: '#fff'
-        },
-        textRowList: {
-          color: '#FFFF',
-          fontSize: 16,
-        },
-        textRowListTitle: {
-          width: 130,
-          color: '#FFFF',
-          fontSize: 16,
-          fontWeight: '600',
-          marginLeft: 10,
-          paddingTop: 5
-        },
-        leftViewItem: {
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-        },
+      container: {
+        flex: 1,
+        backgroundColor :'#111219'
+      },
+      title : {
+        marginTop: Platform.OS === 'ios' ? 60 : 40,
+        paddingLeft: 20,
+        fontSize: 30,
+        fontWeight: '600',
+        color: '#fff'
+      },
+      item: {
+        padding: 16,
+        marginVertical: 1,
+        marginHorizontal: 0,
+        borderBottomColor: '#343434',
+        borderBottomWidth: 0.2,
+        flexDirection: 'row',
+        color: '#fff'
+      },
+      textRowList: {
+        color: '#FFFF',
+        fontSize: 16,
+      },
+      textRowListTitle: {
+        width: 130,
+        color: '#FFFF',
+        fontSize: 16,
+        fontWeight: '600',
+        marginLeft: 10,
+        paddingTop: 5
+      },
+      leftViewItem: {
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+      },
+      validation: {
+        alignItems :'center',
+        marginTop: 20
+      },
       })
 
 export default OrderScreenStaff;

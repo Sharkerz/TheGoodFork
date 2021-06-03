@@ -29,6 +29,7 @@ class RegistrationScreen  extends Component{
                      visibilityTime: 6000,
                      text1: 'Erreur',
                      text2: res.data[Object.keys(res.data)[0]].toString(),
+                     topOffset: 60,
                  });
              }
             

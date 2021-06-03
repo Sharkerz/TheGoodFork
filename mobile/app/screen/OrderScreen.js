@@ -108,9 +108,9 @@ class OrderScreen extends React.Component {
           fontSize: 16,
         },
         textRowListTitle: {
-          width: 250,
+          width: 130,
           color: '#FFFF',
-          fontSize: 20,
+          fontSize: 16,
           fontWeight: '600',
           marginLeft: 10,
           paddingTop: 5
@@ -121,7 +121,7 @@ class OrderScreen extends React.Component {
         },
         validation: {
           alignItems :'center',
-          marginTop: 100
+          marginTop: 20
         },
       })
 
