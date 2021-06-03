@@ -12,6 +12,7 @@ import { SERVER_IP } from '@env';
 import { ScrollView } from 'react-native';
 import OrderService from '../service/OrderService'
 import Button from '../components/Button';
+import BackButton from '../components/BackButton'
 import Toast from 'react-native-toast-message';
 
 
@@ -68,7 +69,11 @@ class OrdersDetailsScreen extends React.Component {
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commande :{item['numOrder']}</Text>
+                <BackButton goBack={this.props.navigation.goBack}/>
+                <View style={{alignItems: 'center'}}>
+                  <Text style={styles.title}>Commande N°{item['numOrder']}</Text>
+                </View>
+
                 <View>
                 <FlatList style={styles.data}
                           data={this.state.orderDetails}
@@ -93,8 +98,8 @@ class OrdersDetailsScreen extends React.Component {
                           }
                 />
                 {this.state.orderDetails ? (
-                  <View style={styles.button}>
-                <Button   color='#111219'
+                <View style={styles.validation}>
+                <Button color='#111219' style={{width: 350}}
                     mode="outlined" onPress={() =>this.handleSubmit(item.id)} >
                         Valider
                 </Button>
@@ -114,11 +119,12 @@ class OrdersDetailsScreen extends React.Component {
           backgroundColor :'#111219'
         },
         title : {
-          marginTop: Platform.OS === 'ios' ? 60 : 40,
-          paddingLeft: 20,
+          marginTop: Platform.OS === 'ios' ? 70 : 50,
           fontSize: 30,
           fontWeight: '600',
-          color: '#fff'
+          color: '#fff',
+          textAlign: 'center',
+          width: 210 
         },
         item: {
           padding: 16,
@@ -127,33 +133,33 @@ class OrdersDetailsScreen extends React.Component {
           borderBottomColor: '#343434',
           borderBottomWidth: 0.2,
           flexDirection: 'row',
-          color: '#fff'
+          color: '#fff',
+          justifyContent: 'center'
         },
         textRowList: {
           color: '#FFFF',
-          fontSize: 16,
+          fontSize: 25,
         },
         textRowListTitle: {
-          width: 130,
+          width: 200,
           color: '#FFFF',
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: '600',
           marginLeft: 10,
         },
         leftViewItem: {
           justifyContent: 'center',
-          alignItems: 'flex-start',
-          textAlignVertical: 'center'
+          alignItems: 'center'
         },
         rightViewItem: {
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-        },button: {
-          width: 200,
-          margin :'auto',
+          // justifyContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'flex-end'
+        },
+        validation: {
           alignItems :'center',
-          justifyContent :'center'
+          marginTop: 50
         },
       })
 export default OrdersDetailsScreen;

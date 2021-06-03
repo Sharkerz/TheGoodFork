@@ -48,7 +48,7 @@ class OrderScreen extends React.Component {
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commandes</Text>
+                <Text style={styles.title}>Commandes à valider</Text>
                 <View>
                 <FlatList style={styles.data}
                           data={this.state.ordertovalidate}
@@ -61,7 +61,7 @@ class OrderScreen extends React.Component {
                           }
                           )}>
                               <View style={styles.leftViewItem} flexDirection='row'>
-                                <Text style={styles.textRowListTitle}>Commande {item['numOrder']}</Text>
+                                <Text style={styles.textRowListTitle}>Commande N°{item['numOrder']}</Text>
                               </View>
                           </TouchableOpacity>
                           }
@@ -101,9 +101,9 @@ class OrderScreen extends React.Component {
           fontSize: 16,
         },
         textRowListTitle: {
-          width: 130,
+          width: 250,
           color: '#FFFF',
-          fontSize: 16,
+          fontSize: 20,
           fontWeight: '600',
           marginLeft: 10,
           paddingTop: 5
