@@ -10,6 +10,7 @@ import {
     FlatList,
     Platform,
     ScrollView,
+    Modal
 } from 'react-native';
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
@@ -41,7 +42,7 @@ class ValidationScreen extends React.Component {
       var cost = 0.00
       this.setState({items : cartParsed})
       cartParsed.forEach(element => {
-        cost += parseFloat(element.price)  
+        cost += parseFloat(element.price) * element.quantity  
       })
       this.setState({cost : cost})
       console.log(this.state.cost)
@@ -113,7 +114,19 @@ class ValidationScreen extends React.Component {
                         onPress={this.onMomentPressMidday}>
                         <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
-                <DateTimePicker    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
+                <DateTimePicker 
+                  testID="dateTimePicker"
+                  minimumDate={new Date()}
+                  locale="fr-FR"
+                  value={new Date()}
+                  mode={'date'}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.dateHandler}
+                  style={{width: '100%'}}
+                />
+                <DateTimePicker
+                 style={{width:'100%'}}    //je sais pas sur IOS mais sur Android c'est une popup du coup faut pas la mettre ici je sais pas comment tu veux faire Seb
                   value={new Date()} //rien de fonctionnel pour changer le format reçu directement dans le DateTimePicker faut changer après genre dans le date Handle
                   mode={'time'}
                   is24Hour={true}
