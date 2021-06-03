@@ -37,8 +37,8 @@ class CartScreen extends React.Component {
   saveQuantity = async(id,num) =>{
     const items = this.state.items
     const objIndex = items.findIndex((obj => obj.id == id))
-    items[objIndex].quantité = num
-    if(items[objIndex].quantité == 0){
+    items[objIndex].quantity = num
+    if(items[objIndex].quantity == 0){
       items.splice(objIndex,1)
       console.log(items)
       await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
@@ -61,6 +61,7 @@ class CartScreen extends React.Component {
   }
 
      render(){
+       console.log(this.state.items)
       const isFocused = this.props;
         return(
             <View style={styles.container}>
@@ -73,7 +74,6 @@ class CartScreen extends React.Component {
                       renderItem={({item}) => 
                       
                       <TouchableOpacity style={styles.item}>
-                        {/* <Text style={{'color': 'white'}}>{item.name + " quantité : " + item.quantité.toString()}</Text> */}
                           <View style={styles.leftViewItem} flexDirection='row'>
                             <Image
                               source={{ uri: SERVER_IP + '/Images/MenuItem/'+ item.image }}
@@ -91,7 +91,7 @@ class CartScreen extends React.Component {
                                       step={1}
                                       colorMax={"#fff"}
                                       colorMin={"#fff"}
-                                      value={item.quantité}
+                                      value={item.quantity}
                                       onChange={(num)=>{this.saveQuantity(item.id,num)}}
                                       textColor={"#fff"}
                                       buttonPressTextColor={'#fff'}
@@ -110,7 +110,7 @@ class CartScreen extends React.Component {
             <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
                 mode="outlined" onPress={() => this.props.navigation.navigate('Validation')}>
-                Commandez
+                Commander
               </Button>
             </View>
             
@@ -152,11 +152,10 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: '600',
       marginLeft: 10,
-      paddingTop: 5
     },
     leftViewItem: {
       justifyContent: 'center',
-      alignItems: 'flex-start',
+      alignItems: 'center',
     },
     rightViewItem: {
       flex: 1,

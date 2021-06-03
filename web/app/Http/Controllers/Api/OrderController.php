@@ -21,39 +21,62 @@ class OrderController extends Controller
         $user = User::find($userId);
         $orderDetails =  $request['Value'];
 
-        $NCommande = Order::pluck('N°Commande')->last();
+        $NCommande = Order::pluck('numOrder')->last();
         if ($NCommande == null){
             $NCommande =1;
         }else{
             $NCommande = $NCommande +1;
         }
+        if ($user->role == 'waiters'){
         $validator = Validator::make($request->all(),
-        [
-            'N°Reservation' => 'nullable|int',
-            'onSite' => 'required|boolean',
-            'hour' => 'nullable|date_format:Y-m-d H:i',
-            'Prix_Totale' => 'nullable|numeric|between:0,499.99',
-            'comment' => 'nullable|string'
-        ]);
+            [
+                'numOrder' => 'nullable|int',
+                'onSite' => 'required|boolean',
+                'hour' => 'nullable|date_format:Y-m-d H:i',
+                'prixTotal' => 'nullable|numeric|between:0,499.99',
+                'comment' => 'nullable|string',
+                'userName' => 'required|string'
+            ]);
+        }else{
+            $validator = Validator::make($request->all(),
+            [
+                'numOrder' => 'nullable|int',
+                'onSite' => 'required|boolean',
+                'hour' => 'nullable|date_format:Y-m-d H:i',
+                'prixTotal' => 'nullable|numeric|between:0,499.99',
+                'comment' => 'nullable|string'
+            ]);
+        }
         if($validator->fails()) {
             return response()->json(
                 $validator->errors()->toJson(), 400
             );
         }
-        
-        $order = Order::create(array_merge(
-            $validator->validated(),
-            [
-                'N°Commande' => $NCommande,
-                'ready' => false,
-                'userId' => $userId
-            ]
-        ));
+        if ($user->role == 'waiters'){
+            $order = Order::create(array_merge(
+                $validator->validated(),
+                [
+                    'numOrder' => $NCommande,
+                    'ready' => false,
+                ]
+            ));
+        }else{
+            $order = Order::create(array_merge(
+                $validator->validated(),
+                [
+                    'numOrder' => $NCommande,
+                    'ready' => false,
+                    'userId' => $userId
+                ]
+            ));
+        }
+       
         foreach( $orderDetails as $item){
             $role = menu_category::where('id',$item['category_id'])->first();
             $menu_item = menu_item ::where('id', $item['id'])->first(); 
             $stock =(int) $menu_item->stock;
-            if ($item['quantité'] > $stock){
+            if ($item['quantity'] > $stock){
+                OrderDetails::where('order_id','=',$order->id)->delete();
                 Order::find($order->id)->delete();
                 return Response()->json([
                     'error' => 'Il reste uniquement '.$stock . ' ' . $item['name'] . ' dans le stock'
@@ -62,12 +85,12 @@ class OrderController extends Controller
                 OrderDetails::create([
                     'order_id' => $order->id,
                     'name' => $item['name'],
-                    'quantité' => $item['quantité'],
+                    'quantity' => $item['quantity'],
                     'ready' => 0,
                     'image' =>$item['image'],
                     'role' => $role->role
                 ]);
-                menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantité']]);
+                menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
 
@@ -85,7 +108,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'No order to validate or error'
-            ]);
+            ],400);
         }
     }
     public function orderDetails($id) {
@@ -100,7 +123,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'No Details for this order'
-            ]);
+            ],400);
         }
     }
     
@@ -112,4 +135,57 @@ class OrderController extends Controller
             'orderValidated' => 'Commande validée'
         ]);
     }
+
+    public function ordersForStaff() {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+        $orders = Order::where('validated', '=',1)
+            ->where('ready', '=', 0)
+            ->get();
+        if(!$orders->isEmpty()){
+            foreach($orders as $key => $order){
+                $orderdetails = OrderDetails::where('order_id', '=',$order->id)
+                ->where('role', '=',$user->role)
+                ->where('ready', '=',0)
+                ->get();
+                if($orderdetails->isEmpty()){
+                    unset($orders[$key]);
+                }
+            }
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders,
+            'oderdetails' => $orderdetails
+        ]);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'No order is waiting for you '
+        ]);  
+    }
+    public function itemsReady(Request $request) {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+        OrderDetails::where('order_id', '=',$request->order_id)
+            ->where('role', '=', $user->role)
+            ->update(['ready' =>1]);
+        $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready'); 
+        if (in_array(0,$orderItems->toArray())){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The elements are ready',
+            ]);
+        }else{
+            Order::where('id', '=',$request->order_id)->update(['ready' =>1]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The order is ready',
+            ]);
+        }
+       
+           
+        
+    }
+    
+    
 }

@@ -12,36 +12,25 @@ import { SERVER_IP } from '@env';
 import { ScrollView } from 'react-native';
 import OrderService from '../service/OrderService'
 import Button from '../components/Button';
-import BackButton from '../components/BackButton'
 import Toast from 'react-native-toast-message';
 
 
-class OrdersDetailsScreen extends React.Component {
+class OrdersDetailsScreenStaff extends React.Component {
     constructor(){
         super();
         this.state = {
             items: [],
         }
       }
-      getOrderDetails = async(item) =>{
-        await OrderService.orderDetails(item).then(async(res) =>{
-          if(res.status === 200){
-              this.setState({orderDetails : res.data.orderDetails})
-          }else{
-              console.log(res)
-          }
-         
-     }) 
-      }
       
       handleSubmit = async(id) =>{
-        await OrderService.validateOrders(id).then(async(res) =>{
+        await OrderService.itemsReady(id).then(async(res) =>{
             if(res.status === 200){
                 Toast.show({
                     text1: 'Succès',
                     text2: "La commande a été validée "
                 });
-                this.props.navigation.navigate('Orders')
+                this.props.navigation.navigate('OrdersForStaff')
             }else{
                 Toast.show({
                     type: 'error',
@@ -56,7 +45,6 @@ class OrdersDetailsScreen extends React.Component {
     
       componentDidMount(){
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-          this.getOrderDetails(this.props.route.params.item.id);
         });
       }
     
@@ -65,16 +53,15 @@ class OrdersDetailsScreen extends React.Component {
       }
     
          render(){
-          const item = this.props.route.params.item;
+          const items = this.props.route.params.orderDetails;
+          const numOrder = this.props.route.params.numOrder
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <BackButton goBack={this.props.navigation.goBack}/>
-                  <Text style={styles.title}>Commande N°{item['numOrder']}</Text>
-
-                <View style={{marginTop: 40}}>
+                <Text style={styles.title}>Commande N°{numOrder}</Text>
+                <View>
                 <FlatList style={styles.data}
-                          data={this.state.orderDetails}
+                          data={items}
                           keyExtractor={item => item.id.toString()}
                           renderItem={({item}) => 
                           
@@ -95,11 +82,11 @@ class OrdersDetailsScreen extends React.Component {
                           </TouchableOpacity>
                           }
                 />
-                {this.state.orderDetails ? (
-                <View style={styles.validation}>
-                <Button color='#111219' style={{width: 350}}
-                    mode="outlined" onPress={() =>this.handleSubmit(item.id)} >
-                        Valider
+                {items ? (
+                  <View style={styles.button}>
+                <Button   color='#111219'
+                    mode="outlined" onPress={() =>this.handleSubmit(numOrder)} >
+                        Prêt
                 </Button>
                 </View>
             ) : null }
@@ -117,13 +104,11 @@ class OrdersDetailsScreen extends React.Component {
           backgroundColor :'#111219'
         },
         title : {
-          marginTop: Platform.OS === 'ios' ? 70 : 50,
+          marginTop: Platform.OS === 'ios' ? 60 : 40,
+          paddingLeft: 20,
           fontSize: 30,
           fontWeight: '600',
-          color: '#fff',
-          textAlign: 'center',
-          marginLeft: 85,
-          marginRight: 85
+          color: '#fff'
         },
         item: {
           padding: 16,
@@ -132,33 +117,33 @@ class OrdersDetailsScreen extends React.Component {
           borderBottomColor: '#343434',
           borderBottomWidth: 0.2,
           flexDirection: 'row',
-          color: '#fff',
-          justifyContent: 'center'
+          color: '#fff'
         },
         textRowList: {
           color: '#FFFF',
-          fontSize: 25,
+          fontSize: 16,
         },
         textRowListTitle: {
-          width: 200,
+          width: 130,
           color: '#FFFF',
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: '600',
           marginLeft: 10,
         },
         leftViewItem: {
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'flex-start',
+          textAlignVertical: 'center'
         },
         rightViewItem: {
           flex: 1,
-          // justifyContent: 'center',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        },
-        validation: {
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        },button: {
+          width: 200,
+          margin :'auto',
           alignItems :'center',
-          marginTop: 50
+          justifyContent :'center'
         },
       })
-export default OrdersDetailsScreen;
+export default OrdersDetailsScreenStaff;

@@ -27,6 +27,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::post('/createOrder', [OrderController::class, 'createOrder']);
     Route::get('/orderToValidate', [OrderController::class, 'orderToValidate']);
     Route::get('/orderDetails/{id}', [OrderController::class, 'orderDetails']);
+    Route::get('/ordersForStaff', [OrderController::class, 'ordersForStaff']);
+    // Route::get('/ordersForCook', [OrderController::class, 'ordersForCook']);
+    Route::post('/itemsReady', [OrderController::class, 'itemsReady']);
     Route::post('/validateOrders', [OrderController::class, 'validateOrders']);
     Route::post('/createBooking', [BookingController::class, 'createBooking']);
 });

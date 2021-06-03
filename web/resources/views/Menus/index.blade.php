@@ -79,8 +79,8 @@
                                         <label for="AddMenuCategoryRole" class="col-md-4 col-form-label text-md-right">@lang('menus.role')</label>
                                         <div class="col-md-6">
                                         <select name="role" type="text" class="form-control" id="AddMenuCategoryRole" required>
-                                                <option value="Barman">@lang('userEdit.barman')</option>
-                                                <option value="Cook">@lang('userEdit.cook')</option>
+                                                <option value="barman">@lang('userEdit.barman')</option>
+                                                <option value="cook">@lang('userEdit.cook')</option>
                                         </select>
                                         </div>
                                         <div class="col-md-6 offset-md-4">
@@ -123,8 +123,8 @@
                                         <label for="EditMenuCategoryRole" class="col-md-4 col-form-label text-md-right">@lang('menus.role')</label>
                                         <div class="col-md-6">
                                         <select name="role" type="text" class="form-control" id="EditMenuCategoryRole" required>
-                                                <option value="Barman">@lang('userEdit.barman')</option>
-                                                <option value="Cook">@lang('userEdit.cook')</option>
+                                                <option value="barman">@lang('userEdit.barman')</option>
+                                                <option value="cook">@lang('userEdit.cook')</option>
                                         </select>
                                         </div>
                                         <div class="col-md-6 offset-md-4">

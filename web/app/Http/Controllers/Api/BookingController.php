@@ -25,7 +25,7 @@ class BookingController extends Controller
 
             $validator = Validator::make($request->all(),[
                 'date' => 'required|date_format:Y-m-d',
-                'Service' => 'required|string',
+                'service' => 'required|string',
                 'userName' => 'required|string',
                 'hour' => 'required|date_format:H:i',
                 'nbPersons' => 'required|integer'
@@ -34,7 +34,7 @@ class BookingController extends Controller
         else{
             $validator = Validator::make($request->all(),
             ['date' => 'required|date_format:Y-m-d',
-            'Service' => 'required|string',
+            'service' => 'required|string',
             'hour' => 'required|date_format:H:i',
             'nbPersons' => 'required|integer',
             ]);
@@ -45,7 +45,7 @@ class BookingController extends Controller
             );
         }
         $bookings = Booking::where('date', '=', $request['date'])
-            ->where('Service', '=',$request['Service'])
+            ->where('service', '=',$request['service'])
             ->where('hour', '=', $request['hour'])
             ->pluck('tableId');
         $table = Tables::orderBy('NbPersons','ASC')
