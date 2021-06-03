@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator, CartStackNavigator,OrderStackNavigator} from './StackNavigator';
+import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator, CartStackNavigator,OrderStackNavigator,OrderStaffStackNavigator} from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -112,7 +112,7 @@ const Tabs = ({ user }) => {
                         ...styles.shadow
                     }
                 }}>
-                    <Tab.Screen name="Home" component={MainStackNavigator} options={{
+                    <Tab.Screen name="OrdersForStaff" component={OrderStaffStackNavigator} options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
@@ -165,11 +165,11 @@ const Tabs = ({ user }) => {
                         ...styles.shadow
                     }
                 }}>
-                    <Tab.Screen name="Home" component={MainStackNavigator} options={{
+                    <Tab.Screen name="OrdersForStaff" component={OrderStaffStackNavigator} options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
-                                source={require('../assets/houseIcon.png')}
+                                source={require('../assets/List.png')}
                                 resizeMode='contain'
                                 style={{
                                     width: 60,
