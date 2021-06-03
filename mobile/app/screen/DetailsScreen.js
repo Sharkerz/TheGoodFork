@@ -18,6 +18,7 @@ import Background from '../components/Background'
 import BackButton from '../components/BackButton'
 import { SERVER_IP } from '@env';
 import InputSpinner from 'react-native-input-spinner';
+import Toast from 'react-native-toast-message';
 
 
 class DetailScreen extends React.Component {
@@ -37,12 +38,31 @@ class DetailScreen extends React.Component {
                     const objIndex = newCart.findIndex((obj => obj.id == test.id));
                     newCart[objIndex].quantity = parseInt(newCart[objIndex].quantity) + parseInt(this.state.quantity)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                    Toast.show({
+                        text1: 'Succès',
+                        text2: "Votre choix a été ajouté au panier ! 🎉",
+                        topOffset: 60,
+                    });
                 }else{
                     newCart.push(test)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                    Toast.show({
+                        type: 'error',
+                        visibilityTime: 6000,
+                        text1: 'Erreur',
+                        text2: res.data[Object.keys(res.data)[0]].toString(),
+                        topOffset: 60,
+                    });
                 }
             } else {
                 await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                    topOffset: 60,
+                });
             }
         }
 
@@ -71,7 +91,16 @@ class DetailScreen extends React.Component {
                                     width: "120%",
                                     height: 400,
                                 }}/>
-                            <Text style={{width: 400, paddingLeft: 15, paddingRight: 15,textAlign:'center', marginTop: 20, fontSize: 26, fontWeight: '600', color: '#fff',marginBottom: 10}}>{item.name}</Text>
+                            <Text style={{
+                                textAlign:'center', 
+                                marginTop: 20, 
+                                marginLeft: 90,
+                                marginRight: 90,
+                                fontSize: 26, 
+                                fontWeight: '600', 
+                                color: '#fff',
+                                marginBottom: 10}}
+                                >{item.name}</Text>
                             <Text style={{paddingLeft:15, paddingRight: 15, textAlign:'center', fontSize: 16,  color: '#fff',marginBottom: '5%'}}>{item.description}</Text>
                             <Text style={{paddingLeft:15, paddingRight: 15,textAlign:'center', fontSize: 18, fontWeight: '600', color: '#fff',marginBottom: '5%'}}>{item.price}€</Text>
                         <View style={{marginTop: 10, marginLeft: 110, marginRight: 110, alignItems: 'center'}}>
@@ -118,10 +147,11 @@ const styles = StyleSheet.create({
     },
     backBtn: {
         flexDirection:"row",
-        top: 420,
+        top: 385,
         height: 70,
         width: 70,
         flex: 1,
+        marginLeft: -10,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',

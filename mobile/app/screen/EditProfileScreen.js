@@ -59,6 +59,7 @@ class EditProfileScreen extends Component {
                 Toast.show({
                     text1: 'Succès',
                     text2: "Modification bien prise en compte 🎉",
+                    topOffset: 60,
                 });
             }
             else {
@@ -67,6 +68,7 @@ class EditProfileScreen extends Component {
                     visibilityTime: 6000,
                     text1: 'Erreur',
                     text2: res.data[Object.keys(res.data)[0]].toString(),
+                    topOffset: 60,
                 });
             }
         })

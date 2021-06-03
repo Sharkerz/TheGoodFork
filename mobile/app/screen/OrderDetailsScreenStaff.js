@@ -12,6 +12,7 @@ import { SERVER_IP } from '@env';
 import { ScrollView } from 'react-native';
 import OrderService from '../service/OrderService'
 import Button from '../components/Button';
+import BackButton from '../components/BackButton'
 import Toast from 'react-native-toast-message';
 
 
@@ -58,8 +59,10 @@ class OrdersDetailsScreenStaff extends React.Component {
             return(
                 <View style={styles.container}>
                 <ScrollView>
-                <Text style={styles.title}>Commande N°{numOrder}</Text>
-                <View>
+                <BackButton goBack={this.props.navigation.goBack}/>
+                  <Text style={styles.title}>Commande N°{numOrder}</Text>
+
+                <View style={{marginTop: 40}}>
                 <FlatList style={styles.data}
                           data={items}
                           keyExtractor={item => item.id.toString()}
@@ -83,10 +86,10 @@ class OrdersDetailsScreenStaff extends React.Component {
                           }
                 />
                 {items ? (
-                  <View style={styles.button}>
-                <Button   color='#111219'
+                  <View style={styles.validation}>
+                <Button   color='#111219' style={{width: 350}}
                     mode="outlined" onPress={() =>this.handleSubmit(numOrder)} >
-                        Prêt
+                        La commande est prête
                 </Button>
                 </View>
             ) : null }
@@ -99,51 +102,53 @@ class OrdersDetailsScreenStaff extends React.Component {
     
     
     const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor :'#111219'
-        },
-        title : {
-          marginTop: Platform.OS === 'ios' ? 60 : 40,
-          paddingLeft: 20,
-          fontSize: 30,
-          fontWeight: '600',
-          color: '#fff'
-        },
-        item: {
-          padding: 16,
-          marginVertical: 1,
-          marginHorizontal: 0,
-          borderBottomColor: '#343434',
-          borderBottomWidth: 0.2,
-          flexDirection: 'row',
-          color: '#fff'
-        },
-        textRowList: {
-          color: '#FFFF',
-          fontSize: 16,
-        },
-        textRowListTitle: {
-          width: 130,
-          color: '#FFFF',
-          fontSize: 16,
-          fontWeight: '600',
-          marginLeft: 10,
-        },
-        leftViewItem: {
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          textAlignVertical: 'center'
-        },
-        rightViewItem: {
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-        },button: {
-          width: 200,
-          margin :'auto',
-          alignItems :'center',
-          justifyContent :'center'
-        },
+      container: {
+        flex: 1,
+        backgroundColor :'#111219'
+      },
+      title : {
+        marginTop: Platform.OS === 'ios' ? 70 : 50,
+        fontSize: 30,
+        fontWeight: '600',
+        color: '#fff',
+        textAlign: 'center',
+        marginLeft: 85,
+        marginRight: 85
+      },
+      item: {
+        padding: 16,
+        marginVertical: 1,
+        marginHorizontal: 0,
+        borderBottomColor: '#343434',
+        borderBottomWidth: 0.2,
+        flexDirection: 'row',
+        color: '#fff',
+        justifyContent: 'center'
+      },
+      textRowList: {
+        color: '#FFFF',
+        fontSize: 25,
+      },
+      textRowListTitle: {
+        width: 200,
+        color: '#FFFF',
+        fontSize: 18,
+        fontWeight: '600',
+        marginLeft: 10,
+      },
+      leftViewItem: {
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      rightViewItem: {
+        flex: 1,
+        // justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+      },
+      validation: {
+        alignItems :'center',
+        marginTop: 50
+      },
       })
 export default OrdersDetailsScreenStaff;
