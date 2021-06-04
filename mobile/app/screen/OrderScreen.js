@@ -50,7 +50,7 @@ class OrderScreen extends React.Component {
                 <View style={styles.container}>
                 <ScrollView>
                 <Text style={styles.title}>Commandes à valider</Text>
-                <View style={{marginTop: 40}}>
+                <View style={{marginTop: 15}}>
                 <FlatList style={styles.data}
                           data={this.state.ordertovalidate}
                           keyExtractor={item => item.id.toString()}
@@ -108,7 +108,7 @@ class OrderScreen extends React.Component {
           fontSize: 16,
         },
         textRowListTitle: {
-          width: 130,
+          width: 200,
           color: '#FFFF',
           fontSize: 16,
           fontWeight: '600',
@@ -121,7 +121,8 @@ class OrderScreen extends React.Component {
         },
         validation: {
           alignItems :'center',
-          marginTop: 20
+          marginTop: 20,
+          marginBottom: 100
         },
       })
 
