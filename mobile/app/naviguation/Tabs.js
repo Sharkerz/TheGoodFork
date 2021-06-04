@@ -41,6 +41,22 @@ const Tabs = ({ user }) => {
                             </View>
                         )
                     }} />
+                    <Tab.Screen name="Booking" component={ContactStackNavigator} options={{
+                        tabBarIcon: ({focused}) => (
+                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+                                <Image 
+                                source={require('../assets/bookingIcon.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 60,
+                                    height: 60,
+                                    marginTop: -15,
+                                    tintColor: focused ? '#fff' : '#5A5B61'
+                                }}>   
+                                </Image>
+                            </View>
+                        )
+                    }} />
                     <Tab.Screen name="Home" component={MainStackNavigator} options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>

@@ -1,28 +1,25 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
-    ImageBackground,
     StyleSheet,
     View,
     Text,
-    Image,
-    SafeAreaView,
     TouchableOpacity,
-    FlatList,
     Platform,
     ScrollView,
-    TouchableWithoutFeedback
 } from 'react-native';
 import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import InputSpinner from 'react-native-input-spinner'
 import { SERVER_IP } from '@env'
 import axios from 'axios'
 import * as SecureStore from "expo-secure-store"
 import {Calendar} from 'react-native-calendars';
+import BookingService from '../service/BookingService'
+import Toast from 'react-native-toast-message';
 import {LocaleConfig} from 'react-native-calendars';
 import RNPickerSelect from 'react-native-picker-select';
+import OrderService from '../service/OrderService';
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
   monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -37,13 +34,29 @@ class ValidationScreen extends React.Component {
     super();
     this.state = {
       markedDates: {},
-      resNumber: null,
       onSite: true,  //remplacer les deux bouton par un checker qui modifie le state de onSite en true ou false ? à toi de voir Seb pour dire quand c'est sur place ou non t'as juste a modifier ce state en true ou false
       time: null,
+      date :null,
       cost: 0.00,
+      selectedDate : null,
       items: [],
       comment: "",
-      onSiteSelected : false
+      onSiteSelected : false,
+      timePicker : [
+        { label: '12:00', value: '12:00' },
+        { label: '12:30', value: '12:30' },
+        { label: '13:00', value: '13:00' },
+        { label: '13:30', value: '13:30' },
+        { label: '14:00', value: '14:00' },
+        { label: '14:30', value: '14:30' },
+        { label: '18:00', value: '18:00' },
+        { label: '18:30', value: '18:30' },
+        { label: '19:00', value: '19:00' },
+        { label: '19:30', value: '19:30' },
+        { label: '20:00', value: '20:00' },
+        { label: '20:30', value: '20:30' },
+    ],
+    BookingPicker : []
     }
   }
   getCard = async() =>{
@@ -56,7 +69,6 @@ class ValidationScreen extends React.Component {
         cost += parseFloat(element.price) * element.quantity  
       })
       this.setState({cost : cost})
-      console.log(this.state.cost)
     })
   }
 
@@ -69,14 +81,41 @@ class ValidationScreen extends React.Component {
                                  selected: true,
                                  selectedColor: color}}
         this.setState({markedDates})
-        this.setState({shouldShow: true}) 
+        if(this.state.date != null){
+          this.setState({date : this.state.selectedDate + ' ' +this.state.time})
+        }
 }
 
 
   componentDidMount(){
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.getCard();
+      this.getReservations(this.props.route.params.userName)
     });
+  }
+
+  getReservations = async(userName) => {
+    await BookingService.getReservations(userName).then(async(res) =>{
+      if(res.data.status === "success"){
+        bookings = []
+        const temp = res.data.bookings
+        temp.forEach(element => {
+          date = new Date(element.date)
+          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
+          bookings.push({label : date, value : element.id}) 
+        })
+        this.setState({BookingPicker : bookings})
+      }else{
+          Toast.show({
+              type: 'error',
+              visibilityTime: 6000,
+              text1: 'Erreur',
+              text2: res.data.message.toString(),
+              topOffset: 60,
+          });
+      }
+     
+ })  
   }
 
   componentWillUnmount() {
@@ -87,8 +126,32 @@ class ValidationScreen extends React.Component {
     this.setState({comment: text})
   }
 
-  handleSubmit(){
-    this.validate(this.state.resNumber, this.state.onSite, this.state.time, this.state.cost, this.state.items, this.state.comment)
+  handleSubmit = async() =>{
+    data = { 
+      numBooking : this.state.numBooking,   
+      onSite: this.state.onSite,
+      hour: this.state.date,
+      prixTotal: this.state.cost,
+      Value: this.state.items,
+      comment: this.state.comment,
+      userName : this.props.route.params.userName}
+    await OrderService.createOrder(data).then(async(res) =>{
+      if(res.data.status === "success"){
+        Toast.show({
+          text1: 'Succès',
+          text2: "Votre commande est pasée sans problème! 🎉",
+          topOffset: 60,
+      });
+      }else{
+          Toast.show({
+              type: 'error',
+              visibilityTime: 6000,
+              text1: 'Erreur',
+              text2: res.data.message.toString(),
+              topOffset: 60,
+          });
+      }
+    })
   }
 
   TakeAWayHandler =() =>{
@@ -100,31 +163,18 @@ class ValidationScreen extends React.Component {
     this.setState({onSite : true})
     this.setState({onSiteSelected : true})
   }
-
-
-  validate = async(resNumber, onSite, time, cost, items, comment) =>{   //requete dans fonction pour t'aider a la deplacer beness
-    const token = await SecureStore.getItemAsync('secure_token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-    await axios.post(SERVER_IP + '/api/createOrder', { 
-      numOrder: resNumber,    
-      onSite: onSite,
-      hour: time,
-      prixTotal: cost,
-      Value: items,
-      comment: comment
-    }, config)
-    .then(response => {
-      console.log(response)
-    })
-    .catch(err => {
-      console.log(err.response)
-    })
+   
+  setTime = (time) =>{
+    date = this.state.selectedDate + ' ' + time
+    this.setState({time : time})
+    this.setState({date : date})
+  }
+  BookingNum = (numBooking) =>{
+    this.setState({numBooking : numBooking})
   }
 
+
      render(){
-      const isFocused = this.props;
         return(
             <View style={styles.container}>
             <ScrollView>
@@ -146,8 +196,8 @@ class ValidationScreen extends React.Component {
               </View>
               {
                     !this.state.onSite && this.state.onSiteSelected ? (
-                      <View>
-                        <Calendar style={{marginTop: 10}} 
+                      <View style={styles.DateInfo}>
+                        <Calendar style={{marginTop: 10,width : '95%',marginLeft : '2.5%'}} 
                         theme={{
                             calendarBackground: '#111219',
                             dayTextColor: 'white',
@@ -160,25 +210,63 @@ class ValidationScreen extends React.Component {
                             firstDay={1}
                             markedDates = {this.state.markedDates}
                             minDate={Date()}/> 
-                            <View>
+                            {
+                    this.state.selectedDate ? (
+                            <View style={{
+                              borderColor: 'white',
+                              borderWidth: 1,
+                              marginLeft: 100,
+                              width: 200,
+                              height : 40,
+                              justifyContent : 'center',
+                              borderRadius : 10,
+                             
+                            }}>
 
                            
-                            <RNPickerSelect
-                              onValueChange={(value) => console.log(value)}
-                              items={[
-                                  { label: 'Football', value: 'football' },
-                                  { label: 'Baseball', value: 'baseball' },
-                                  { label: 'Hockey', value: 'hockey' },
-                              ]}
+                            <RNPickerSelect style={{ inputAndroid: { color: 'white', textAlign: 'center',},inputIOS: { color: 'white', textAlign: 'center',}}}
+                                value = {this.state.time}
+                             useNativeAndroidPickerStyle={false}
+                             placeholder={{
+                              label: 'Selectionner une heure',
+                              value: null,
+                            }}
+                              onValueChange={(value) => this.setTime(value)}
+                              items={this.state.timePicker}
                           />
                            </View>
+                    ) : null}
                   </View>
                         
                     ) : null
                 }
-              
+                 {this.state.onSite  && this.state.onSiteSelected? (
+                            <View style={{
+                              borderColor: 'white',
+                              borderWidth: 1,
+                              marginLeft: 100,
+                              width: 200,
+                              height : 40,
+                              justifyContent : 'center',
+                              borderRadius : 10,
+                             
+                            }}>
+
+                           
+                            <RNPickerSelect style={{ inputAndroid: { color: 'white', textAlign: 'center',},inputIOS: { color: 'white', textAlign: 'center',}}}
+                                value = {this.state.numBooking}
+                             useNativeAndroidPickerStyle={false}
+                             placeholder={{
+                              label: 'Selectionner une réservation',
+                              value: null,
+                            }}
+                              onValueChange={(value) => this.BookingNum(value)}
+                              items={this.state.BookingPicker}
+                          />
+                           </View>
+                    ) : null}
             <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
-                <Button style={{width: 350}}  color='#111219'
+                <Button style={{width : '90%'}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande
                 </Button> 
@@ -273,7 +361,10 @@ const styles = StyleSheet.create({
         color: "#292A32",
         marginBottom: 30,
         paddingBottom: 20
-    },
+    },DateInfo :{
+      width : '100%',
+      justifyContent : 'center'
+    }
     
   })
 

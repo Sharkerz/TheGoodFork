@@ -73,5 +73,18 @@ class OrderService{
             return err.response
         })
     }
+    createOrder = async(data) =>{
+    const token = await SecureStore.getItemAsync('secure_token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    return await axios.post(SERVER_IP + '/api/createOrder', data, config)
+    .then(response => {
+      return response
+    })
+    .catch(err => {
+      return err.response
+    })
+    }
 }
 export default new OrderService

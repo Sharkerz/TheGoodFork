@@ -47,20 +47,16 @@ class DetailScreen extends React.Component {
                     newCart.push(test)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
                     Toast.show({
-                        type: 'error',
-                        visibilityTime: 6000,
-                        text1: 'Erreur',
-                        text2: res.data[Object.keys(res.data)[0]].toString(),
+                        text1: 'Succès',
+                        text2: "Votre choix a été ajouté au panier ! 🎉",
                         topOffset: 60,
                     });
                 }
             } else {
                 await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
                 Toast.show({
-                    type: 'error',
-                    visibilityTime: 6000,
-                    text1: 'Erreur',
-                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                    text1: 'Succès',
+                    text2: "Votre choix a été ajouté au panier ! 🎉",
                     topOffset: 60,
                 });
             }
