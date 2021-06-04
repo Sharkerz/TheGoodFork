@@ -123,12 +123,15 @@ class CartScreen extends React.Component {
                     </View>
 
                 ) : null}
-            <View style={{alignItems:'center'}}>
-              <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
-                Valider la commande
-              </Button>
-            </View>
+                 {this.state.items.length != 0 ? (
+                    <View style={{alignItems:'center'}}>
+                    <Button color='#111219' style={styles.shippingButton}
+                      mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
+                      Valider la commande
+                    </Button>
+                  </View>
+                ) : null}
+           
             
           </ScrollView>
       </View>

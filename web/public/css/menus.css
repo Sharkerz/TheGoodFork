@@ -78,16 +78,17 @@
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 10px;
     text-align: center;
     background-color: #f1f1f1;
+    min-height: inherit;
+    max-height: 600px;
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 600px) {
     .column {
       width: 100%;
       display: block;
-      margin-bottom: 20px;
       
     }
 }
@@ -96,6 +97,7 @@
     content: "";
     display: table;
     clear: both;
+    height: 50%;
 }
 
 /* Float four columns side by side */
@@ -142,5 +144,9 @@
 
 .ActionCase{
     align-items: center;
+}
+
+.ItemDescription{
+    font-size: medium;
 }
 
