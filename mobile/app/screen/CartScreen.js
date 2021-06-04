@@ -130,7 +130,9 @@ class CartScreen extends React.Component {
                       Valider la commande
                     </Button>
                   </View>
-                ) : null}
+                ) : <View style={styles.emptyTextView}>
+                     <Text style={styles.emptyText}>La panier est vide 😕</Text>
+                 </View>}
            
             
           </ScrollView>
@@ -198,6 +200,16 @@ const styles = StyleSheet.create({
       borderColor: '#5A5B61',
       color: "#292A32",
   },
+    emptyTextView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        marginTop: '60%'
+    },
+    emptyText: {
+        color: 'white',
+        fontSize: 25,
+    }
   })
 
 export default CartScreen;

@@ -101,7 +101,7 @@ class ValidationScreen extends React.Component {
         const temp = res.data.bookings
         temp.forEach(element => {
           date = new Date(element.date)
-          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
+          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " " + element.hour
           bookings.push({label : date, value : element.id}) 
         })
         this.setState({BookingPicker : bookings})

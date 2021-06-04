@@ -27,6 +27,7 @@ class BookingScreen extends React.Component {
             shouldShow: false,
             hourShow: false,
             middayHoursShow: false,
+            NbPersons: 1,
             hourlist : ['12:00','14:00','18:00','20:00']
         }
         this.SetHour = this.SetHour.bind(this);
