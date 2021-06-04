@@ -4,7 +4,6 @@ import {
     View,
     Text,
     Image,
-    TextInput,
     TouchableOpacity,
     FlatList,
     Platform,
@@ -14,6 +13,7 @@ import Button from '../components/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import InputSpinner from 'react-native-input-spinner';
 import { SERVER_IP } from '@env';
+import {TextInput} from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 
 const test = AsyncStorage.getItem('cartSaved')
@@ -116,9 +116,11 @@ class CartScreen extends React.Component {
             />
             </View>
             {this.state.role == 'waiters' ? (
-                   <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
-                    mode="flat"  onChangeText={this.userNameHandler}>
-                    </TextInput>
+                    <View style={{alignItems: 'center'}}>
+                      <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
+                        mode="flat"  onChangeText={this.userNameHandler}>
+                      </TextInput>
+                    </View>
 
                 ) : null}
             <View style={{alignItems:'center'}}>
@@ -183,14 +185,15 @@ const styles = StyleSheet.create({
     },
     textuserName: {
       width: 300,
-      marginTop: 15,
+      marginTop: 20,
+      marginBottom: 20,
       backgroundColor: "#1B1C23",
-      borderRadius: 20,
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
+      borderRadius: 15,
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
       borderWidth: 2,
       borderColor: '#5A5B61',
-      color: "#292A32"
+      color: "#292A32",
   },
   })
 

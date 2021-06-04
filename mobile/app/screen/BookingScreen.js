@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity,TextInput} from 'react-native';
+import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import Button from '../components/Button';
@@ -7,6 +7,7 @@ import InputSpinner from 'react-native-input-spinner';
 import BookingService from '../service/BookingService'
 import Toast from 'react-native-toast-message';
 import * as SecureStore from "expo-secure-store";
+import {TextInput} from "react-native-paper";
 LocaleConfig.locales['fr'] = {
     monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -215,9 +216,12 @@ class BookingScreen extends React.Component {
                 : null }
             </View>
             {this.state.shouldShow  && this.state.Service  && this.state.hour  && this.state.role == 'waiters' ? (
-                   <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
-                    mode="flat"  onChangeText={this.userNameHandler}>
+                <View style={{alignItems: 'center'}}>
+                    <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="Nom du client"
+                        mode="flat"  onChangeText={this.userNameHandler}>
                     </TextInput>
+                </View>
+
 
                 ) : null}
             <View style={{alignItems:'center', marginBottom: 100}}>
@@ -288,14 +292,15 @@ const styles = StyleSheet.create({
     },
     textuserName: {
         width: 300,
-        marginTop: 15,
+        marginTop: 10,
+        marginBottom: 20,
         backgroundColor: "#1B1C23",
-        borderRadius: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
         borderWidth: 2,
         borderColor: '#5A5B61',
-        color: "#292A32"
+        color: "#292A32",
     },
   })
 
