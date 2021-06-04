@@ -1,11 +1,10 @@
 import React  from 'react'
 import {
-    ImageBackground,
     StyleSheet,
     View,
     Text,
     Image,
-    SafeAreaView,
+    TextInput,
     TouchableOpacity,
     FlatList,
     Platform,
@@ -15,6 +14,7 @@ import Button from '../components/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import InputSpinner from 'react-native-input-spinner';
 import { SERVER_IP } from '@env';
+import * as SecureStore from "expo-secure-store";
 
 const test = AsyncStorage.getItem('cartSaved')
 
@@ -34,13 +34,18 @@ class CartScreen extends React.Component {
     })
   }
 
+  getUser = async() =>{
+    await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+        this.setState({role: res.role})
+    })
+}
+
   saveQuantity = async(id,num) =>{
     const items = this.state.items
     const objIndex = items.findIndex((obj => obj.id == id))
     items[objIndex].quantity = num
     if(items[objIndex].quantity == 0){
       items.splice(objIndex,1)
-      console.log(items)
       await AsyncStorage.setItem('cartSaved',JSON.stringify(items))
       this.getCard()
     }else{
@@ -49,10 +54,14 @@ class CartScreen extends React.Component {
     }
   }
 
+  userNameHandler = (text) => {
+    this.setState({userName: text})
+}
 
   componentDidMount(){
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.getCard();
+      this.getUser();
     });
   }
 
@@ -61,7 +70,6 @@ class CartScreen extends React.Component {
   }
 
      render(){
-       console.log(this.state.items)
       const isFocused = this.props;
         return(
             <View style={styles.container}>
@@ -107,9 +115,15 @@ class CartScreen extends React.Component {
                       }
             />
             </View>
+            {this.state.role == 'waiters' ? (
+                   <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
+                    mode="flat"  onChangeText={this.userNameHandler}>
+                    </TextInput>
+
+                ) : null}
             <View style={{alignItems:'center'}}>
               <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" onPress={() => this.props.navigation.navigate('Validation')}>
+                mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
                 Valider la commande
               </Button>
             </View>
@@ -167,6 +181,17 @@ const styles = StyleSheet.create({
       width: 300,
       marginBottom: 150
     },
+    textuserName: {
+      width: 300,
+      marginTop: 15,
+      backgroundColor: "#1B1C23",
+      borderRadius: 20,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      borderWidth: 2,
+      borderColor: '#5A5B61',
+      color: "#292A32"
+  },
   })
 
 export default CartScreen;

@@ -30,24 +30,53 @@ class OrderController extends Controller
             $NCommande = $NCommande +1;
         }
         if ($user->role == 'waiters'){
-        $validator = Validator::make($request->all(),
-            [
-                'numOrder' => 'nullable|int',
-                'onSite' => 'required|boolean',
-                'hour' => 'nullable|date_format:Y-m-d H:i',
-                'prixTotal' => 'nullable|numeric|between:0,499.99',
-                'comment' => 'nullable|string',
-                'userName' => 'required|string'
-            ]);
+            if($request->onSite == true){
+                $validator = Validator::make($request->all(),
+                [
+                    'numOrder' => 'nullable|int',
+                    'onSite' => 'required|boolean',
+                    'hour' => 'nullable|date_format:Y-m-d H:i',
+                    'prixTotal' => 'nullable|numeric|between:0,499.99',
+                    'comment' => 'nullable|string',
+                    'userName' => 'required|string',
+                    'numBooking' => 'required|int'
+                ]);
+                
+            }
+            else{
+                $validator = Validator::make($request->all(),
+                [
+                    'numOrder' => 'nullable|int',
+                    'onSite' => 'required|boolean',
+                    'hour' => 'nullable|date_format:Y-m-d H:i',
+                    'prixTotal' => 'nullable|numeric|between:0,499.99',
+                    'comment' => 'nullable|string',
+                    'userName' => 'required|string',
+                ]);   
+            }
         }else{
-            $validator = Validator::make($request->all(),
-            [
-                'numOrder' => 'nullable|int',
-                'onSite' => 'required|boolean',
-                'hour' => 'nullable|date_format:Y-m-d H:i',
-                'prixTotal' => 'nullable|numeric|between:0,499.99',
-                'comment' => 'nullable|string'
-            ]);
+            if($request->onSite == true){
+                $validator = Validator::make($request->all(),
+                [
+                    'numOrder' => 'nullable|int',
+                    'onSite' => 'required|boolean',
+                    'hour' => 'nullable|date_format:Y-m-d H:i',
+                    'prixTotal' => 'nullable|numeric|between:0,499.99',
+                    'comment' => 'nullable|string',
+                    'numBooking' => 'required|int'
+                ]);
+                
+            }
+            else{
+                $validator = Validator::make($request->all(),
+                [
+                    'numOrder' => 'nullable|int',
+                    'onSite' => 'required|boolean',
+                    'hour' => 'nullable|date_format:Y-m-d H:i',
+                    'prixTotal' => 'nullable|numeric|between:0,499.99',
+                    'comment' => 'nullable|string',
+                ]);   
+            }
         }
         if($validator->fails()) {
             return response()->json(
@@ -85,8 +114,8 @@ class OrderController extends Controller
             if ($item['quantity'] > $stock){
                 OrderDetails::where('order_id','=',$order->id)->delete();
                 Order::find($order->id)->delete();
-                return Response()->json([
-                    'error' => 'Il reste uniquement '.$stock . ' ' . $item['name'] . ' dans le stock'
+                return Response()->json(['status' => 'failed',
+                    'message' => 'Il reste uniquement '.$stock . ' ' . $item['name'] . ' dans le stock'
                 ], 401);
             }else{
                 OrderDetails::create([
@@ -111,7 +140,7 @@ class OrderController extends Controller
                 ]);
             }
 
-        return response()->json(['status' => 'sucess'],200);
+        return response()->json(['status' => 'success'],200);
     }
 
     public function orderToValidate() {

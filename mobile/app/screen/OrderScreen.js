@@ -25,7 +25,6 @@ class OrderScreen extends React.Component {
       getOrders = async() =>{
         await OrderService.ordertovalidate().then(async(res) =>{
             if(res.status === 200){
-                // console.log(res.data.ordertovalidate)
                 this.setState({ordertovalidate : res.data.ordertovalidate})
             }else{
                 console.log(res)

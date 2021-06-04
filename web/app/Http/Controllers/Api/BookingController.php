@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Tables;
 use Validator;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -18,9 +19,7 @@ class BookingController extends Controller
 
     public function createBooking(Request $request) {
         $userId = auth('api')->user()['id'];
-        //return $userId;
         $user = User::find($userId);
-        $users = User::all()->pluck('id');
         if ($user->role == 'waiters'){
 
             $validator = Validator::make($request->all(),[
@@ -66,7 +65,7 @@ class BookingController extends Controller
                 ]);
         }else{
             User::where('id','=',$userId)
-            ->update(['visites' => $user->visites + 1]);
+            ->update(['numbersVisit' => $user->numbersVisit + 1]);
             $booking = array_merge(
                 $validator->validated(),
                 [
@@ -78,5 +77,28 @@ class BookingController extends Controller
         Booking::create($booking);
         return response()->json(['status' => 'success'],200);
 
+    }
+
+    public function getBookings($userName){
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+        if ($user->role == 'waiters'){
+            $bookings =Booking::where('userName', '=', $userName)
+            ->where('date','>=', Carbon::today())
+            ->get();
+            return response()->json(
+                ['status' => 'success',
+                'bookings' => $bookings]
+                ,200);
+        }
+        else{
+            $bookings =Booking::where('userId', '=', $user->id)
+            ->where('date','>=', Carbon::today())
+            ->get();
+            return response()->json(
+                ['status' => 'success',
+                'bookings' => $bookings]
+                ,200);
+        }
     }
 }

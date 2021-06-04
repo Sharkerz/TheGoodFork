@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
-import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity} from 'react-native';
+import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity,TextInput} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import Button from '../components/Button';
 import InputSpinner from 'react-native-input-spinner';
 import BookingService from '../service/BookingService'
 import Toast from 'react-native-toast-message';
+import * as SecureStore from "expo-secure-store";
 LocaleConfig.locales['fr'] = {
     monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -30,8 +31,23 @@ class BookingScreen extends React.Component {
         this.SetHour = this.SetHour.bind(this);
     }
     
+    componentDidMount(){
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+          this.getUser();
+        });
+      }
+    getUser = async() =>{
+        await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+            this.setState({role: res.role})
+        })
+    }
+    
+      componentWillUnmount() {
+        this._unsubscribe();
+      }
+
     onDayPress = async(day) => {
-        await this.setState({selectedDate : day.dateString})
+        this.setState({selectedDate : day.dateString})
         this.setState({markedDates : {}})
             const color = 'red'
             const markedDates = {...this.state.markedDates,
@@ -61,9 +77,12 @@ class BookingScreen extends React.Component {
     setNbPersons = (num) => {
         this.setState({NbPersons:num})
     }
+    userNameHandler = (text) => {
+        this.setState({userName: text})
+    }
 
     handleSubmit = async() =>{
-        var object = {date : this.state.selectedDate,service : this.state.Service,userName : '',hour : this.state.hour,nbPersons : this.state.NbPersons}
+        var object = {date : this.state.selectedDate,service : this.state.Service,userName : this.state.userName,hour : this.state.hour,nbPersons : this.state.NbPersons}
         await BookingService.create(object).then(async(res) =>{
             if(res.data.status === "success"){
                 Toast.show({
@@ -192,9 +211,15 @@ class BookingScreen extends React.Component {
                         onChange={(num)=>{this.setNbPersons(num)}}
                         textColor={"#fff"}
                         fontSize={26}>
-                </InputSpinner>) : null }
-                
+                </InputSpinner>)
+                : null }
             </View>
+            {this.state.shouldShow  && this.state.Service  && this.state.hour  && this.state.role == 'waiters' ? (
+                   <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
+                    mode="flat"  onChangeText={this.userNameHandler}>
+                    </TextInput>
+
+                ) : null}
             <View style={{alignItems:'center', marginBottom: 100}}>
             {this.state.shouldShow  && this.state.Service && this.state.hour ? (
                 <Button style={{width: 200}}  color='#111219'
@@ -260,7 +285,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         lineHeight: 26
-    }
+    },
+    textuserName: {
+        width: 300,
+        marginTop: 15,
+        backgroundColor: "#1B1C23",
+        borderRadius: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderWidth: 2,
+        borderColor: '#5A5B61',
+        color: "#292A32"
+    },
   })
 
 export default BookingScreen;
