@@ -132,10 +132,10 @@ class CartScreen extends React.Component {
                  {this.state.items.length != 0 ? (
                     <View style={{alignItems:'center'}}>
                         <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
-                    <Button color='#111219' style={styles.shippingButton}
-                      mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
-                      Valider la commande
-                    </Button>
+                        <Button color='#111219' style={styles.shippingButton}
+                          mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
+                          Valider la commande
+                        </Button>
                   </View>
                 ) : <View style={styles.emptyTextView}>
                      <Text style={styles.emptyText}>La panier est vide 😕</Text>

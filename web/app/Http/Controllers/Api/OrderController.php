@@ -41,7 +41,7 @@ class OrderController extends Controller
                     'userName' => 'required|string',
                     'numBooking' => 'required|int'
                 ]);
-                
+
             }
             else{
                 $validator = Validator::make($request->all(),
@@ -52,7 +52,7 @@ class OrderController extends Controller
                     'prixTotal' => 'nullable|numeric|between:0,499.99',
                     'comment' => 'nullable|string',
                     'userName' => 'required|string',
-                ]);   
+                ]);
             }
         }else{
             if($request->onSite == true){
@@ -65,7 +65,7 @@ class OrderController extends Controller
                     'comment' => 'nullable|string',
                     'numBooking' => 'required|int'
                 ]);
-                
+
             }
             else{
                 $validator = Validator::make($request->all(),
@@ -75,7 +75,7 @@ class OrderController extends Controller
                     'hour' => 'nullable|date_format:Y-m-d H:i',
                     'prixTotal' => 'nullable|numeric|between:0,499.99',
                     'comment' => 'nullable|string',
-                ]);   
+                ]);
             }
         }
         if($validator->fails()) {
@@ -131,13 +131,22 @@ class OrderController extends Controller
         }
         $fidelityPoints =  round($request['prixTotal']/10,0);
         if ($user->role != 'waiters'){
-            User::where('id', '=',$userId)
+            User::where('id', '=', $userId)
                 ->update([
                     'fidelity' => $user->fidelity  + $fidelityPoints,
                     'numbersVisit' => $user->numbersVisit  + 1,
                     'numbersCookOrder' => $user->numbersCookOrder  + $food,
                     'numbersBarOrder' => $user->numbersBarOrder  + $drinks
                 ]);
+
+            // remove used fidelity points
+            if ($request['useFidelity'] === True) {
+                User::where('id', '=', $userId)
+                    ->update([
+                        'fidelity' => $user->fidelity % 10,
+                    ]);
+            }
+
             }
 
         return response()->json(['status' => 'success'],200);
