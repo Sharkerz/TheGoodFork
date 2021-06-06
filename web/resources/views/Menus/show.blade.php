@@ -10,7 +10,7 @@
 
 @section('content')
 <h1 class="showTitle">{{$category->name}}</h1>
-<input id="Category_id" hidden value="{{$category->id}}"/> 
+<input id="Category_id" hidden value="{{$category->id}}"/>
     <!-- <button class="btn btn-success float-right" id="AddItemCategory">@lang('menus.AddItemCategory'){{$category->name}}</button><br/><br/> -->
 
     @if (session()->has('success'))
@@ -23,14 +23,14 @@
                 @foreach($menu_items as $item)
                 <div class="column" id="{{ $item->id }}">
                         <div class="card">
-                                <img  alt="ItemImage" src="/Images/MenuItem/{{ $item->image }}">
+                                <img class="menuItemImage"  alt="ItemImage" src="/Images/MenuItem/{{ $item->image }}">
                                 <div class="cardinfo">
-                                        <h3 class="CardTitle"><b>{{$item->name}}</b></h3> 
-                                        <p id="{{number_format($item->price, 2)}}">@lang('menus.price') {{number_format($item->price, 2)}} €</p> 
-                                        <p id="stock{{ $item->stock }}" value="{{ $item->stock }}">@lang('menus.stock') {{ $item->stock }} </p> 
+                                        <h3 class="CardTitle"><b>{{$item->name}}</b></h3>
+                                        <p id="{{number_format($item->price, 2)}}">@lang('menus.price') {{number_format($item->price, 2)}} €</p>
+                                        <p id="stock{{ $item->stock }}" value="{{ $item->stock }}">@lang('menus.stock') {{ $item->stock }} </p>
                                         <p class="ItemDescription" >@lang('menus.itemDescription'){{ $item->description }}</p>
-                                </div class="cardinfo">
-                                <div class="cardAction">   
+                                </div>
+                                <div class="cardAction">
                                         <button type="button" class="btn btn-primary Button EditButton">
                                                 @lang('menus.Edit')
                                         </button>
@@ -39,7 +39,7 @@
                                         </button>
                                 </div>
                         </div>
-                </div>       
+                </div>
                @endforeach
                <div class="AddElement" id="AddDiv">
                         <div class="card CardAdd">
@@ -47,7 +47,7 @@
                                         <i id="AddItemCategory" class="material-icons large AddItemCategory">add</i>
                                 </div>
                         </div>
-                </div>       
+                </div>
         </div>
         </div>
         <div class="modal"  id="addModalCategoryItem" tabindex="-1" role="dialog">
@@ -74,7 +74,7 @@
                                         <div class="col-md-6">
                                                 <input id="AddCategoryItemPrice"  type="number" step="any" class="form-control @error('AddCategoryItemPrice') is-invalid @enderror"  name="price" required >
                                         </div>
-                              
+
                                         <label for="AddCategoryItemStock" class="col-md-4 col-form-label text-md-right">@lang('menus.itemstock')</label>
                                         <div class="col-md-6">
                                                 <input id="AddCategoryItemStock"  type="number" step="any" class="form-control @error('AddCategoryItemStock') is-invalid @enderror"  name="stock" required >
@@ -87,14 +87,14 @@
                                         <div class="col-md-6">
                                                 <input id="ItemImage"  type="file" step="any" class=" @error('ItemImage') is-invalid @enderror"  name="image" required >
                                         </div>
-                                        
+
                                         <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary butonAddCategoryItem">
                                                 @lang('menus.Submit')
                                                 </button>
                                         </div>
                                         </div>
-                                        
+
                                         </div>
 
                                 </form>
@@ -125,7 +125,7 @@
                                         <div class="col-md-6">
                                                 <input id="EditCategoryItemPrice"  type="number" step="any" class="form-control @error('EditCategoryItemPrice') is-invalid @enderror"  name="price" required >
                                         </div>
-                              
+
                                         <label for="EditCategoryItemStock" class="col-md-4 col-form-label text-md-right">@lang('menus.itemstock')</label>
                                         <div class="col-md-6">
                                                 <input id="EditCategoryItemStock"  type="number" step="any" class="form-control @error('EditCategoryItemStock') is-invalid @enderror"  name="stock" required >
@@ -140,14 +140,14 @@
                                         <div class="col-md-6">
                                                 <input id="EditItemImage"  type="file" step="any" class=" @error('EditItemImage') is-invalid @enderror"  name="image" >
                                         </div>
-                                        
+
                                         <div class="col-md-6 offset-md-4">
                                                 <button type="submit" class="btn btn-primary butonEditCategoryItem">
                                                 @lang('menus.Update')
                                                 </button>
                                         </div>
                                         </div>
-                                        
+
                                         </div>
 
                                 </form>
