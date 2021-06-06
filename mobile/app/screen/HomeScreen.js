@@ -121,7 +121,7 @@ class HomeScreen extends React.Component {
       const image = SERVER_IP + '/Images/MenuItem/' + item.image
       return (
         <TouchableOpacity
-            style={{ marginBottom: 20 }}
+            style={{ marginBottom: Platform.OS === 'ios' ? 20 : 60, }}
             onPress={() => 
               this.props.navigation.navigate('DetailScreen', {
                 item,
