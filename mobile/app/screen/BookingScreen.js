@@ -49,7 +49,7 @@ class BookingScreen extends React.Component {
       }
 
     onDayPress = async(day) => {
-        this.setState({selectedDate : day.dateString})
+        await this.setState({selectedDate : day.dateString})
         this.setState({markedDates : {}})
             const color = 'red'
             const markedDates = {...this.state.markedDates,

@@ -33,7 +33,6 @@ class OrderController extends Controller
             if($request->onSite == true){
                 $validator = Validator::make($request->all(),
                 [
-                    'numOrder' => 'nullable|int',
                     'onSite' => 'required|boolean',
                     'hour' => 'nullable|date_format:Y-m-d H:i',
                     'prixTotal' => 'nullable|numeric|between:0,499.99',
@@ -46,7 +45,6 @@ class OrderController extends Controller
             else{
                 $validator = Validator::make($request->all(),
                 [
-                    'numOrder' => 'nullable|int',
                     'onSite' => 'required|boolean',
                     'hour' => 'nullable|date_format:Y-m-d H:i',
                     'prixTotal' => 'nullable|numeric|between:0,499.99',
@@ -58,7 +56,6 @@ class OrderController extends Controller
             if($request->onSite == true){
                 $validator = Validator::make($request->all(),
                 [
-                    'numOrder' => 'nullable|int',
                     'onSite' => 'required|boolean',
                     'hour' => 'nullable|date_format:Y-m-d H:i',
                     'prixTotal' => 'nullable|numeric|between:0,499.99',
@@ -70,7 +67,6 @@ class OrderController extends Controller
             else{
                 $validator = Validator::make($request->all(),
                 [
-                    'numOrder' => 'nullable|int',
                     'onSite' => 'required|boolean',
                     'hour' => 'nullable|date_format:Y-m-d H:i',
                     'prixTotal' => 'nullable|numeric|between:0,499.99',

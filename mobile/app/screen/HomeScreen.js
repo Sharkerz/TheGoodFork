@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    ImageBackground,
     StyleSheet,
     View,
     Text,
@@ -10,13 +9,8 @@ import {
     FlatList,
     Platform
 } from 'react-native';
-import Paragraph from '../components/Paragraph';
-import { images } from '../constants';
-import * as SecureStore from "expo-secure-store";
-import axios from 'axios'
 import { SERVER_IP } from '@env';
 import MenuService from '../service/MenuService'
-import { ScrollView } from 'react-native';
 
 
 class HomeScreen extends React.Component {
@@ -30,8 +24,8 @@ class HomeScreen extends React.Component {
 }
 
   componentDidMount(){
-    this.getCategories()
     this.getMenuItems()
+    this.getCategories()
   }
 
   getCategories = async () => {
@@ -39,6 +33,11 @@ class HomeScreen extends React.Component {
     .then(async (response) => {
       if(response.status===200){
         this.setState({categories: response.data.categories}) 
+        firstcategory = response.data.categories[0]
+        this.setState({categoryContainer :this.state.foodData.filter(function(item) {
+          return item.category_id == firstcategory.id;
+        })})
+        this.setState({selectedCategory: firstcategory})
       } else {
         this.setState({error: response.data}) 
       }
@@ -60,7 +59,7 @@ class HomeScreen extends React.Component {
 
   onSelectCategory = async(category) =>{
     this.setState({categoryContainer :this.state.foodData.filter(function(item) {
-      return item.category_id == category.id;
+      return item.category_id === category.id;
     })})
     this.setState({selectedCategory: category})
   }
@@ -104,7 +103,7 @@ class HomeScreen extends React.Component {
 
   return (
       <View>
-          <Text style={styles.title}>Categories</Text>
+          <Text style={styles.title}>Menu</Text>
         <FlatList
             data={this.state.categories}
             horizontal

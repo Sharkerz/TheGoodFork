@@ -11,8 +11,7 @@ import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { SERVER_IP } from '@env'
-import axios from 'axios'
+
 import * as SecureStore from "expo-secure-store"
 import {Calendar} from 'react-native-calendars';
 import BookingService from '../service/BookingService'
@@ -36,7 +35,7 @@ class ValidationScreen extends React.Component {
     super();
     this.state = {
       markedDates: {},
-      onSite: true,  //remplacer les deux bouton par un checker qui modifie le state de onSite en true ou false ? à toi de voir Seb pour dire quand c'est sur place ou non t'as juste a modifier ce state en true ou false
+      onSite: true,  
       time: null,
       date :null,
       cost: 0.00,
@@ -133,16 +132,6 @@ class ValidationScreen extends React.Component {
   }
 
   handleSubmit = async() =>{
-      if (this.state.numBooking === undefined) {
-          Toast.show({
-              type: 'error',
-              visibilityTime: 6000,
-              text1: 'Erreur',
-              text2: 'Vous devez sélectionner une réservation !',
-              topOffset: 60,
-          });
-          return;
-      }
       let totalCost
       if (this.state.useFidelity) {
           totalCost = this.state.costUsingFidelity
@@ -169,6 +158,7 @@ class ValidationScreen extends React.Component {
           text2: "Votre commande est pasée sans problème! 🎉",
           topOffset: 60,
       });
+      await AsyncStorage.setItem('cartSaved',JSON.stringify([]))
       }else{
           Toast.show({
               type: 'error',
@@ -316,10 +306,11 @@ class ValidationScreen extends React.Component {
                     containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
                 />
                 <Text style={styles.textInfoFidelity}>10 points de fidelité = 1€ sur la commande !</Text>
-                <Button style={{width : '90%'}}  color='#111219'
+                {this.state.onSiteSelected ?  (<Button style={{width : '90%'}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande
-                </Button> 
+                </Button> )  : null}
+                
             </View>
                 </ScrollView>
       </View>

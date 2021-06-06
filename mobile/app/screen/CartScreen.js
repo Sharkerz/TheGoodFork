@@ -16,9 +16,6 @@ import { SERVER_IP } from '@env';
 import {TextInput} from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
 
-const test = AsyncStorage.getItem('cartSaved')
-
-// const cart =  SecureStore.getItemAsync('cartSaved')
 class CartScreen extends React.Component {
   constructor(){
     super();
@@ -131,7 +128,7 @@ class CartScreen extends React.Component {
                 ) : null}
                  {this.state.items.length != 0 ? (
                     <View style={{alignItems:'center'}}>
-                        <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
+                        <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)} €</Text>
                         <Button color='#111219' style={styles.shippingButton}
                           mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
                           Valider la commande

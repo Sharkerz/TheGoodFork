@@ -30,12 +30,12 @@ class DetailScreen extends React.Component {
         }
         addToCart = async(item) =>{
             const cart = await AsyncStorage.getItem('cartSaved')
-            const test = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantity : this.state.quantity,price: item.price.toFixed(2)}
+            const itemToAdd = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantity : this.state.quantity,price: item.price.toFixed(2)}
             if(cart) {
                 const newCart = JSON.parse(cart)
-                const exists = newCart.some(v => (v.id === test.id));
+                const exists = newCart.some(v => (v.id === itemToAdd.id));
                 if(exists){
-                    const objIndex = newCart.findIndex((obj => obj.id == test.id));
+                    const objIndex = newCart.findIndex((obj => obj.id == itemToAdd.id));
                     newCart[objIndex].quantity = parseInt(newCart[objIndex].quantity) + parseInt(this.state.quantity)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
                     Toast.show({
@@ -44,7 +44,7 @@ class DetailScreen extends React.Component {
                         topOffset: 60,
                     });
                 }else{
-                    newCart.push(test)
+                    newCart.push(itemToAdd)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
                     Toast.show({
                         text1: 'Succès',
@@ -53,7 +53,7 @@ class DetailScreen extends React.Component {
                     });
                 }
             } else {
-                await AsyncStorage.setItem('cartSaved',JSON.stringify([test]))
+                await AsyncStorage.setItem('cartSaved',JSON.stringify(itemToAdd))
                 Toast.show({
                     text1: 'Succès',
                     text2: "Votre choix a été ajouté au panier ! 🎉",

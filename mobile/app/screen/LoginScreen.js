@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton'
 import * as SecureStore from "expo-secure-store"
 import AuthService from '../service/AuthService'
 import Toast from "react-native-toast-message";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class LoginScreen extends React.Component{
     constructor() {
@@ -27,6 +28,7 @@ class LoginScreen extends React.Component{
                 await SecureStore.setItemAsync('user',JSON.stringify(res.data.user))
                 const token = await SecureStore.getItemAsync('secure_token')
                 const user = JSON.parse(await SecureStore.getItemAsync('user'))
+                await AsyncStorage.setItem('cartSaved',JSON.stringify([]))
                 this.props.route.params.user(user)
                 this.props.route.params.auth(true)
                 
