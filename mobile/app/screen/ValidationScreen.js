@@ -300,7 +300,10 @@ class ValidationScreen extends React.Component {
                     ) : null}
             <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
                 {this.state.useFidelity ?
-                    <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity}€</Text>
+                    <View>
+                        <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity}€</Text>
+                        <Text style={styles.textInfoFidelity}>Utilisation de {this.state.cost - this.state.costUsingFidelity}0 points (- {this.state.cost - this.state.costUsingFidelity}€ sur la commande.)</Text>
+                    </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
                 }
                 <CheckBox

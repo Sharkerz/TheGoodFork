@@ -136,10 +136,10 @@ class OrderController extends Controller
                 ]);
 
             // remove used fidelity points
-            if ($request['useFidelity'] === True) {
+            if ($request['useFidelity'] === True and $user->fidelity >= 10) {
                 User::where('id', '=', $userId)
                     ->update([
-                        'fidelity' => $user->fidelity - $request['fidelityReduction']
+                        'fidelity' => $user->fidelity - $request['fidelityReduction'] *10
                     ]);
             }
 
