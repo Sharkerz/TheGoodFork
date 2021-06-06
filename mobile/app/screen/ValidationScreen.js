@@ -102,10 +102,10 @@ class ValidationScreen extends React.Component {
   getReservations = async(userName) => {
     await BookingService.getReservations(userName).then(async(res) =>{
       if(res.data.status === "success"){
-        bookings = []
+        let bookings = []
         const temp = res.data.bookings
         temp.forEach(element => {
-          date = new Date(element.date)
+          let date = new Date(element.date)
           date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " " + element.hour
           bookings.push({label : date, value : element.id}) 
         })
@@ -183,7 +183,7 @@ class ValidationScreen extends React.Component {
   }
    
   setTime = (time) =>{
-    date = this.state.selectedDate + ' ' + time
+    let date = this.state.selectedDate + ' ' + time
     this.setState({time : time})
     this.setState({date : date})
   }
@@ -306,14 +306,18 @@ class ValidationScreen extends React.Component {
                     </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
                 }
-                <CheckBox
-                    center
-                    checked={this.state.useFidelity}
-                    onPress={() => this.FidelityChange()}
-                    title={<Text style={{color: 'white'}} >Utiliser mes points de fidelité</Text>}
-                    containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
-                />
-                <Text style={styles.textInfoFidelity}>10 points de fidelité = 1€ sur la commande !</Text>
+                {this.state.role === 'customer' ?
+                    <View>
+                        < CheckBox
+                            center
+                            checked={this.state.useFidelity}
+                            onPress={() => this.FidelityChange()}
+                            title={<Text style={{color: 'white'}} >Utiliser mes points de fidelité</Text>}
+                            containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+                            />
+                        <Text style={styles.textInfoFidelity}>10 points de fidelité = 1€ sur la commande !</Text>
+                    </View> : null
+                }
                 {this.state.onSiteSelected ?  (<Button style={{width : '90%'}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande

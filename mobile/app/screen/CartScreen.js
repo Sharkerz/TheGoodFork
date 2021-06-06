@@ -120,7 +120,7 @@ class CartScreen extends React.Component {
             </View>
             {this.state.role == 'waiters' ? (
                     <View style={{alignItems: 'center'}}>
-                      <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="userName"
+                      <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="Nom du client"
                         mode="flat"  onChangeText={this.userNameHandler}>
                       </TextInput>
                     </View>
