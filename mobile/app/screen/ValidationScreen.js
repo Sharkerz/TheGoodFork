@@ -207,7 +207,11 @@ class ValidationScreen extends React.Component {
     getPriceWithFidelity = () => {
         ProfileService.getInfos().then((res) => {
             this.setState({fidelity: res.fidelity})
-            this.setState({costUsingFidelity: Math.round((this.state.cost - (Math.round(res.fidelity / 10))) * 100) / 100})
+            let newCost = Math.round((this.state.cost - (Math.round(res.fidelity / 10))) * 100) / 100
+            if (newCost < 0) {
+                newCost = 0.00
+            }
+            this.setState({costUsingFidelity: newCost})
         })
     }
 
