@@ -20,6 +20,8 @@ import Toast from 'react-native-toast-message';
 import {LocaleConfig} from 'react-native-calendars';
 import RNPickerSelect from 'react-native-picker-select';
 import OrderService from '../service/OrderService';
+import {CheckBox} from "react-native-elements";
+import ProfileService from "../service/ProfileService";
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
   monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -38,6 +40,8 @@ class ValidationScreen extends React.Component {
       time: null,
       date :null,
       cost: 0.00,
+      costUsingFidelity: 0.00,
+      fidelity: 0,
       selectedDate : null,
       items: [],
       comment: "",
@@ -56,7 +60,8 @@ class ValidationScreen extends React.Component {
         { label: '20:00', value: '20:00' },
         { label: '20:30', value: '20:30' },
     ],
-    BookingPicker : []
+    BookingPicker : [],
+    useFidelity: false
     }
   }
   getCard = async() =>{
@@ -91,6 +96,7 @@ class ValidationScreen extends React.Component {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.getCard();
       this.getReservations(this.props.route.params.userName)
+      this.getPriceWithFidelity();
     });
   }
 
@@ -101,7 +107,7 @@ class ValidationScreen extends React.Component {
         const temp = res.data.bookings
         temp.forEach(element => {
           date = new Date(element.date)
-          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear()
+          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " " + element.hour
           bookings.push({label : date, value : element.id}) 
         })
         this.setState({BookingPicker : bookings})
@@ -127,15 +133,36 @@ class ValidationScreen extends React.Component {
   }
 
   handleSubmit = async() =>{
-    data = { 
-      numBooking : this.state.numBooking,   
-      onSite: this.state.onSite,
-      hour: this.state.date,
-      prixTotal: this.state.cost,
-      Value: this.state.items,
-      comment: this.state.comment,
-      userName : this.props.route.params.userName}
+      if (this.state.numBooking === undefined) {
+          Toast.show({
+              type: 'error',
+              visibilityTime: 6000,
+              text1: 'Erreur',
+              text2: 'Vous devez sélectionner une réservation !',
+              topOffset: 60,
+          });
+          return;
+      }
+      let totalCost
+      if (this.state.useFidelity) {
+          totalCost = this.state.costUsingFidelity
+      }
+      else {
+          totalCost = this.state.cost
+      }
+
+    let data = {
+        numBooking: this.state.numBooking,
+        onSite: this.state.onSite,
+        hour: this.state.date,
+        prixTotal: totalCost,
+        Value: this.state.items,
+        comment: this.state.comment,
+        userName: this.props.route.params.userName,
+        useFidelity: this.state.useFidelity
+    }
     await OrderService.createOrder(data).then(async(res) =>{
+      console.log(res.data)
       if(res.data.status === "success"){
         Toast.show({
           text1: 'Succès',
@@ -173,6 +200,16 @@ class ValidationScreen extends React.Component {
     this.setState({numBooking : numBooking})
   }
 
+    FidelityChange = () =>{
+        this.setState({useFidelity: !this.state.useFidelity})
+    }
+
+    getPriceWithFidelity = () => {
+        ProfileService.getInfos().then((res) => {
+            this.setState({fidelity: res.fidelity})
+            this.setState({costUsingFidelity: Math.round((this.state.cost - (Math.round(res.fidelity / 10))) * 100) / 100})
+        })
+    }
 
      render(){
         return(
@@ -267,6 +304,18 @@ class ValidationScreen extends React.Component {
                            </View>
                     ) : null}
             <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
+                {this.state.useFidelity ?
+                    <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity}€</Text>
+                    : <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
+                }
+                <CheckBox
+                    center
+                    checked={this.state.useFidelity}
+                    onPress={() => this.FidelityChange()}
+                    title={<Text style={{color: 'white'}} >Utiliser mes points de fidelité</Text>}
+                    containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+                />
+                <Text style={styles.textInfoFidelity}>10 points de fidelité = 1€ sur la commande !</Text>
                 <Button style={{width : '90%'}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande
@@ -365,6 +414,18 @@ const styles = StyleSheet.create({
     },DateInfo :{
       width : '100%',
       justifyContent : 'center'
+    },
+    textTotalPrice: {
+        color: 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontSize: 28,
+    },
+    textInfoFidelity : {
+        color: 'white',
+        fontSize: 10,
+        textAlign : 'right',
+        alignSelf: 'flex-end',
     }
     
   })

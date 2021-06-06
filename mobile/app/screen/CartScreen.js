@@ -24,6 +24,7 @@ class CartScreen extends React.Component {
     super();
     this.state = {
         items: [],
+        cost: 0.00
     }
     // this.GetCard = this.GetCard.bind(this);
   }
@@ -31,6 +32,11 @@ class CartScreen extends React.Component {
     const cart =  await AsyncStorage.getItem('cartSaved')
     .then(cart => {
       this.setState({items : JSON.parse(cart)})
+        let cost = 0.00
+        this.state.items.forEach(element => {
+            cost += parseFloat(element.price) * element.quantity
+        })
+        this.setState({cost: Math.round(cost * 100) / 100})
     })
   }
 
@@ -90,7 +96,7 @@ class CartScreen extends React.Component {
                                   width: 70,
                                   height: 70,
                               }}/>
-                            <Text style={styles.textRowListTitle}>{item.name} :</Text>
+                            <Text style={styles.textRowListTitle}>{item.name} ({item.price}€) :</Text>
                           </View>
                           <View style={styles.rightViewItem}>
                             <InputSpinner
@@ -100,7 +106,7 @@ class CartScreen extends React.Component {
                                       colorMax={"#fff"}
                                       colorMin={"#fff"}
                                       value={item.quantity}
-                                      onChange={(num)=>{this.saveQuantity(item.id,num)}}
+                                      onChange={(num)=>{this.saveQuantity(item.id,num); this.getCard()}}
                                       textColor={"#fff"}
                                       buttonPressTextColor={'#fff'}
                                       buttonTextColor={'#111219'}
@@ -123,12 +129,18 @@ class CartScreen extends React.Component {
                     </View>
 
                 ) : null}
-            <View style={{alignItems:'center'}}>
-              <Button color='#111219' style={styles.shippingButton}
-                mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
-                Valider la commande
-              </Button>
-            </View>
+                 {this.state.items.length != 0 ? (
+                    <View style={{alignItems:'center'}}>
+                        <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
+                        <Button color='#111219' style={styles.shippingButton}
+                          mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
+                          Valider la commande
+                        </Button>
+                  </View>
+                ) : <View style={styles.emptyTextView}>
+                     <Text style={styles.emptyText}>La panier est vide 😕</Text>
+                 </View>}
+           
             
           </ScrollView>
       </View>
@@ -195,6 +207,22 @@ const styles = StyleSheet.create({
       borderColor: '#5A5B61',
       color: "#292A32",
   },
+    emptyTextView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        marginTop: '60%'
+    },
+    emptyText: {
+        color: 'white',
+        fontSize: 25,
+    },
+    textTotalPrice: {
+        color: 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontSize: 25,
+    }
   })
 
 export default CartScreen;
