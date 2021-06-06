@@ -101,6 +101,7 @@ class MenuItemController extends Controller
     {
         if ($request->ajax()) {
             $id = $request->input(('id'));
+            $data = menu_item::find($id);
             if ($request->hasFile('image')) {
                 $fields = $request->validate([
                     'name' => "required|string|max:255|unique:menu_items,name,$id,id",
@@ -113,6 +114,8 @@ class MenuItemController extends Controller
                 $filename = time(). '.' . $image->getClientOriginalExtension();
                 Image::make($image)->save(public_path('/Images/MenuItem/' . $filename));
                 $image = $filename;
+                $imageToDelete = $data->image;
+                unlink(public_path('/Images/MenuItem/' . $imageToDelete));
                 $update_item = [
                     'name' =>$request->input('name'),
                     'price' =>$request->input('price'),

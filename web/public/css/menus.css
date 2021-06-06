@@ -82,7 +82,11 @@
     text-align: center;
     background-color: #f1f1f1;
     min-height: inherit;
-    max-height: 600px;
+    max-height:100%;
+}
+
+.row{
+    margin-right: 0px  !important;
 }
 
 @media screen and (max-width: 600px) {
@@ -148,12 +152,16 @@
 
 .ItemDescription{
     font-size: medium;
+    overflow:hidden;
+    height: 20px;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 
 .menuItemImage {
     display: block;
-    min-width:300px;
-    max-width:300px;
+    min-width:100%;
+    max-width:100%;
     min-height:300px;
     max-height:300px;
     width: auto;
