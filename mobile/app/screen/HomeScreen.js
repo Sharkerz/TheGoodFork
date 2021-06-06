@@ -7,7 +7,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     FlatList,
-    Platform
+    Platform, ActivityIndicator
 } from 'react-native';
 import { SERVER_IP } from '@env';
 import MenuService from '../service/MenuService'
@@ -19,7 +19,8 @@ class HomeScreen extends React.Component {
     this.state = {
         categories: [],
         foodData: [],
-        categoryContainer: []
+        categoryContainer: [],
+        waitingAnimation: true
     }
 }
 
@@ -48,6 +49,7 @@ class HomeScreen extends React.Component {
   getMenuItems = async () => {
     return await MenuService.getMenuItems()
     .then(async (response) => {
+        this.setState({waitingAnimation: false})
       if(response.status===200){
         this.setState({foodData: response.data.menu_items}) 
       } else {
@@ -184,6 +186,9 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+          <View style={styles.waitingView}>
+              <ActivityIndicator size="large" color="#999999" animating={this.state.waitingAnimation}/>
+          </View>
         <SafeAreaView>
           {this.renderMainCategories()}
           {this.renderFoodList()}
@@ -211,8 +216,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor :'#111219'
+    backgroundColor :'#111219',
   },
+    waitingView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 10,
+        position: 'absolute'
+    },
   shadow: {
     shadowColor: '#fff',
     shadowOffset: {
