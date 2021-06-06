@@ -125,7 +125,7 @@ class OrderController extends Controller
                 menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
-        $fidelityPoints =  round($request['prixTotal']/10,0);
+        $fidelityPoints =  floor($request['prixTotal']/10);
         if ($user->role != 'waiters'){
             User::where('id', '=', $userId)
                 ->update([

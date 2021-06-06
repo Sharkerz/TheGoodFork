@@ -87,7 +87,7 @@ $(document).ready(function () {
                     $div = $('.AddElement')[0];
                     $div.insertAdjacentHTML('beforebegin', '<div class="column" id="'+ $id +'">\n'+
                         '<div class="card">\n'+
-                                '<img  alt="ItemImage" src="/Images/MenuItem/'+ $image +'">\n'+
+                                '<img class="menuItemImage" alt="ItemImage" src="/Images/MenuItem/'+ $image +'">\n'+
                                 '<div class="cardinfo">\n' +
                                         '<h3 class="CardTitle"><b>'+ $name +'</b></h3>\n' + 
                                         '<p id="'+ $price.toFixed(2) +'">'+ $PriceTag + $price.toFixed(2) +' €</p>\n' +
