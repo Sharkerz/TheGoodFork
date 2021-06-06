@@ -125,7 +125,7 @@ class OrderController extends Controller
                 menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
-        $fidelityPoints =  floor($request['prixTotal']/10);
+        $fidelityPoints =  floor($request['prixTotal']/10,0);
         if ($user->role != 'waiters'){
             User::where('id', '=', $userId)
                 ->update([
@@ -214,6 +214,7 @@ class OrderController extends Controller
             'message' => 'No order is waiting for you '
         ]);
     }
+
     public function itemsReady(Request $request) {
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
@@ -233,10 +234,21 @@ class OrderController extends Controller
                 'message' => 'The order is ready',
             ]);
         }
-
-
-
     }
 
+    public function orderReady() {
+        $ordersReady = Order::where('ready', '=', 1)->get();
+        if(count($ordersReady) >0){
+            return response()->json([
+                'status' => 'success',
+                'ordersReady' => $ordersReady
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No order ready'
+            ],400);
+        }
+    }
 
 }

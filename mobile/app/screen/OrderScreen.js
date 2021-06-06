@@ -13,12 +13,26 @@ import { ScrollView } from 'react-native';
 import Button from '../components/Button';
 import OrderService from '../service/OrderService'
 
-
+const data = [
+  {
+    key : 1,
+    title: "something"
+  },
+  {
+    key : 2,
+    title: "something two"
+  },
+  {
+    key : 3,
+    title: "something three"
+  }
+];
 class OrderScreen extends React.Component {
     constructor(){
         super();
         this.state = {
             items: [],
+            data : data
         }
         this.getOrders = this.getOrders.bind(this)
       }
@@ -47,7 +61,7 @@ class OrderScreen extends React.Component {
          render(){
             return(
                 <View style={styles.container}>
-                <ScrollView>
+                <ScrollView style={{height : '90%'}}>
                 <Text style={styles.title}>Commandes à valider</Text>
                 <View style={{marginTop: 15}}>
                 <FlatList style={styles.data}
@@ -67,14 +81,31 @@ class OrderScreen extends React.Component {
                           }
                 />
                 </View>
-                <View style={styles.validation}>
+                {/* <View style={styles.validation}>
                 <Button color='#111219' style={{width: 350}}
                     mode="outlined" onPress={() =>this.handleSubmit(item.id)} >
                         Voir les commandes en cours
                 </Button>
-                </View>
-                
+                </View> */}
               </ScrollView>
+              <FlatList style={{backgroundColor : 'red',marginBottom : '20%', height : 60,width : '100%'}}
+                  horizontal
+                  scrollEnabled={false}
+                  data={this.state.data}
+                  renderItem={({ item: rowData }) => {
+                    return (
+                        
+                        <TouchableOpacity  color='#111219' style={{ justifyContent: "center",
+                        backgroundColor: "#DDDDDD",
+                        padding: 10}}
+                        onPress={() =>console.log(rowData.key)}>
+                          <Text>{rowData.title}</Text>
+                        </TouchableOpacity>
+                      
+                    );
+                  }}
+                  keyExtractor={item => item.key.toString()}
+                />
           </View>
             )
         }
