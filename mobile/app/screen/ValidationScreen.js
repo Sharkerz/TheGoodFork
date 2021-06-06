@@ -179,7 +179,7 @@ class ValidationScreen extends React.Component {
             <View style={styles.container}>
             <ScrollView>
             <BackButton goBack={this.props.navigation.goBack}/>
-              <View style={{alignItems: 'center', marginTop: 100}}>
+              <View style={{alignItems: 'center', marginTop: 130}}>
                 <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textLogin} label="Remarque (allergies, suppléments, ect...)"
                        mode="flat" onChangeText={this.commentHandler}>
                 </TextInput>
@@ -216,6 +216,7 @@ class ValidationScreen extends React.Component {
                               borderColor: 'white',
                               borderWidth: 1,
                               marginLeft: 100,
+                              marginTop: 15,
                               width: 200,
                               height : 40,
                               justifyContent : 'center',
