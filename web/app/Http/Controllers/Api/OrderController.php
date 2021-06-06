@@ -139,7 +139,7 @@ class OrderController extends Controller
             if ($request['useFidelity'] === True) {
                 User::where('id', '=', $userId)
                     ->update([
-                        'fidelity' => $user->fidelity % 10,
+                        'fidelity' => $user->fidelity - $request['fidelityReduction']
                     ]);
             }
 

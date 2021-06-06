@@ -148,7 +148,8 @@ class ValidationScreen extends React.Component {
         Value: this.state.items,
         comment: this.state.comment,
         userName: this.props.route.params.userName,
-        useFidelity: this.state.useFidelity
+        useFidelity: this.state.useFidelity,
+        fidelityReduction: this.state.cost - totalCost
     }
     await OrderService.createOrder(data).then(async(res) =>{
       console.log(res.data)
