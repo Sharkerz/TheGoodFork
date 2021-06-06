@@ -48,12 +48,12 @@ class MenuItemController extends Controller
                 'stock' =>'required|int',
                 'description' => 'required|string'
             ]);
-            
+
             $image = $request->file('image');
             $filename = time(). '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuItem/' . $filename));
+            Image::make($image)->save(public_path('/Images/MenuItem/' . $filename));
             $image = $filename;
-           
+
             $data = menu_item::create([
                 'name' =>$request->input('name'),
                 'price' =>$request->input('price'),
@@ -111,7 +111,7 @@ class MenuItemController extends Controller
                 ]);
                 $image = $request->file('image');
                 $filename = time(). '.' . $image->getClientOriginalExtension();
-                Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuItem/' . $filename));
+                Image::make($image)->save(public_path('/Images/MenuItem/' . $filename));
                 $image = $filename;
                 $update_item = [
                     'name' =>$request->input('name'),
@@ -135,7 +135,7 @@ class MenuItemController extends Controller
                     'description' => $request->input('description')
                 ];
             }
-            
+
             menu_item::where('id', $request->input('id'))
             ->update($update_item);
             $item = menu_item::find($id);

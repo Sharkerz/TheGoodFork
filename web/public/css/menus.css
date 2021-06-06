@@ -5,7 +5,7 @@
     width: 100%;
     align-items: center;
     display: flex;
-    
+
 }
 
 .menu_category{
@@ -89,7 +89,7 @@
     .column {
       width: 100%;
       display: block;
-      
+
     }
 }
 
@@ -148,5 +148,15 @@
 
 .ItemDescription{
     font-size: medium;
+}
+
+.menuItemImage {
+    display: block;
+    min-width:300px;
+    max-width:300px;
+    min-height:300px;
+    max-height:300px;
+    width: auto;
+    height: auto;
 }
 
