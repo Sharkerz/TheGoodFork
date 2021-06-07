@@ -73,6 +73,7 @@ class OrderService{
             return err.response
         })
     }
+
     createOrder = async(data) =>{
     const token = await SecureStore.getItemAsync('secure_token')
     const config = {
@@ -85,6 +86,49 @@ class OrderService{
     .catch(err => {
       return err.response
     })
+    }
+
+    orderReady = async () => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        return await axios.get(SERVER_IP + '/api/orderReady', config)
+        .then(async (response) => {
+            return response
+        })
+        .catch((err) => {
+            return err.response
+        })
+    }
+
+    deliverOrders = async (id) => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        data = {id : id}
+        return await axios.post(SERVER_IP + '/api/deliverOrders/',data,config)
+        .then(async (response) => {
+            return response
+        })
+        .catch((err) => {
+            return err.response
+        })
+    }
+
+    orderDelivered = async () => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        return await axios.get(SERVER_IP + '/api/orderDelivered', config)
+        .then(async (response) => {
+            return response
+        })
+        .catch((err) => {
+            return err.response
+        })
     }
 }
 export default new OrderService

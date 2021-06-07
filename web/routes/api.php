@@ -30,7 +30,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::get('/ordersForStaff', [OrderController::class, 'ordersForStaff']);
     Route::post('/itemsReady', [OrderController::class, 'itemsReady']);
     Route::get('/orderReady', [OrderController::class, 'orderReady']);
+    Route::get('/orderDelivered', [OrderController::class, 'orderDelivered']);
     Route::post('/validateOrders', [OrderController::class, 'validateOrders']);
+    Route::post('/deliverOrders', [OrderController::class, 'deliverOrders']);
     Route::post('/createBooking', [BookingController::class, 'createBooking']);
     Route::get('/getBookings/{userName}', [BookingController::class, 'getBookings']);
 });

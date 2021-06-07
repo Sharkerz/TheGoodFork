@@ -9,7 +9,7 @@ class OrderDetails extends Model
 {
     protected $fillable = 
         [
-            'order_id','name','quantity','role','ready','image'
+            'order_id','name','quantity','role','ready','image','price'
         ];
 
     public function Order()

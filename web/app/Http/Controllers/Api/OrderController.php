@@ -120,12 +120,13 @@ class OrderController extends Controller
                     'quantity' => $item['quantity'],
                     'ready' => 0,
                     'image' =>$item['image'],
+                    'price' => $item['price'],
                     'role' => $role->role
                 ]);
                 menu_item ::where('id', $item['id'])->update(['Stock'=> $stock - $item['quantity']]);
             }
         }
-        $fidelityPoints =  floor($request['prixTotal']/10,0);
+        $fidelityPoints =  floor($request['prixTotal']/10);
         if ($user->role != 'waiters'){
             User::where('id', '=', $userId)
                 ->update([
@@ -179,8 +180,10 @@ class OrderController extends Controller
     }
 
     public function validateOrders(Request $request) {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
         Order::where('id', '=', $request['id'])
-            ->update(['validated' => 1]);
+            ->update(['validated' => 1,'validated_by' =>$user->id]);
         return response()->json([
             'status' => 'success',
             'orderValidated' => 'Commande validée'
@@ -237,11 +240,37 @@ class OrderController extends Controller
     }
 
     public function orderReady() {
-        $ordersReady = Order::where('ready', '=', 1)->get();
+        $ordersReady = Order::where('ready', '=', 1)
+            ->where('delivered', '=',0)->get();
         if(count($ordersReady) >0){
             return response()->json([
                 'status' => 'success',
                 'ordersReady' => $ordersReady
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'No order ready'
+            ],400);
+        }
+    }
+
+    public function deliverOrders(Request $request) {
+        Order::where('id', '=', $request['id'])
+            ->update(['delivered' => 1]);
+        return response()->json([
+            'status' => 'success',
+            'orderDelivered' => 'Commande livrée'
+        ]);
+    }
+
+    public function orderDelivered() {
+        $ordersReady = Order::where('delivered', '=', 1)
+            ->get();
+        if(count($ordersReady) >0){
+            return response()->json([
+                'status' => 'success',
+                'ordersDelivered' => $ordersReady
             ]);
         }else{
             return response()->json([

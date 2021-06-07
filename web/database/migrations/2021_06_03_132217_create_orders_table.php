@@ -22,7 +22,8 @@ class CreateOrdersTable extends Migration
             $table->string('userName')->nullable();
             $table->boolean('onSite')->default(0);
             $table->dateTime('hour')->nullable();
-            $table->boolean('ready')->default(0);$table->boolean('validated')->default(0);
+            $table->boolean('ready')->default(0);
+            $table->boolean('validated')->default(0);
             $table->longText('comment')->nullable();
 		    $table->timestamps();
         });

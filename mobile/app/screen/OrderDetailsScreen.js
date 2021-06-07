@@ -34,8 +34,9 @@ class OrdersDetailsScreen extends React.Component {
      }) 
       }
       
-      handleSubmit = async(id) =>{
-        await OrderService.validateOrders(id).then(async(res) =>{
+      handleSubmit = async(id,key) =>{
+        if(key ===1){
+          await OrderService.validateOrders(id).then(async(res) =>{
             if(res.status === 200){
                 Toast.show({
                     text1: 'Succès',
@@ -49,9 +50,30 @@ class OrdersDetailsScreen extends React.Component {
                     text1: 'Erreur',
                     text2: res.data[Object.keys(res.data)[0]].toString(),
                 });
+            }  
+        })  
+        }
+        else if(key ===2) {
+          await OrderService.deliverOrders(id).then(async(res) =>{
+            if(res.status === 200){
+                Toast.show({
+                    text1: 'Succès',
+                    text2: "La commande a été livrée "
+                });
+                this.props.navigation.navigate('Orders')
+            }else{
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: res.data[Object.keys(res.data)[0]].toString(),
+                });
             }
-           
-       })  
+        
+          })  
+        }
+
+        
     }
     
       componentDidMount(){
@@ -66,6 +88,7 @@ class OrdersDetailsScreen extends React.Component {
     
          render(){
           const item = this.props.route.params.item;
+          const key = this.props.route.params.key;
             return(
                 <View style={styles.container}>
                 <ScrollView>
@@ -87,7 +110,10 @@ class OrdersDetailsScreen extends React.Component {
                                       width: 70,
                                       height: 70,
                                   }}/>
-                                <Text style={styles.textRowListTitle}>{item.name}</Text>
+                                  { key == 3 ? (
+                                <Text style={styles.textRowListTitle}>{item.name} ({item.price.toFixed(2)}€) :</Text>
+                                  ) : <Text style={styles.textRowListTitle}>{item.name}</Text>
+                                  }
                               </View>
                               <View style={styles.rightViewItem} flexDirection='row'>
                                 <Text style={styles.textRowList}>{item.quantity}</Text>
@@ -95,14 +121,19 @@ class OrdersDetailsScreen extends React.Component {
                           </TouchableOpacity>
                           }
                 />
-                {this.state.orderDetails ? (
+                {this.state.orderDetails && key == 1 ? (
                 <View style={styles.validation}>
                 <Button color='#111219' style={{width: 350}}
-                    mode="outlined" onPress={() =>this.handleSubmit(item.id)} >
+                    mode="outlined" onPress={() =>this.handleSubmit(item.id,key)} >
                         Valider
                 </Button>
                 </View>
-            ) : null }
+            ) : this.state.orderDetails && key == 2 ?(<View style={styles.validation}>
+              <Button color='#111219' style={{width: 350}}
+                  mode="outlined" onPress={() =>this.handleSubmit(item.id,key)} >
+                      Commande donnée
+              </Button>
+              </View>) : null }
                 </View>
               </ScrollView>
           </View>
