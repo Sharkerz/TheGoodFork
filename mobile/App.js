@@ -94,7 +94,7 @@ class App extends React.Component {
         <Provider theme={theme}>
             {this.state.auth ? (
                 <NavigationContainer>
-                <Tabs user={this.state.user}/>
+                <Tabs auth={this.setAuthStatus} user={this.state.user}/>
                 </NavigationContainer>
             ) : (
                 <NavigationContainer>

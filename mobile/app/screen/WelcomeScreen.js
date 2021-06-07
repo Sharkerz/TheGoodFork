@@ -1,9 +1,6 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, Image } from 'react-native';
-import Background from '../components/Background'
 import Button from '../components/Button'
-import Paragraph from '../components/Paragraph'
-import BackButton from '../components/BackButton'
 
 export default function WelcomeScreen( {navigation}) {
     return (

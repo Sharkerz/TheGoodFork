@@ -1,10 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { WelcomeScreen } from "../screen";
 import HomeScreen from "../screen/HomeScreen";
 import ProfileScreen from "../screen/ProfileScreen";
-import RegistrationScreen from "../screen/RegistrationScreen";
-import LoginScreen from "../screen/LoginScreen";
+import WelcomeScreen from "../screen/WelcomeScreen";
 import DetailScreen from "../screen/DetailsScreen";
 import BookingScreen from "../screen/BookingScreen";
 import CartScreen from "../screen/CartScreen"
@@ -35,10 +33,10 @@ const ContactStackNavigator = () => {
   );
 };
 
-const ProfilStackNavigator = () => {
+const ProfilStackNavigator = ({auth}) => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{auth : auth}} />
       <Stack.Screen name="editProfile" component={EditProfileScreen} />
     </Stack.Navigator>
   );

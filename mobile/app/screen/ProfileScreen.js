@@ -54,8 +54,7 @@ class ProfileScreen extends Component {
 
   logout = () => {
     SecureStore.deleteItemAsync('secure_token').then(r => console.log('deleted'))
-    AsyncStorage.removeItem('cartSaved').then(r => console.log('deleted cart'))
-    DevSettings.reload();
+    AsyncStorage.removeItem('cartSaved').then(r => console.log('deleted cart'),this.props.route.params.auth(false))
   }
 
 

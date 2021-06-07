@@ -16,15 +16,16 @@ import InputSpinner from 'react-native-input-spinner';
 import { SERVER_IP } from '@env';
 import {TextInput} from "react-native-paper";
 import * as SecureStore from "expo-secure-store";
+import Toast from 'react-native-toast-message';
 
 class CartScreen extends React.Component {
   constructor(){
     super();
     this.state = {
         items: [],
-        cost: 0.00
+        cost: 0.00,
+        userName : null
     }
-    // this.GetCard = this.GetCard.bind(this);
   }
   getCard = async() =>{
     const cart =  await AsyncStorage.getItem('cartSaved')
@@ -72,6 +73,20 @@ class CartScreen extends React.Component {
   componentWillUnmount() {
     this._unsubscribe();
   }
+
+  handleClick =() =>{
+    if(this.state.userName){
+      this.props.navigation.navigate('Validation',{userName : this.state.userName})
+    }else{
+      Toast.show({
+        type: 'error',
+        visibilityTime: 6000,
+        text1: 'Erreur',
+        text2: 'Merci de rentrer le nom du client',
+        topOffset: 60,
+    });
+    }
+  } 
 
      render(){
       const isFocused = this.props;
@@ -132,7 +147,7 @@ class CartScreen extends React.Component {
                     <View style={{alignItems:'center'}}>
                         <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)} €</Text>
                         <Button color='#111219' style={styles.shippingButton}
-                          mode="outlined" onPress={() => this.props.navigation.navigate('Validation',{userName : this.state.userName})}>
+                          mode="outlined" onPress={this.handleClick}>
                           Valider la commande
                         </Button>
                   </View>

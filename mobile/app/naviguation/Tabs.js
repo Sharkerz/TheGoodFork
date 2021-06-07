@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View,  Image } from 'react-native';
 import { ContactStackNavigator, MainStackNavigator, ProfilStackNavigator, CartStackNavigator,OrderStackNavigator,OrderStaffStackNavigator} from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = ({ user }) => {
+const Tabs = ({ user,auth}) => {
     if(user){
         if(user.role === 'waiters'){
             return(
@@ -14,12 +14,8 @@ const Tabs = ({ user }) => {
                     showLabel: false,
                     style: {
                         position: 'absolute',
-                        // bottom: 25,
-                        // left: 20,
-                        // right: 20,
                         elevation: 0,
                         backgroundColor: '#111219',
-                        // borderRadius: 15,
                         borderTopWidth: 0,
                         height: 75,
                         ...styles.shadow
@@ -87,11 +83,10 @@ const Tabs = ({ user }) => {
                                     tintColor: focused ? '#fff' : '#5A5B61'
                                 }}>   
                                 </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
                             </View>
                         )
                     }}  />
-                    <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
+                    <Tab.Screen name="Profile" options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
@@ -104,10 +99,11 @@ const Tabs = ({ user }) => {
                                     tintColor: focused ? '#fff' : '#5A5B61'
                                 }}>   
                                 </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
                             </View>
                         )
-                    }}  />
+                    }}  >
+                        { props => <ProfilStackNavigator auth={auth} {...props} />}
+                        </Tab.Screen>
                 </Tab.Navigator>
             )
         } if(user.role === 'cook'){
@@ -117,65 +113,8 @@ const Tabs = ({ user }) => {
                     showLabel: false,
                     style: {
                         position: 'absolute',
-                        // bottom: 25,
-                        // left: 20,
-                        // right: 20,
                         elevation: 0,
                         backgroundColor: '#111219',
-                        // borderRadius: 15,
-                        borderTopWidth: 0,
-                        height: 75,
-                        ...styles.shadow
-                    }
-                }}>
-                    <Tab.Screen name="OrdersForStaff" component={OrderStaffStackNavigator} options={{
-                        tabBarIcon: ({focused}) => (
-                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
-                                <Image 
-                                source={require('../assets/houseIcon.png')}
-                                resizeMode='contain'
-                                style={{
-                                    width: 60,
-                                    height: 60,
-                                    marginTop: -15,
-                                    tintColor: focused ? '#fff' : '#5A5B61'
-                                }}>   
-                                </Image>
-                            </View>
-                        )
-                    }} />
-                    <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
-                        tabBarIcon: ({focused}) => (
-                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
-                                <Image 
-                                source={require('../assets/profileIcon.png')}
-                                resizeMode='contain'
-                                style={{
-                                    width: 60,
-                                    height: 60,
-                                    marginTop: -15,
-                                    tintColor: focused ? '#fff' : '#5A5B61'
-                                }}>   
-                                </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
-                            </View>
-                        )
-                    }}  />
-                </Tab.Navigator>
-            )
-        } if(user.role === 'barman'){
-            return(
-                <Tab.Navigator
-                tabBarOptions={{
-                    showLabel: false,
-                    style: {
-                        position: 'absolute',
-                        // bottom: 25,
-                        // left: 20,
-                        // right: 20,
-                        elevation: 0,
-                        backgroundColor: '#111219',
-                        // borderRadius: 15,
                         borderTopWidth: 0,
                         height: 75,
                         ...styles.shadow
@@ -197,7 +136,7 @@ const Tabs = ({ user }) => {
                             </View>
                         )
                     }} />
-                    <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
+                    <Tab.Screen name="Profile" options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
@@ -210,10 +149,61 @@ const Tabs = ({ user }) => {
                                     tintColor: focused ? '#fff' : '#5A5B61'
                                 }}>   
                                 </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
                             </View>
                         )
-                    }}  />
+                    }}  >
+                        { props => <ProfilStackNavigator auth={auth} {...props} />}
+                        </Tab.Screen>
+                </Tab.Navigator>
+            )
+        } if(user.role === 'barman'){
+            return(
+                <Tab.Navigator
+                tabBarOptions={{
+                    showLabel: false,
+                    style: {
+                        position: 'absolute',
+                        elevation: 0,
+                        backgroundColor: '#111219',
+                        borderTopWidth: 0,
+                        height: 75,
+                        ...styles.shadow
+                    }
+                }}>
+                    <Tab.Screen name="OrdersForStaff" component={OrderStaffStackNavigator} options={{
+                        tabBarIcon: ({focused}) => (
+                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+                                <Image 
+                                source={require('../assets/List.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 60,
+                                    height: 60,
+                                    marginTop: -15,
+                                    tintColor: focused ? '#fff' : '#5A5B61'
+                                }}>   
+                                </Image>
+                            </View>
+                        )
+                    }} />
+                   <Tab.Screen name="Profile" options={{
+                        tabBarIcon: ({focused}) => (
+                            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+                                <Image 
+                                source={require('../assets/profileIcon.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 60,
+                                    height: 60,
+                                    marginTop: -15,
+                                    tintColor: focused ? '#fff' : '#5A5B61'
+                                }}>   
+                                </Image>
+                            </View>
+                        )
+                    }}  >
+                        { props => <ProfilStackNavigator auth={auth} {...props} />}
+                        </Tab.Screen>
                 </Tab.Navigator>
             )
         }else{
@@ -223,12 +213,8 @@ const Tabs = ({ user }) => {
                     showLabel: false,
                     style: {
                         position: 'absolute',
-                        // bottom: 25,
-                        // left: 20,
-                        // right: 20,
                         elevation: 0,
                         backgroundColor: '#111219',
-                        // borderRadius: 15,
                         borderTopWidth: 0,
                         height: 75,
                         ...styles.shadow
@@ -279,11 +265,10 @@ const Tabs = ({ user }) => {
                                     tintColor: focused ? '#fff' : '#5A5B61'
                                 }}>   
                                 </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
                             </View>
                         )
                     }}  />
-                    <Tab.Screen name="Profile" component={ProfilStackNavigator} options={{
+                   <Tab.Screen name="Profile" options={{
                         tabBarIcon: ({focused}) => (
                             <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
                                 <Image 
@@ -296,10 +281,11 @@ const Tabs = ({ user }) => {
                                     tintColor: focused ? '#fff' : '#5A5B61'
                                 }}>   
                                 </Image>
-                                {/* <Text style={{color: focused ? '#fff' : '#5A5B61', fontSize: 12}} >PROFILE</Text> */}
                             </View>
                         )
-                    }}  />
+                    }}  >
+                        { props => <ProfilStackNavigator auth={auth} {...props} />}
+                        </Tab.Screen>
                 </Tab.Navigator>
             )
         }
