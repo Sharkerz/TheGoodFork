@@ -11,13 +11,10 @@ export default function WelcomeScreen( {navigation}) {
         <View style={styles.container}>
 
             <Image style={styles.logo} source={require("../assets/iconfood.png")} />
-
-          {/* <Background> */}
-            <Paragraph style={styles.textHome}>
-              TheGoodFork
-            </Paragraph>
-          {/* </Background> */}
-
+            <View style={{alignItems: 'center'}}>
+              <Image style={styles.titleLogo} source={require("../assets/titleImage.png")} />
+            </View>
+            
             <Button color='#111219' style={styles.textLogin}
               mode="outlined" onPress={() => navigation.navigate('LoginScreen')}>
               Login
@@ -34,19 +31,18 @@ export default function WelcomeScreen( {navigation}) {
 }
 
 const styles = StyleSheet.create({
-  textHome: {
-    fontSize: 40,
-    textAlign: 'center',
-    top: 360,
-    marginBottom: 0,
-    color: "#fff",
-    fontWeight: "600"
-  },
   logo: {
     width: 300,
     height: 226,
     position: 'absolute',
     top: 90,
+  },
+  titleLogo: {
+    width: 300,
+    height: 50,
+    position: 'absolute',
+    top: 360,
+    marginBottom: 50,
   },
   logoContainer: {
     width: 200,
@@ -77,7 +73,7 @@ const styles = StyleSheet.create({
   },
   textLogin: {
     backgroundColor: '#fff',
-    marginTop: 400,
+    marginTop: 480,
     width: 300
   }
 })
