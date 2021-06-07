@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity} from 'react-native';
+import {StyleSheet,View,Text,TouchableWithoutFeedback,Keyboard,ScrollView,Platform,TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import Button from '../components/Button';
@@ -109,6 +109,7 @@ class BookingScreen extends React.Component {
         return(
             <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <KeyboardAvoidingView behavior="padding">
             <ScrollView>
                 <Text style={styles.title}>Reservations</Text>
                 <Calendar style={{marginTop: 10}} 
@@ -234,6 +235,7 @@ class BookingScreen extends React.Component {
             ) : null }
             </View>    
             </ScrollView>
+            </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
             </View>
             
