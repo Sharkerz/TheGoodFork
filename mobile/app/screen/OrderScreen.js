@@ -160,19 +160,14 @@ class OrderScreen extends React.Component {
               <FlatList style={{marginBottom : '20%', height : '7%',width : '100%',backgroundColor: "#ffffff"}}
                   horizontal
                   scrollEnabled={false}
+                  legacyImplementation={false}
                   data={this.state.data}
                   renderItem={({ item: rowData }) => {
                     return (
-                        
-                        <TouchableOpacity  color='#111219' style={{ justifyContent: "center",
-                        backgroundColor: "#ffffff",
-                        width : '92%',
-                        alignItems : 'center',
-                        borderRightColor : '#000000',
-                      borderRightWidth : 2}}
-                        onPress={() =>this.changeData(rowData.key)}>
-                          <Text>{rowData.title}</Text>
-                        </TouchableOpacity>
+                          <TouchableOpacity style={{width : '92%',justifyContent : 'center',alignItems :'center',borderRightColor : '#000000',borderRightWidth : 2}} onPress={() =>this.changeData(rowData.key)}>
+                            <Text>{rowData.title}</Text>
+                          </TouchableOpacity>
+                         
                       
                     );
                   }}
@@ -198,6 +193,15 @@ class OrderScreen extends React.Component {
         },
         item: {
           padding: 16,
+          marginVertical: 1,
+          marginHorizontal: 0,
+          borderBottomColor: '#343434',
+          borderBottomWidth: 0.2,
+          flexDirection: 'row',
+          color: '#fff'
+        },
+        State: {
+          paddingRight: 30,
           marginVertical: 1,
           marginHorizontal: 0,
           borderBottomColor: '#343434',
