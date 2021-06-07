@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     FlatList,
     Platform,
-    ScrollView
+    ScrollView,
+    KeyboardAvoidingView
 } from 'react-native';
 import Button from '../components/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -76,6 +77,7 @@ class CartScreen extends React.Component {
       const isFocused = this.props;
         return(
             <View style={styles.container}>
+            <KeyboardAvoidingView behavior="padding">
             <ScrollView>
             <Text style={styles.title}>Panier</Text>
             <View>
@@ -140,6 +142,7 @@ class CartScreen extends React.Component {
            
             
           </ScrollView>
+          </KeyboardAvoidingView>
       </View>
         )
     }
