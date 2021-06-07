@@ -157,14 +157,14 @@ class OrderScreen extends React.Component {
              </View>) : null
                 }
               </ScrollView>
-              <FlatList style={{marginBottom : '20%', height : '7%',width : '100%',backgroundColor: "#ffffff"}}
-                  horizontal
+              <FlatList style={{marginBottom : '20%', height : '6%',width : '100%',backgroundColor: "#ffffff"}}
                   scrollEnabled={false}
                   legacyImplementation={false}
                   data={this.state.data}
+                  numColumns = {3}
                   renderItem={({ item: rowData }) => {
                     return (
-                          <TouchableOpacity style={{width : '92%',justifyContent : 'center',alignItems :'center',borderRightColor : '#000000',borderRightWidth : 2}} onPress={() =>this.changeData(rowData.key)}>
+                          <TouchableOpacity style={{justifyContent : 'center',alignItems :'center',borderLeftColor : '#000000',borderLeftWidth : 2,height : 50,width : '33%'}} onPress={() =>this.changeData(rowData.key)}>
                             <Text>{rowData.title}</Text>
                           </TouchableOpacity>
                          
