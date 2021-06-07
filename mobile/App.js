@@ -39,8 +39,8 @@ class App extends React.Component {
     componentDidMount() {
         this.getAuthStatus()
         this.registerForPushNotificationsAsync().then((token) => this.setState({expoPushToken: token})).then(()=> console.log(this.state.expoPushToken));
-        Notifications.addNotificationReceivedListener(notification => {this.setState({notification: notification});
-        });
+        Notifications.addNotificationReceivedListener(notification => {this.setState({notification: notification});});
+        Notifications.addNotificationResponseReceivedListener(response => {this.setState({responseListener: response})});
     }
 
     // Notifications set token
