@@ -216,14 +216,14 @@ class ValidationScreen extends React.Component {
                        mode="flat" onChangeText={this.commentHandler}>
                 </TextInput>
                 <TouchableOpacity
-                        style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
+                        style={[styles.Button,{backgroundColor: this.state.onSite && this.state.onSiteSelected ? '#111219' : '#ffffff'}]} 
                         onPress={this.onSiteHandler}>
-                        <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>SUR PLACE</Text>
+                        <Text style={[styles.TextButton,{color: this.state.onSite && this.state.onSiteSelected ? '#ffffff' : '#111219'}]}>SUR PLACE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                        style={[styles.Button,{backgroundColor: this.state.middayHoursShow ? '#111219' : '#ffffff'}]} 
+                        style={[styles.Button,{backgroundColor: !this.state.onSite && this.state.onSiteSelected ? '#111219' : '#ffffff'}]} 
                         onPress={this.TakeAWayHandler}>
-                        <Text style={[styles.TextButton,{color: this.state.middayHoursShow ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
+                        <Text style={[styles.TextButton,{color:  !this.state.onSite && this.state.onSiteSelected ? '#ffffff' : '#111219'}]}>À EMPORTER</Text>
                 </TouchableOpacity>
               </View>
               {
