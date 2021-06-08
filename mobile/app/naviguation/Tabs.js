@@ -12,6 +12,7 @@ const Tabs = ({ user,auth}) => {
                 <Tab.Navigator
                 tabBarOptions={{
                     showLabel: false,
+                    keyboardHidesTabBar: true,
                     style: {
                         position: 'absolute',
                         elevation: 0,

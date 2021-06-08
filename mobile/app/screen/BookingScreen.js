@@ -8,6 +8,7 @@ import BookingService from '../service/BookingService'
 import Toast from 'react-native-toast-message';
 import * as SecureStore from "expo-secure-store";
 import {TextInput} from "react-native-paper";
+
 LocaleConfig.locales['fr'] = {
     monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -108,8 +109,7 @@ class BookingScreen extends React.Component {
     render(){
         return(
             <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
             <ScrollView>
                 <Text style={styles.title}>Reservations</Text>
                 <Calendar style={{marginTop: 10}} 
@@ -236,7 +236,6 @@ class BookingScreen extends React.Component {
             </View>    
             </ScrollView>
             </KeyboardAvoidingView>
-            </TouchableWithoutFeedback>
             </View>
             
         )
