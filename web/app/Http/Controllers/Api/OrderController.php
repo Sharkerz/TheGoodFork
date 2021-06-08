@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 use Validator;
 use App\Models\menu_item;
 
@@ -238,7 +239,7 @@ class OrderController extends Controller
                     'title' => $user->role,
                     'body' => 'Un élement est prêt pour la commande' . $request->order_id
                 ]);
-            } catch(err){
+            } catch(Throwable $err){
             }
 
             return response()->json([
