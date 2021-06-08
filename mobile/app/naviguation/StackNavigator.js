@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screen/HomeScreen";
 import ProfileScreen from "../screen/ProfileScreen";
-import WelcomeScreen from "../screen/WelcomeScreen";
+import OrderSucessScreen from "../screen/OrderSucessScreen";
 import DetailScreen from "../screen/DetailsScreen";
 import BookingScreen from "../screen/BookingScreen";
 import CartScreen from "../screen/CartScreen"
@@ -21,6 +21,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="DetailScreen" component={DetailScreen} />
       <Stack.Screen name="Booking" component={BookingScreen} />
+      <Stack.Screen name="Sucess" component={OrderSucessScreen} />
     </Stack.Navigator>
   );
 };

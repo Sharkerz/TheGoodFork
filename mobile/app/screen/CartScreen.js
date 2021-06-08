@@ -74,28 +74,31 @@ class CartScreen extends React.Component {
     this._unsubscribe();
   }
 
-    handleClick =() =>{
-        if(this.state.role === 'waiters'){
-            if(this.state.userName){
-                this.props.navigation.navigate('Validation',{userName : this.state.userName})
-            }else{
-                Toast.show({
-                    type: 'error',
-                    visibilityTime: 6000,
-                    text1: 'Erreur',
-                    text2: 'Merci de rentrer le nom du client',
-                    topOffset: 60,
-                });
-            }
-        }
-        else{
-            this.props.navigation.navigate('Validation',{userName : null})
-        }
+  RefreshUserName = () =>{
+     this.textInput.clear()
+  }
 
+  handleClick =() =>{
+    if(this.state.role == 'waiters'){
+      if(this.state.userName){
+        this.props.navigation.navigate('Validation',{userName : this.state.userName, RefreshUserName : this.RefreshUserName})
+      }else{
+        Toast.show({
+          type: 'error',
+          visibilityTime: 6000,
+          text1: 'Erreur',
+          text2: 'Merci de rentrer le nom du client',
+          topOffset: 60,
+      });
+      }
     }
+    else{
+      this.props.navigation.navigate('Validation',{userName : null})
+    }
+  }  
 
-    render(){
-      const isFocused = this.props;
+     render(){
+
         return(
             <View style={styles.container}>
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
@@ -143,7 +146,7 @@ class CartScreen extends React.Component {
             </View>
             {this.state.role == 'waiters' ? (
                     <View style={{alignItems: 'center'}}>
-                      <TextInput underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="Nom du client"
+                      <TextInput ref={input => { this.textInput = input }} defaultValue={this.state.userName} underlineColor='transparent' underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textuserName} label="Nom du client"
                         mode="flat"  onChangeText={this.userNameHandler}>
                       </TextInput>
                     </View>
