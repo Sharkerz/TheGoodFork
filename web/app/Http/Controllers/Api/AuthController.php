@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Validator;
 
 class AuthController extends Controller
@@ -121,7 +122,36 @@ class AuthController extends Controller
             ]);
         }
 
+    }
 
+    public function setNotificationToken(Request $request) {
+        $userId = auth('api')->user()['id'];
+        $user = User::find($userId);
+
+        $validator = Validator::make($request->all(),
+            [
+                'pushToken' => 'required',
+            ]);
+        if($validator->fails()) {
+            return response()->json(
+                $validator->errors()->jsonSerialize(), 400
+            );
+        }
+
+        $update = $user->update([
+            'pushToken' => $request['pushToken'],
+        ]);
+
+        if ($update) {
+            return response()->json([
+                'status' => 'success',
+            ]);
+        }
+        else {
+            return response()->json([
+                'status' => 'error'
+            ]);
+        }
     }
 
     public function logout() {

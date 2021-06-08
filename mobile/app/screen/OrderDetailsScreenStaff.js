@@ -31,6 +31,7 @@ class OrdersDetailsScreenStaff extends React.Component {
                     text1: 'Succès',
                     text2: "La commande a été validée "
                 });
+                this.props.route.params.reload()
                 this.props.navigation.navigate('OrdersForStaff')
             }else{
                 Toast.show({
@@ -56,6 +57,7 @@ class OrdersDetailsScreenStaff extends React.Component {
          render(){
           const items = this.props.route.params.orderDetails;
           const numOrder = this.props.route.params.numOrder
+          const order_id = this.props.route.params.id
             return(
                 <View style={styles.container}>
                 <ScrollView>
@@ -88,7 +90,7 @@ class OrdersDetailsScreenStaff extends React.Component {
                 {items ? (
                   <View style={styles.validation}>
                 <Button   color='#111219' style={{width: 350}}
-                    mode="outlined" onPress={() =>this.handleSubmit(numOrder)} >
+                    mode="outlined" onPress={() =>this.handleSubmit(order_id)} >
                         La commande est prête
                 </Button>
                 </View>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Validator;
 use App\Models\menu_item;
 
@@ -221,11 +222,25 @@ class OrderController extends Controller
     public function itemsReady(Request $request) {
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
+        $validated_by = Order::where('id', '=',$request->order_id)->pluck('validated_by');
+        $user_validated_by = User::find($validated_by);
         OrderDetails::where('order_id', '=',$request->order_id)
             ->where('role', '=', $user->role)
             ->update(['ready' =>1]);
         $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready');
         if (in_array(0,$orderItems->toArray())){
+            // send notification to the
+            try {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json'
+                ])->post('https://exp.host/--/api/v2/push/send', [
+                    'to' => $user_validated_by->pushToken,
+                    'title' => $user->role,
+                    'body' => 'Un élement est prêt pour la commande' . $request->order_id
+                ]);
+            } catch(err){
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'The elements are ready',

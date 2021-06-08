@@ -14,6 +14,7 @@ import {StatusBar} from "react-native";
 import Toast from 'react-native-toast-message';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import AuthService from "./app/service/AuthService";
 
 // Status bar text color
 StatusBar.setBarStyle('light-content');
@@ -23,7 +24,6 @@ class App extends React.Component {
         super();
         this.state = {
             auth: false,
-            expoPushToken: "",
             notification: false,
         };
 
@@ -37,14 +37,28 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.getAuthStatus()
-        this.registerForPushNotificationsAsync().then((token) => this.setState({expoPushToken: token})).then(()=> console.log(this.state.expoPushToken));
-        Notifications.addNotificationReceivedListener(notification => {this.setState({notification: notification});});
-        Notifications.addNotificationResponseReceivedListener(response => {this.setState({responseListener: response})});
+        this.getAuthStatus().then((status) => {
+            if (status === true) {
+                this.setNotifications()
+            }
+        })
+    }
+
+    setNotifications = async() => {
+        this.registerForPushNotificationsAsync().then((token) =>
+        {
+            AuthService.setNotificationToken(token)
+        });
+        Notifications.addNotificationReceivedListener(notification => {
+            this.setState({notification: notification});
+        });
+        Notifications.addNotificationResponseReceivedListener(response => {
+            this.setState({responseListener: response})
+        });
     }
 
     // Notifications set token
-    async registerForPushNotificationsAsync() {
+    registerForPushNotificationsAsync = async () => {
         let token;
             const {status: existingStatus} = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
@@ -74,10 +88,12 @@ class App extends React.Component {
         if (token !== null) {
             let user = await SecureStore.getItemAsync('user')
             this.setState({user: JSON.parse(user)})
-            this.setState({auth: true})   
+            this.setState({auth: true})
+            return true
         }
         else {
             this.setState({auth: false})
+            return false
         }
     }
 
@@ -100,7 +116,7 @@ class App extends React.Component {
                 <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
                     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-                    <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus,user: this.setUserRole}} component={LoginScreen} />
+                    <Stack.Screen name="LoginScreen" initialParams={{auth: this.setAuthStatus, user: this.setUserRole, setPushToken: this.setNotifications}} component={LoginScreen} />
                     <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
                 </Stack.Navigator>
                 </NavigationContainer>

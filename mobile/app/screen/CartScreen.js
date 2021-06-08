@@ -74,25 +74,31 @@ class CartScreen extends React.Component {
     this._unsubscribe();
   }
 
-  handleClick =() =>{
-    if(this.state.userName){
-      this.props.navigation.navigate('Validation',{userName : this.state.userName})
-    }else{
-      Toast.show({
-        type: 'error',
-        visibilityTime: 6000,
-        text1: 'Erreur',
-        text2: 'Merci de rentrer le nom du client',
-        topOffset: 60,
-    });
-    }
-  } 
+    handleClick =() =>{
+        if(this.state.role === 'waiters'){
+            if(this.state.userName){
+                this.props.navigation.navigate('Validation',{userName : this.state.userName})
+            }else{
+                Toast.show({
+                    type: 'error',
+                    visibilityTime: 6000,
+                    text1: 'Erreur',
+                    text2: 'Merci de rentrer le nom du client',
+                    topOffset: 60,
+                });
+            }
+        }
+        else{
+            this.props.navigation.navigate('Validation',{userName : null})
+        }
 
-     render(){
+    }
+
+    render(){
       const isFocused = this.props;
         return(
             <View style={styles.container}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
             <ScrollView>
             <Text style={styles.title}>Panier</Text>
             <View>

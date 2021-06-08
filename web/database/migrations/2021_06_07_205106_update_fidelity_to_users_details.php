@@ -14,10 +14,10 @@ class UpdateFidelityToUsersDetails extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('fidelity')->default(0);
-            $table->integer('numbersVisit')->default(0);
-            $table->integer('numbersCookOrder')->default(0);
-            $table->integer('numbersBarOrder')->default(0);
+            $table->integer('fidelity');
+            $table->integer('numbersVisit');
+            $table->integer('numbersCookOrder');
+            $table->integer('numbersBarOrder');
         });
     }
 

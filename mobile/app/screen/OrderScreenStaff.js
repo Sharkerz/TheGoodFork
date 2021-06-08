@@ -23,9 +23,9 @@ class OrderScreenStaff extends React.Component {
       getStaffOrders = async() =>{
         await OrderService.ordersForStaff().then(async(res) =>{
             if(res.status === 200){
-                this.setState({orders : res.data.orders})
+                this.setState({orders : Object.values(res.data.orders)})
                 this.setState({orderDetails : res.data.oderdetails})
-            }else{
+            }else {
                 console.log(res)
             }
            
@@ -51,11 +51,10 @@ class OrderScreenStaff extends React.Component {
                 <FlatList style={styles.data}
                           data={this.state.orders}
                           keyExtractor={item => item.id.toString()}
-                          renderItem={({item}) => 
-                          
-                          <TouchableOpacity style={styles.item} onPress={() => 
+                          renderItem={({item}) =>
+                          <TouchableOpacity style={styles.item} onPress={() =>
                             this.props.navigation.navigate('OrdersDetailsForStaff', {
-                              orderDetails,numOrder : item['numOrder'],reload : this.getBarmanOrders 
+                              orderDetails,numOrder : item['numOrder'], id : item['id'], reload : this.getStaffOrders
                           }
                           )}>
                               <View style={styles.leftViewItem} flexDirection='row'>

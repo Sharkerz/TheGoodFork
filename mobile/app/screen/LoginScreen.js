@@ -41,7 +41,7 @@ class LoginScreen extends React.Component{
                 await AsyncStorage.setItem('cartSaved',JSON.stringify([]))
                 this.props.route.params.user(user)
                 this.props.route.params.auth(true)
-                
+                this.props.route.params.setPushToken()
             }else{
                 Toast.show({
                     type: 'error',

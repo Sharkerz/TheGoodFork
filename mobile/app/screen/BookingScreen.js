@@ -93,6 +93,14 @@ class BookingScreen extends React.Component {
                     text2: "Votre Réservation a été prise en compte ",
                     topOffset: 60,
                 });
+                this.setState({selectedDate : null})
+                this.setState({shouldShow : false})
+                this.setState({markedDates : {}})
+                this.setState({hourShow: false})
+                this.setState({middayHoursShow: false})
+                this.setState({nightHoursShow: false})
+                this.setState({Service: false})
+                this.props.navigation.navigate('Home')
             }else{
                 Toast.show({
                     type: 'error',

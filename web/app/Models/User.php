@@ -25,7 +25,8 @@ class User extends Authenticatable implements JWTSubject
         'fidelity',
         'numbersCookOrder',
         'numbersBarOrder',
-        'numbersVisit'
+        'numbersVisit',
+        'pushToken'
     ];
 
     /**
