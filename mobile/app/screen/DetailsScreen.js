@@ -43,6 +43,7 @@ class DetailScreen extends React.Component {
                         text2: "Votre choix a été ajouté au panier ! 🎉",
                         topOffset: 60,
                     });
+                    this.props.navigation.navigate('homeScreen')
                 }else{
                     newCart.push(itemToAdd)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
@@ -51,6 +52,7 @@ class DetailScreen extends React.Component {
                         text2: "Votre choix a été ajouté au panier ! 🎉",
                         topOffset: 60,
                     });
+                    this.props.navigation.navigate('homeScreen')
                 }
             } else {
                 await AsyncStorage.setItem('cartSaved',JSON.stringify(itemToAdd))
@@ -59,6 +61,7 @@ class DetailScreen extends React.Component {
                     text2: "Votre choix a été ajouté au panier ! 🎉",
                     topOffset: 60,
                 });
+                this.props.navigation.navigate('homeScreen')
             }
         }
 

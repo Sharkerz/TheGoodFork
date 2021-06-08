@@ -21,6 +21,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import OrderService from '../service/OrderService';
 import {CheckBox} from "react-native-elements";
 import ProfileService from "../service/ProfileService";
+import CartScreen from './CartScreen';
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
   monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -60,7 +61,8 @@ class ValidationScreen extends React.Component {
         { label: '20:30', value: '20:30' },
     ],
     BookingPicker : [],
-    useFidelity: false
+    useFidelity: false,
+    ready : false
     }
   }
   getCard = async() =>{
@@ -69,6 +71,7 @@ class ValidationScreen extends React.Component {
       const cartParsed = JSON.parse(cart)
       var cost = 0.00
       this.setState({items : cartParsed})
+      this.setState({ready : true})
       cartParsed.forEach(element => {
         cost += parseFloat(element.price) * element.quantity  
       })
@@ -152,13 +155,12 @@ class ValidationScreen extends React.Component {
         fidelityReduction: this.state.cost - totalCost
     }
     await OrderService.createOrder(data).then(async(res) =>{
-      console.log(res.data)
       if(res.data.status === "success"){
-        Toast.show({
-          text1: 'Succès',
-          text2: "Votre commande est pasée sans problème! 🎉",
-          topOffset: 60,
-      });
+      this.props.navigation.goBack()
+      this.props.navigation.navigate('Sucess')
+      if(this.state.role === 'waiters'){
+        this.props.route.params.RefreshUserName()
+      }
       await AsyncStorage.setItem('cartSaved',JSON.stringify([]))
       }else{
           Toast.show({
@@ -209,7 +211,7 @@ class ValidationScreen extends React.Component {
      render(){
         return(
             <View style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
             <BackButton goBack={this.props.navigation.goBack}/>
               <View style={{alignItems: 'center', marginTop: 130}}>
                 <TextInput underlineColor="transparent" underlineColorAndroid="transparent" selectionColor='#5A5B61' style={styles.textLogin} label="Remarque (allergies, suppléments, ect...)"
@@ -301,10 +303,10 @@ class ValidationScreen extends React.Component {
             <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
                 {this.state.useFidelity ?
                     <View>
-                        <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity}€</Text>
-                        <Text style={styles.textInfoFidelity}>Utilisation de {this.state.cost - this.state.costUsingFidelity}0 points (- {this.state.cost - this.state.costUsingFidelity}€ sur la commande.)</Text>
+                        <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity.toFixed(2)}€</Text>
+                        <Text style={styles.textInfoFidelity}>Utilisation de {this.state.cost.toFixed(2) - this.state.costUsingFidelity}0 points (- {this.state.cost.toFixed(2) - this.state.costUsingFidelity}€ sur la commande.)</Text>
                     </View>
-                    : <Text style={styles.textTotalPrice}>total: {this.state.cost}€</Text>
+                    : <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)}€</Text>
                 }
                 {this.state.role === 'customer' ?
                     <View>

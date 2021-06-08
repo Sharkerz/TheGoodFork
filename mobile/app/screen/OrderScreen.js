@@ -167,8 +167,6 @@ class OrderScreen extends React.Component {
                           <TouchableOpacity style={{justifyContent : 'center',alignItems :'center',borderLeftColor : '#000000',borderLeftWidth : 2,height : 50,width : '33%'}} onPress={() =>this.changeData(rowData.key)}>
                             <Text>{rowData.title}</Text>
                           </TouchableOpacity>
-                         
-                      
                     );
                   }}
                   keyExtractor={item => item.key.toString()}
