@@ -1,6 +1,6 @@
 import React from 'react'
-import {Text, StyleSheet} from 'react-native'
-import Background from '../components/Background'
+import {Text, StyleSheet, View, Platform, TouchableOpacity, Image, FlatList, ActivityIndicator} from 'react-native'
+import OrderService from "../service/OrderService";
 
 class OrderSucessScreen extends React.Component{
     constructor() {
@@ -8,15 +8,50 @@ class OrderSucessScreen extends React.Component{
         this.state = {
             email: "",
             password: "",
+            order: {},
+            orderItems: {},
+            waitingAnimation: true
         }
     }
 
+    componentDidMount() {
+        OrderService.getOrder(this.props.route.params.orderId).then((res) => {
+            this.setState({order: res.data.order})
+        })
+        OrderService.orderDetails(this.props.route.params.orderId).then((res) => {
+            this.setState({orderItems: res.data.orderDetails})
+        }).then(() => {
+            this.setState({waitingAnimation: false})
+        })
+    }
 
-render() {
+
+    render() {
     return (
-        <Background style={styles.container}>
-            <Text style={styles.textHome}>Votre commande est passée sans soucis 🎉 </Text>
-        </Background>
+        <View style={styles.container}>
+            <View style={styles.waitingView}>
+                <ActivityIndicator size="large" color="#999999" animating={this.state.waitingAnimation}/>
+            </View>
+            <Text style={styles.textHome}>Votre commande a bien été prise en compte 🎉 </Text>
+            <Text style={styles.titleText}>Résumé de votre commande: </Text>
+            <View>
+                <FlatList style={styles.data}
+                          data={this.state.orderItems}
+                          keyExtractor={item => item.id.toString()}
+                          renderItem={({item}) =>
+                              <TouchableOpacity style={styles.item}>
+                                  <View style={styles.leftViewItem}>
+                                      <Text style={styles.textRowList}>{item.quantity}x {item.name}</Text>
+                                  </View>
+                                  <View style={styles.rightViewItem}>
+                                      <Text style={styles.textRowList}>{item.price * item.quantity}€</Text>
+                                  </View>
+                              </TouchableOpacity>
+                          }
+                />
+            </View>
+            <Text style={styles.titleTotalPriceText}>Total:  {this.state.order.prixTotal} €</Text>
+        </View>
     )
 }
 }
@@ -27,14 +62,60 @@ const styles = StyleSheet.create({
       backgroundColor: "#111219",
     },
     textHome: {
-        fontSize: 30,
+        marginTop: Platform.OS === 'ios' ? 60 : 40,
+        fontSize: 26,
         textAlign: 'center',
         justifyContent : 'center',
         color: "#fff",
         fontWeight: "600",
-        marginRight : '10%',
-        marginLeft : '10%'
-        
+    },
+    titleText: {
+        marginTop: 20,
+        fontSize: 22,
+        textAlign: 'center',
+        justifyContent : 'center',
+        color: "#fff",
+        fontWeight: "600",
+    },
+    titleTotalPriceText: {
+        marginTop: 20,
+        fontSize: 22,
+        textAlign: 'right',
+        justifyContent : 'flex-end',
+        color: "#fff",
+        fontWeight: "600",
+        marginRight: '3%'
+    },
+    item: {
+        padding: 16,
+        marginVertical: 1,
+        marginHorizontal: 0,
+        borderBottomColor: '#343434',
+        borderBottomWidth: 0.2,
+        flexDirection: 'row'
+    },
+    leftViewItem: {
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+    },
+    rightViewItem: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
+    textRowList: {
+        color: '#FFFF',
+        fontSize: 13,
+    },
+    waitingView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 10,
+        position: 'absolute'
     },
 })
 

@@ -27,7 +27,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::get('/getItems', [MenuApiController::class, 'getItems']);
     Route::post('/createOrder', [OrderController::class, 'createOrder']);
     Route::get('/orderToValidate', [OrderController::class, 'orderToValidate']);
+    Route::get('/getOrder/{id}', [OrderController::class, 'getOrder']);
     Route::get('/orderDetails/{id}', [OrderController::class, 'orderDetails']);
+    Route::get('/getOrderWaiting', [OrderController::class, 'getOrderWaiting']);
     Route::get('/ordersForStaff', [OrderController::class, 'ordersForStaff']);
     Route::post('/itemsReady', [OrderController::class, 'itemsReady']);
     Route::get('/orderReady', [OrderController::class, 'orderReady']);

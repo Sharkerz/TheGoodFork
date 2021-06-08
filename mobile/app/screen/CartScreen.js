@@ -79,7 +79,7 @@ class CartScreen extends React.Component {
   }
 
   handleClick =() =>{
-    if(this.state.role == 'waiters'){
+    if(this.state.role === 'waiters'){
       if(this.state.userName){
         this.props.navigation.navigate('Validation',{userName : this.state.userName, RefreshUserName : this.RefreshUserName})
       }else{

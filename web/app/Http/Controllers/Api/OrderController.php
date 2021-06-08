@@ -148,7 +148,7 @@ class OrderController extends Controller
 
             }
 
-        return response()->json(['status' => 'success'],200);
+        return response()->json(['status' => 'success', 'orderId' => $order->id],200);
     }
 
     public function orderToValidate() {
@@ -165,6 +165,16 @@ class OrderController extends Controller
             ],400);
         }
     }
+
+    public function getOrder($id) {
+        $order = Order::find($id);
+
+            return response()->json([
+                'status' => 'success',
+                'order' => $order
+            ],400);
+    }
+
     public function orderDetails($id) {
         $orderDetails = OrderDetails::where('order_id', '=', $id)->get();
 
@@ -179,6 +189,18 @@ class OrderController extends Controller
                 'message' => 'No Details for this order'
             ],400);
         }
+    }
+
+    public function getOrderWaiting() {
+        $userId = auth('api')->user()['id'];
+        $orders = Order::where('userId', '=', $userId)
+            ->where('delivered', '=', 0)
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders
+        ],400);
     }
 
     public function validateOrders(Request $request) {
@@ -223,31 +245,43 @@ class OrderController extends Controller
     public function itemsReady(Request $request) {
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
-        $validated_by = Order::where('id', '=',$request->order_id)->pluck('validated_by');
+        $validated_by = Order::where('id', '=',$request->order_id)->pluck('validated_by')[0];
         $user_validated_by = User::find($validated_by);
+        $created_by = Order::where('id', '=',$request->order_id)->pluck('userId')[0];
+        $user_created_by = User::find($created_by);
         OrderDetails::where('order_id', '=',$request->order_id)
             ->where('role', '=', $user->role)
             ->update(['ready' =>1]);
         $orderItems = OrderDetails::where('order_id', '=',$request->order_id)->pluck('ready');
         if (in_array(0,$orderItems->toArray())){
-            // send notification to the
-            try {
-                Http::withHeaders([
-                    'Content-Type' => 'application/json'
-                ])->post('https://exp.host/--/api/v2/push/send', [
-                    'to' => $user_validated_by->pushToken,
-                    'title' => $user->role,
-                    'body' => 'Un élement est prêt pour la commande' . $request->order_id
-                ]);
-            } catch(Throwable $err){
-            }
-
             return response()->json([
                 'status' => 'success',
                 'message' => 'The elements are ready',
             ]);
         }else{
             Order::where('id', '=',$request->order_id)->update(['ready' =>1]);
+            // send notification to the waiters concerned
+            try {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json'
+                ])->post('https://exp.host/--/api/v2/push/send', [
+                    'to' => $user_validated_by->pushToken,
+                    'title' => 'Commande prête',
+                    'body' => 'La commande ' . $request->order_id . ' est prête.'
+                ]);
+            } catch(Throwable $err){
+            }
+            // send notification to the customer
+            try {
+                Http::withHeaders([
+                    'Content-Type' => 'application/json'
+                ])->post('https://exp.host/--/api/v2/push/send', [
+                    'to' => $user_created_by->pushToken,
+                    'title' => 'Commande prête',
+                    'body' => 'Votre commande est prête !'
+                ]);
+            } catch(Throwable $err){
+            }
             return response()->json([
                 'status' => 'success',
                 'message' => 'The order is ready',

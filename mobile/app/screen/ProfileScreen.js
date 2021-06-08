@@ -120,6 +120,10 @@ class ProfileScreen extends Component {
           />
           <View style={{alignItems:'center'}}>
             <Button color='#111219' style={styles.editButton}
+                    mode="outlined" onPress={() => this.props.navigation.navigate('OrderListScreen')}>
+              Commandes en cours
+            </Button>
+            <Button color='#111219' style={styles.editButton}
               mode="outlined" onPress={() => this.props.navigation.navigate('editProfile')}>
               Editer mon profil
             </Button>

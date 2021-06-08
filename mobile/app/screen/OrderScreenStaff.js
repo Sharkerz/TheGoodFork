@@ -114,6 +114,6 @@ class OrderScreenStaff extends React.Component {
         marginTop: 20,
         marginBottom: 100
       },
-      })
+  })
 
 export default OrderScreenStaff;

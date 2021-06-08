@@ -157,7 +157,9 @@ class ValidationScreen extends React.Component {
     await OrderService.createOrder(data).then(async(res) =>{
       if(res.data.status === "success"){
       this.props.navigation.goBack()
-      this.props.navigation.navigate('Sucess')
+      this.props.navigation.navigate('Success', {
+          orderId: res.data.orderId,
+      });
       if(this.state.role === 'waiters'){
         this.props.route.params.RefreshUserName()
       }

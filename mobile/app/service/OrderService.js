@@ -18,12 +18,40 @@ class OrderService{
         })
     }
 
+    getOrder = async (id) => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        return await axios.get(SERVER_IP + '/api/getOrder/' + id, config)
+            .then(async (response) => {
+                return response
+            })
+            .catch((err) => {
+                return err.response
+            })
+    }
+
+    getOrderWaiting = async (id) => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        }
+        return await axios.get(SERVER_IP + '/api/getOrderWaiting/', config)
+            .then(async (response) => {
+                return response
+            })
+            .catch((err) => {
+                return err.response
+            })
+    }
+
     orderDetails = async (id) => {
         const token = await SecureStore.getItemAsync('secure_token')
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         }
-        return await axios.get(SERVER_IP + '/api/orderDetails/'+id,config)
+        return await axios.get(SERVER_IP + '/api/orderDetails/' + id, config)
         .then(async (response) => {
             return response
         })
@@ -31,6 +59,7 @@ class OrderService{
             return err.response
         })
     }
+
     validateOrders = async (id) => {
         const token = await SecureStore.getItemAsync('secure_token')
         const config = {
