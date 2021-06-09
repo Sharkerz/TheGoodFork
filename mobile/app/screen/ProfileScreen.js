@@ -21,6 +21,7 @@ class ProfileScreen extends Component {
       this.state = {
         name: "",
         email: "",
+        role: "",
         fidelity: 0,
         numbersCookOrder: 0,
         numbersBarOrder: 0,
@@ -32,6 +33,7 @@ class ProfileScreen extends Component {
       await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
         this.setState({name: res.name})
         this.setState({email: res.email})
+        this.setState({role: res.role})
       });
       ProfileService.getInfos().then((res) => {
         this.setState({fidelity: res.fidelity})
@@ -119,10 +121,12 @@ class ProfileScreen extends Component {
                     }
           />
           <View style={{alignItems:'center'}}>
-            <Button color='#111219' style={styles.editButton}
-                    mode="outlined" onPress={() => this.props.navigation.navigate('OrderListScreen')}>
-              Commandes en cours
-            </Button>
+            {this.state.role === "customer" ?
+                <Button color='#111219' style={styles.editButton}
+                        mode="outlined" onPress={() => this.props.navigation.navigate('OrderListScreen')}>
+                  Commandes en cours
+                </Button> : null
+            }
             <Button color='#111219' style={styles.editButton}
               mode="outlined" onPress={() => this.props.navigation.navigate('editProfile')}>
               Editer mon profil
