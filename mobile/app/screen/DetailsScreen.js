@@ -45,13 +45,23 @@ class DetailScreen extends React.Component {
                 if(exists){
                     const objIndex = newCart.findIndex((obj => obj.id == itemToAdd.id));
                     newCart[objIndex].quantity = parseInt(newCart[objIndex].quantity) + parseInt(this.state.quantity)
-                    await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
+                    if (newCart[objIndex].quantity > item.stock){
+                        Toast.show({
+                            type: 'error',
+                            text1: 'Erreur',
+                            text2: "Stock insuffisant, il reste : " + item.stock + " " + item.name,
+                            topOffset: 60,
+                        });
+                    }else{
+                        await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
                     Toast.show({
                         text1: 'Succès',
                         text2: "Votre choix a été ajouté au panier ! 🎉",
                         topOffset: 60,
                     });
                     this.props.navigation.navigate('homeScreen')
+                    }
+                    
                 }else{
                     newCart.push(itemToAdd)
                     await AsyncStorage.setItem('cartSaved',JSON.stringify(newCart))
