@@ -78,6 +78,7 @@ class OrderScreen extends React.Component {
       componentDidMount(){
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
           this.getOrders(this.state.key);
+          this.timer = setInterval(()=> this.getOrders(this.state.key), 10000)
         });
       }
     

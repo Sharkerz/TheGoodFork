@@ -34,6 +34,7 @@ class OrderScreenStaff extends React.Component {
       componentDidMount(){
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
           this.getStaffOrders();
+          this.timer = setInterval(()=> this.getStaffOrders(), 10000)
         });
       }
     

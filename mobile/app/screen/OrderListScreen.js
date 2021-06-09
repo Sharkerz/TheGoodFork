@@ -23,6 +23,7 @@ class OrderListScreen extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             // Load details user data
             this.loadData()
+            this.timer = setInterval(()=> this.loadData(), 10000)
         });
     }
 
