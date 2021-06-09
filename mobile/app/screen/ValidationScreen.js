@@ -348,7 +348,7 @@ class ValidationScreen extends React.Component {
                 }
                 {this.state.role === 'customer' ?
                     <View>
-                        < CheckBox
+                        <CheckBox
                             center
                             checked={this.state.useFidelity}
                             onPress={() => this.FidelityChange()}
