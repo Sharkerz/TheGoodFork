@@ -11,8 +11,9 @@ import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-import * as SecureStore from "expo-secure-store"
+import moment from "moment";
+import 'moment/locale/fr';
+import * as SecureStore from "expo-secure-store";
 import {Calendar} from 'react-native-calendars';
 import BookingService from '../service/BookingService'
 import Toast from 'react-native-toast-message';
@@ -61,6 +62,7 @@ class ValidationScreen extends React.Component {
         { label: '20:30', value: '20:30' },
     ],
     BookingPicker : [],
+    BookingDate : {},
     useFidelity: false,
     ready : false
     }
@@ -95,10 +97,15 @@ class ValidationScreen extends React.Component {
 
 
   componentDidMount(){
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    this._unsubscribe = this.props.navigation.addListener('focus', async() => {
+      await SecureStore.getItemAsync('user').then(JSON.parse).then((res) => {
+        this.setState({role: res.role})
+    })
       this.getCard();
       this.getReservations(this.props.route.params.userName)
-      this.getPriceWithFidelity();
+      if (this.state.role === 'customers'){
+        this.getPriceWithFidelity();
+      }
     });
   }
 
@@ -106,13 +113,18 @@ class ValidationScreen extends React.Component {
     await BookingService.getReservations(userName).then(async(res) =>{
       if(res.data.status === "success"){
         let bookings = []
+        let bookinghour = []
         const temp = res.data.bookings
         temp.forEach(element => {
+          let hour  = element.hour.substr(0,5)
           let date = new Date(element.date)
-          date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + " " + element.hour
-          bookings.push({label : date, value : element.id}) 
+          let orderdate = date.getFullYear() + "-" + (date.getMonth()+1).toString().padStart(2, "0")+ "-" + date.getDate() + " " + hour
+          const dateformated = moment(date).format('Do MMMM') + " " + hour;
+          bookinghour.push({orderdate})
+          bookings.push({label : dateformated, value : element.id}) 
         })
         this.setState({BookingPicker : bookings})
+        this.setState({BookingDate : bookinghour})
       }else{
           Toast.show({
               type: 'error',
@@ -136,24 +148,38 @@ class ValidationScreen extends React.Component {
 
   handleSubmit = async() =>{
       let totalCost
+      let data = {}
       if (this.state.useFidelity) {
           totalCost = this.state.costUsingFidelity
       }
       else {
           totalCost = this.state.cost
       }
-
-    let data = {
-        numBooking: this.state.numBooking,
-        onSite: this.state.onSite,
-        hour: this.state.date,
-        prixTotal: totalCost,
-        Value: this.state.items,
-        comment: this.state.comment,
-        userName: this.props.route.params.userName,
-        useFidelity: this.state.useFidelity,
-        fidelityReduction: this.state.cost - totalCost
-    }
+      if (this.state.onSite){
+        data = {
+          numBooking: this.state.numBooking,
+          onSite: this.state.onSite,
+          hour: this.state.BookingDateSelected.orderdate,
+          prixTotal: totalCost,
+          Value: this.state.items,
+          comment: this.state.comment,
+          userName: this.props.route.params.userName,
+          useFidelity: this.state.useFidelity,
+          fidelityReduction: this.state.cost - totalCost
+      }
+      }else{
+        data = {
+          numBooking: this.state.numBooking,
+          onSite: this.state.onSite,
+          hour: this.state.date,
+          prixTotal: totalCost,
+          Value: this.state.items,
+          comment: this.state.comment,
+          userName: this.props.route.params.userName,
+          useFidelity: this.state.useFidelity,
+          fidelityReduction: this.state.cost - totalCost
+      }
+      }
     await OrderService.createOrder(data).then(async(res) =>{
       if(res.data.status === "success"){
       this.props.navigation.goBack()
@@ -164,7 +190,7 @@ class ValidationScreen extends React.Component {
         this.props.route.params.RefreshUserName()
       }
       await AsyncStorage.setItem('cartSaved',JSON.stringify([]))
-      }else{
+      }else if(res.data.status === "failed"){
           Toast.show({
               type: 'error',
               visibilityTime: 6000,
@@ -172,6 +198,15 @@ class ValidationScreen extends React.Component {
               text2: res.data.message.toString(),
               topOffset: 60,
           });
+      }
+      else{
+        Toast.show({
+          type: 'error',
+          visibilityTime: 6000,
+          text1: 'Erreur',
+          text2:  res.data[Object.keys(res.data)[0]].toString(),
+          topOffset: 60,
+      });
       }
     })
   }
@@ -191,8 +226,9 @@ class ValidationScreen extends React.Component {
     this.setState({time : time})
     this.setState({date : date})
   }
-  BookingNum = (numBooking) =>{
+  BookingNum = async(numBooking,index) =>{
     this.setState({numBooking : numBooking})
+    this.setState({BookingDateSelected : this.state.BookingDate[index-1]})
   }
 
     FidelityChange = () =>{
@@ -297,7 +333,7 @@ class ValidationScreen extends React.Component {
                               label: 'Selectionner une réservation',
                               value: null,
                             }}
-                              onValueChange={(value) => this.BookingNum(value)}
+                              onValueChange={(value,index) => this.BookingNum(value,index)}
                               items={this.state.BookingPicker}
                           />
                            </View>
@@ -310,7 +346,7 @@ class ValidationScreen extends React.Component {
                     </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)}€</Text>
                 }
-                {this.state.role === 'customer' ?
+                {this.state.role === 'customers' ?
                     <View>
                         < CheckBox
                             center
@@ -322,10 +358,13 @@ class ValidationScreen extends React.Component {
                         <Text style={styles.textInfoFidelity}>10 points de fidelité = 1€ sur la commande !</Text>
                     </View> : null
                 }
-                {this.state.onSiteSelected ?  (<Button style={{width : '90%'}}  color='#111219'
+                {this.state.onSiteSelected  && this.state.onSite && this.state.BookingDateSelected?  (<Button style={{width : '90%'}}  color='#111219'
                     mode="outlined" onPress={() => this.handleSubmit()} >
                         Valider la commande
-                </Button> )  : null}
+                </Button> )  : this.state.onSiteSelected  && !this.state.onSite && this.state.date ? (<Button style={{width : '90%'}}  color='#111219'
+                    mode="outlined" onPress={() => this.handleSubmit()} >
+                        Valider la commande
+                </Button>) : null}
                 
             </View>
                 </ScrollView>

@@ -30,6 +30,14 @@ class DetailScreen extends React.Component {
         }
         addToCart = async(item) =>{
             const cart = await AsyncStorage.getItem('cartSaved')
+            if (this.state.quantity >= item.stock){
+                Toast.show({
+                        type: 'error',
+                        text1: 'Erreur',
+                        text2: "Stock insuffisant, il reste : " + item.stock + " " + item.name,
+                        topOffset: 60,
+                    });
+            }else{
             const itemToAdd = {id : item.id,name :item.name,image : item.image,category_id : item.category_id,quantity : this.state.quantity,price: item.price.toFixed(2)}
             if(cart) {
                 const newCart = JSON.parse(cart)
@@ -62,6 +70,7 @@ class DetailScreen extends React.Component {
                     topOffset: 60,
                 });
                 this.props.navigation.navigate('homeScreen')
+            }
             }
         }
 

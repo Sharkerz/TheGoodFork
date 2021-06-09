@@ -78,7 +78,7 @@ class OrderController extends Controller
         }
         if($validator->fails()) {
             return response()->json(
-                $validator->errors()->toJson(), 400
+                $validator->errors()->jsonSerialize(), 400
             );
         }
         if ($user->role == 'waiters'){
