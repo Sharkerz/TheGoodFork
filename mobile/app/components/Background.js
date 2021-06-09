@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, KeyboardAvoidingView, View } from 'react-native'
-import { theme } from '../core/theme'
+import { StyleSheet, KeyboardAvoidingView, View } from 'react-native'
+
 
 export default function Background({ children }) {
     return (
@@ -15,18 +15,15 @@ export default function Background({ children }) {
 
 const styles = StyleSheet.create({
     background: {
-      flex: 1,
-      width: '100%',
-      backgroundColor: "#111219",
+        flex: 1,
+        width: '100%',
+        backgroundColor: "#111219",
     },
     container: {
-      flex: 1,
-      width: '100%',
-      alignSelf: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        width: '100%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-  })
-
-
-
+})

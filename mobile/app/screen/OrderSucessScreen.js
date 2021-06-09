@@ -14,7 +14,7 @@ class OrderSucessScreen extends React.Component{
         }
     }
 
-    componentDidMount() {
+    loadData = () => {
         OrderService.getOrder(this.props.route.params.orderId).then((res) => {
             this.setState({order: res.data.order})
         })
@@ -25,6 +25,16 @@ class OrderSucessScreen extends React.Component{
         })
     }
 
+    componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // Load details user data
+            this.loadData()
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
 
     render() {
     return (
@@ -37,7 +47,7 @@ class OrderSucessScreen extends React.Component{
             <View>
                 <FlatList style={styles.data}
                           data={this.state.orderItems}
-                          keyExtractor={item => item.id.toString()}
+                          keyExtractor={(item) => item.id.toString()}
                           renderItem={({item}) =>
                               <TouchableOpacity style={styles.item}>
                                   <View style={styles.leftViewItem}>
@@ -51,6 +61,14 @@ class OrderSucessScreen extends React.Component{
                 />
             </View>
             <Text style={styles.titleTotalPriceText}>Total:  {this.state.order.prixTotal} €</Text>
+
+            <View style={styles.trackView}>
+                {this.state.order.validated === 0 ?
+                    <Text style={styles.statusTrackText}>Commande en attente de validation</Text>
+                    :
+                    <Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>
+                }
+            </View>
         </View>
     )
 }
@@ -117,6 +135,17 @@ const styles = StyleSheet.create({
         padding: 10,
         position: 'absolute'
     },
+    trackView: {
+        marginTop: 20
+    },
+    statusTrackText: {
+        marginTop: 30,
+        fontSize: 20,
+        textAlign: 'center',
+        justifyContent : 'center',
+        color: "#3EA65C",
+        fontWeight: "600",
+    }
 })
 
 export default OrderSucessScreen
