@@ -54,7 +54,7 @@ class OrderSucessScreen extends React.Component{
                                       <Text style={styles.textRowList}>{item.quantity}x {item.name}</Text>
                                   </View>
                                   <View style={styles.rightViewItem}>
-                                      <Text style={styles.textRowList}>{item.price * item.quantity}€</Text>
+                                      <Text style={styles.textRowList}>{(item.price * item.quantity).toFixed(2)}€</Text>
                                   </View>
                               </TouchableOpacity>
                           }
