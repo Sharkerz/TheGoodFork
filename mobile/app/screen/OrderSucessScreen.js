@@ -37,7 +37,7 @@ class OrderSucessScreen extends React.Component{
             <View>
                 <FlatList style={styles.data}
                           data={this.state.orderItems}
-                          keyExtractor={item => item.id.toString()}
+                          keyExtractor={(item) => item.id.toString()}
                           renderItem={({item}) =>
                               <TouchableOpacity style={styles.item}>
                                   <View style={styles.leftViewItem}>

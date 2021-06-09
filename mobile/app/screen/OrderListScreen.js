@@ -32,6 +32,7 @@ class OrderListScreen extends Component {
           <Text style={styles.title}>Commandes en cours</Text>
           <FlatList style={styles.list}
                     data={this.state.listOrder}
+                    keyExtractor={(item) => item.id.toString()}
                     renderItem={({item}) =>
                       {
                         const date = moment(item.created_at).format('Do MMMM h:mm');
@@ -41,7 +42,7 @@ class OrderListScreen extends Component {
                             });}
                         }>
                             <View style={styles.leftViewItem}>
-                                <Text style={styles.textRowList}>Commande n° {item.id}</Text>
+                                <Text style={styles.textRowList}>Commande n° {item.numOrder}</Text>
                             </View>
                             <View style={styles.rightViewItem}>
                                 <Text style={styles.textRowList}>{date}</Text>
