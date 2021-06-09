@@ -232,7 +232,11 @@ class ValidationScreen extends React.Component {
   }
 
     FidelityChange = () =>{
+      if (this.state.fidelity >10){
         this.setState({useFidelity: !this.state.useFidelity})
+      }else{
+        this.setState({useFidelity : false})
+      }
     }
 
     getPriceWithFidelity = () => {
@@ -338,15 +342,15 @@ class ValidationScreen extends React.Component {
                           />
                            </View>
                     ) : null}
-            <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100}}>
+            <View style={{alignItems: 'center', marginTop: 20,marginBottom : 100,justifyContent :'center'}}>
                 {this.state.useFidelity ?
                     <View>
                         <Text style={styles.textTotalPrice}>total: {this.state.costUsingFidelity.toFixed(2)}€</Text>
-                        <Text style={styles.textInfoFidelity}>Utilisation de {this.state.cost.toFixed(2) - this.state.costUsingFidelity}0 points (- {this.state.cost.toFixed(2) - this.state.costUsingFidelity}€ sur la commande.)</Text>
+                        <Text style={styles.textInfoFidelity}>Utilisation de {this.state.cost.toFixed(0) - this.state.costUsingFidelity.toFixed(0)}0 points (- {this.state.cost.toFixed(0) - this.state.costUsingFidelity.toFixed(0)}€ sur la commande.)</Text>
                     </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)}€</Text>
                 }
-                {this.state.role === 'customers' ?
+                {this.state.role === 'customers' && this.state.fidelity >= 10 ?
                     <View>
                         < CheckBox
                             center
@@ -466,6 +470,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         fontSize: 28,
+        alignSelf : 'center'
     },
     textInfoFidelity : {
         color: 'white',
