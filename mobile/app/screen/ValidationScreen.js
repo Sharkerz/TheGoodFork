@@ -103,7 +103,7 @@ class ValidationScreen extends React.Component {
     })
       this.getCard();
       this.getReservations(this.props.route.params.userName)
-      if (this.state.role === 'customers'){
+      if (this.state.role === 'customer'){
         this.getPriceWithFidelity();
       }
     });
@@ -350,7 +350,7 @@ class ValidationScreen extends React.Component {
                     </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)}€</Text>
                 }
-                {this.state.role === 'customers' && this.state.fidelity >= 10 ?
+                {this.state.role === 'customer' && this.state.fidelity >= 10 ?
                     <View>
                         < CheckBox
                             center

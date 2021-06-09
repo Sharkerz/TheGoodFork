@@ -121,7 +121,7 @@ class ProfileScreen extends Component {
                     }
           />
           <View style={{alignItems:'center'}}>
-            {this.state.role === "customers" ?
+            {this.state.role === "customer" ?
                 <Button color='#111219' style={styles.editButton}
                         mode="outlined" onPress={() => this.props.navigation.navigate('OrderListScreen')}>
                   Commandes en cours
