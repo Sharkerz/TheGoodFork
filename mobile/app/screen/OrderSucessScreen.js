@@ -1,4 +1,5 @@
 import React from 'react'
+import { ScrollView } from 'react-native';
 import {Text, StyleSheet, View, Platform, TouchableOpacity, Image, FlatList, ActivityIndicator} from 'react-native'
 import OrderService from "../service/OrderService";
 
@@ -39,36 +40,41 @@ class OrderSucessScreen extends React.Component{
     render() {
     return (
         <View style={styles.container}>
-            <View style={styles.waitingView}>
-                <ActivityIndicator size="large" color="#999999" animating={this.state.waitingAnimation}/>
-            </View>
-            <Text style={styles.textHome}>Votre commande a bien été prise en compte 🎉 </Text>
-            <Text style={styles.titleText}>Résumé de votre commande: </Text>
-            <View>
-                <FlatList style={styles.data}
-                          data={this.state.orderItems}
-                          keyExtractor={(item) => item.id.toString()}
-                          renderItem={({item}) =>
-                              <TouchableOpacity style={styles.item}>
-                                  <View style={styles.leftViewItem}>
-                                      <Text style={styles.textRowList}>{item.quantity}x {item.name}</Text>
-                                  </View>
-                                  <View style={styles.rightViewItem}>
-                                      <Text style={styles.textRowList}>{item.price * item.quantity}€</Text>
-                                  </View>
-                              </TouchableOpacity>
-                          }
-                />
-            </View>
-            <Text style={styles.titleTotalPriceText}>Total:  {this.state.order.prixTotal} €</Text>
+            <ScrollView>
+                <View style={styles.waitingView}>
+                    <ActivityIndicator size="large" color="#999999" animating={this.state.waitingAnimation}/>
+                </View>
+                <View style={{alignItems: 'center', marginBottom: 20}}>
+                    <Text style={styles.textHome}>Votre commande a bien été prise en compte 🎉 </Text>
+                </View>
 
-            <View style={styles.trackView}>
-                {this.state.order.validated === 0 ?
-                    <Text style={styles.statusTrackText}>Commande en attente de validation</Text>
-                    :
-                    <Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>
-                }
-            </View>
+                <Text style={styles.titleText}>Résumé de votre commande: </Text>
+                <View>
+                    <FlatList style={styles.data}
+                            data={this.state.orderItems}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({item}) =>
+                                <TouchableOpacity style={styles.item}>
+                                    <View style={styles.leftViewItem}>
+                                        <Text style={styles.textRowList}>{item.quantity}x {item.name}</Text>
+                                    </View>
+                                    <View style={styles.rightViewItem}>
+                                        <Text style={styles.textRowList}>{item.price * item.quantity}€</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            }
+                    />
+                </View>
+                <Text style={styles.titleTotalPriceText}>Total:  {this.state.order.prixTotal} €</Text>
+
+                <View style={styles.trackView}>
+                    {this.state.order.validated === 0 ?
+                        <Text style={styles.statusTrackTextWait}>Commande en attente de validation</Text>
+                        :
+                        <Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>
+                    }
+                </View>
+            </ScrollView>
         </View>
     )
 }
@@ -80,15 +86,17 @@ const styles = StyleSheet.create({
       backgroundColor: "#111219",
     },
     textHome: {
-        marginTop: Platform.OS === 'ios' ? 60 : 40,
+        marginTop: Platform.OS === 'ios' ? 80 : 60,
         fontSize: 26,
         textAlign: 'center',
         justifyContent : 'center',
         color: "#fff",
         fontWeight: "600",
+        width: '90%',
     },
     titleText: {
         marginTop: 20,
+        marginBottom: 20,
         fontSize: 22,
         textAlign: 'center',
         justifyContent : 'center',
@@ -136,7 +144,8 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     trackView: {
-        marginTop: 20
+        marginBottom: 150,
+        alignItems: 'center'
     },
     statusTrackText: {
         marginTop: 30,
@@ -145,6 +154,16 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
         color: "#3EA65C",
         fontWeight: "600",
+        width: '90%'
+    },
+    statusTrackTextWait: {
+        marginTop: 30,
+        fontSize: 20,
+        textAlign: 'center',
+        justifyContent : 'center',
+        color: "#CE731E",
+        fontWeight: "600",
+        width: '90%'
     }
 })
 
