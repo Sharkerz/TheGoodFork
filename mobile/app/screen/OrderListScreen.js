@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, FlatList, TouchableOpacity, Platform } from 'react-native';
+import {StyleSheet, View, FlatList, TouchableOpacity, Platform, Text } from 'react-native';
 import OrderService from "../service/OrderService";
 import moment from "moment";
 import 'moment/locale/fr';
@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#111219',
+    },
+    list: {
+        marginBottom: 15,
     },
     item: {
         padding: 16,

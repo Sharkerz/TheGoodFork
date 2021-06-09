@@ -61,6 +61,14 @@ class OrderSucessScreen extends React.Component{
                 />
             </View>
             <Text style={styles.titleTotalPriceText}>Total:  {this.state.order.prixTotal} €</Text>
+
+            <View style={styles.trackView}>
+                {this.state.order.validated === 0 ?
+                    <Text style={styles.statusTrackText}>Commande en attente de validation</Text>
+                    :
+                    <Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>
+                }
+            </View>
         </View>
     )
 }
@@ -127,6 +135,17 @@ const styles = StyleSheet.create({
         padding: 10,
         position: 'absolute'
     },
+    trackView: {
+        marginTop: 20
+    },
+    statusTrackText: {
+        marginTop: 30,
+        fontSize: 20,
+        textAlign: 'center',
+        justifyContent : 'center',
+        color: "#3EA65C",
+        fontWeight: "600",
+    }
 })
 
 export default OrderSucessScreen
