@@ -346,7 +346,7 @@ class ValidationScreen extends React.Component {
                     </View>
                     : <Text style={styles.textTotalPrice}>total: {this.state.cost.toFixed(2)}€</Text>
                 }
-                {this.state.role === 'customers' ?
+                {this.state.role === 'customer' ?
                     <View>
                         < CheckBox
                             center
