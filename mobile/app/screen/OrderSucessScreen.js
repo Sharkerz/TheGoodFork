@@ -14,7 +14,7 @@ class OrderSucessScreen extends React.Component{
         }
     }
 
-    componentDidMount() {
+    loadData = () => {
         OrderService.getOrder(this.props.route.params.orderId).then((res) => {
             this.setState({order: res.data.order})
         })
@@ -25,6 +25,16 @@ class OrderSucessScreen extends React.Component{
         })
     }
 
+    componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // Load details user data
+            this.loadData()
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
 
     render() {
     return (
