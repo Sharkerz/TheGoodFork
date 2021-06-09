@@ -206,19 +206,21 @@ class OrderController extends Controller
     public function validateOrders(Request $request) {
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
-        $order = Order::where('id', '=', $request['id'])
+        Order::where('id', '=', $request['id'])
             ->update(['validated' => 1,'validated_by' =>$user->id]);
+        $order = Order::find($request['id']);
         $customer_id = $order->userId;
-        $cutomer = User::find($customer_id);
+        $customer = User::find($customer_id);
         try {
             Http::withHeaders([
                 'Content-Type' => 'application/json'
             ])->post('https://exp.host/--/api/v2/push/send', [
-                'to' => $cutomer->pushToken,
-                'title' => 'Commande validée',
-                'body' => 'Votre commande a été validée !'
+                'to' => $customer->pushToken,
+                'title' => 'Commande prête',
+                'body' => 'La commande ' . $request->numOrder . ' est prête.'
             ]);
         } catch(Throwable $err){
+            return $err;
         }
         return response()->json([
             'status' => 'success',
