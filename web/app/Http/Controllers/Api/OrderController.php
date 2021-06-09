@@ -78,7 +78,7 @@ class OrderController extends Controller
         }
         if($validator->fails()) {
             return response()->json(
-                $validator->errors()->toJson(), 400
+                $validator->errors()->jsonSerialize(), 400
             );
         }
         if ($user->role == 'waiters'){
@@ -208,6 +208,20 @@ class OrderController extends Controller
         $user = User::find($userId);
         Order::where('id', '=', $request['id'])
             ->update(['validated' => 1,'validated_by' =>$user->id]);
+        $order = Order::find($request['id']);
+        $customer_id = $order->userId;
+        $customer = User::find($customer_id);
+        try {
+            Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post('https://exp.host/--/api/v2/push/send', [
+                'to' => $customer->pushToken,
+                'title' => 'Commande prête',
+                'body' => 'La commande ' . $request->numOrder . ' est prête.'
+            ]);
+        } catch(Throwable $err){
+            return $err;
+        }
         return response()->json([
             'status' => 'success',
             'orderValidated' => 'Commande validée'

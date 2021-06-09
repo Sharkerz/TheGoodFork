@@ -85,7 +85,7 @@ class BookingController extends Controller
         $user = User::find($userId);
         if ($user->role == 'waiters'){
             $bookings =Booking::where('userName', '=', $userName)
-            ->where('date','=', Carbon::today())
+            ->where('date','>=', Carbon::today())
             ->get();
             return response()->json(
                 ['status' => 'success',
@@ -94,7 +94,7 @@ class BookingController extends Controller
         }
         else{
             $bookings =Booking::where('userId', '=', $user->id)
-            ->where('date','=', Carbon::today())
+            ->where('date','>=', Carbon::today())
             ->get();
             return response()->json(
                 ['status' => 'success',

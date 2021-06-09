@@ -12,11 +12,23 @@ class OrderListScreen extends Component {
         }
     }
 
-    componentDidMount() {
-        moment.locale('fr');
+    loadData = () => {
         OrderService.getOrderWaiting().then((res) => {
             this.setState({listOrder: Object.values(res.data.orders)})
         })
+    }
+
+    componentDidMount() {
+        moment.locale('fr');
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // Load details user data
+            this.loadData()
+            this.timer = setInterval(()=> this.loadData(), 10000)
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
     }
 
     render() {
@@ -57,7 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#111219',
     },
     list: {
-        marginBottom: 15,
+        marginBottom: '20%',
     },
     item: {
         padding: 16,
