@@ -30,7 +30,7 @@ class DetailScreen extends React.Component {
         }
         addToCart = async(item) =>{
             const cart = await AsyncStorage.getItem('cartSaved')
-            if (this.state.quantity >= item.stock){
+            if (this.state.quantity > item.stock){
                 Toast.show({
                         type: 'error',
                         text1: 'Erreur',
