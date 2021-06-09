@@ -95,7 +95,7 @@ class OrdersDetailsScreen extends React.Component {
                 <BackButton goBack={this.props.navigation.goBack}/>
                   <Text style={styles.title}>Commande N°{item['numOrder']}</Text>
 
-                <View style={{marginTop: 40}}>
+                <View style={{marginTop: 5}}>
                 <FlatList style={styles.data}
                           data={this.state.orderDetails}
                           keyExtractor={item => item.id.toString()}
@@ -189,7 +189,8 @@ class OrdersDetailsScreen extends React.Component {
         },
         validation: {
           alignItems :'center',
-          marginTop: 50
+          marginTop: '4%',
+          marginBottom : '20%'
         },
       })
 export default OrdersDetailsScreen;
