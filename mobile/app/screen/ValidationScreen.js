@@ -321,7 +321,8 @@ class ValidationScreen extends React.Component {
                             <View style={{
                               borderColor: 'white',
                               borderWidth: 1,
-                              marginLeft: 100,
+                              marginLeft: 'auto',
+                              marginRight : 'auto',
                               width: 200,
                               height : 40,
                               justifyContent : 'center',
