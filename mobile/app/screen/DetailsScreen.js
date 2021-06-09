@@ -12,10 +12,7 @@ import {
     ScrollView, TouchableOpacity
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { TextInput } from 'react-native-paper'
 import Button from '../components/Button'
-import Background from '../components/Background'
-import BackButton from '../components/BackButton'
 import { SERVER_IP } from '@env';
 import InputSpinner from 'react-native-input-spinner';
 import Toast from 'react-native-toast-message';
@@ -44,12 +41,14 @@ class DetailScreen extends React.Component {
                 const exists = newCart.some(v => (v.id === itemToAdd.id));
                 if(exists){
                     const objIndex = newCart.findIndex((obj => obj.id == itemToAdd.id));
+                    let quantityinCart = parseInt(newCart[objIndex].quantity)
                     newCart[objIndex].quantity = parseInt(newCart[objIndex].quantity) + parseInt(this.state.quantity)
                     if (newCart[objIndex].quantity > item.stock){
+                        stock = (parseInt(item.stock) - quantityinCart)
                         Toast.show({
                             type: 'error',
                             text1: 'Erreur',
-                            text2: "Stock insuffisant, il reste : " + item.stock + " " + item.name,
+                            text2: "Stock insuffisant, il reste : " + stock + " " + item.name,
                             topOffset: 60,
                         });
                     }else{
