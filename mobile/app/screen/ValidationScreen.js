@@ -103,7 +103,7 @@ class ValidationScreen extends React.Component {
     })
       this.getCard();
       this.getReservations(this.props.route.params.userName)
-      if (this.state.role === 'customers'){
+      if (this.state.role === 'customer'){
         this.getPriceWithFidelity();
       }
     });
