@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\User;
+use App\Models\Stats;
 use Illuminate\Support\Facades\Http;
 use Throwable;
 use Validator;
@@ -24,7 +25,25 @@ class OrderController extends Controller
         $userId = auth('api')->user()['id'];
         $user = User::find($userId);
         $orderDetails =  $request['Value'];
-
+        $datetemp = strtotime($request->hour);
+        $hour = date('H:i', $datetemp);
+        $date = date('Y-m-d', $datetemp);
+        if ($hour > "12:00"  && $hour<"14:00"){
+            $Midi = 'Midi';
+            $Service = 'Service1';
+        }
+        else if ($hour > "14:00"  && $hour<"18:00"){
+            $Midi = 'Midi';
+            $Service = 'Service2';
+        }
+        else if ($hour > "18:00"  && $hour<"20:00"){
+            $Midi = 'Soir';
+            $Service = 'Service1';
+        }
+        else{
+            $Midi = 'Soir';
+            $Service = 'Service2';
+        }
         $NCommande = Order::pluck('numOrder')->last();
         if ($NCommande == null){
             $NCommande =1;
@@ -147,6 +166,14 @@ class OrderController extends Controller
             }
 
             }
+            Stats::create([
+                'date' => $date,
+                'midi/soir' =>$Midi,
+                'service' => $Service,
+                'foods' => $food,
+                'drinks'=> $drinks,
+                'price' => $request['prixTotal']
+                ]);
 
         return response()->json(['status' => 'success', 'orderId' => $order->id],200);
     }

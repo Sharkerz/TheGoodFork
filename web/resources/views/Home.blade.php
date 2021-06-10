@@ -6,55 +6,86 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 @endsection
 
 @section('content')
     <h1>@lang('home.title_home')</h1>
-    <div class="HomeVue">
-
-        <div class="Graph">
-            <canvas id="myChart" height="600" width="0"></canvas>
-        </div>
-    </div>
-    
+</div> 
+<div class="HomeVue">
+<div id="container"></div>
+<div id="container2"></div>
+</div>
     <script>
-        var stock =@json($stock);
+        var stockLabels =@json($stockLabels);
+        var stockValues =@json($stockNumber);
+        var statDates =@json($statDates);
+        var statDrinks =@json($statDrinks);
+        var statFoods =@json($statFoods);
+        var statOrders =@json($statOrders);
+        
 
-        const data = {
-            datasets: [{
-                label: 'Stock',
-                backgroundColor: '#02ea9c',
-                borderColor: 'rgb(255, 99, 132)',
-                data: stock,
-            }]
-        };
-
-        const config = {
-            type: 'bar',
-            data,
-            options: {
-                scales : {
-                    xAxes :[{
-                        ticks :{
-                            fontSize : 100
-                        }
-                    }]
-                },
-                plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Stock des éléments du menu'
-                }
-                }
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column',
+        scrollablePlotArea: {
+            minWidth: 650,
+            scrollPositionX: 0
+        }
+    },
+    title: {
+        text: 'Stock'
+    },
+    xAxis: {
+        categories: stockLabels
+    },
+    yAxis: {
+            title: {
+                text: 'Nombres en stock'
             },
-        };
-        const myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
+        },
+
+    series: [{
+        name: 'Stock',
+        data: stockValues
+
+    }]
+});
+Highcharts.chart('container2', {
+    chart: {
+        type: 'column',
+        scrollablePlotArea: {
+            minWidth: 650,
+            scrollPositionX: 0
+        }
+    },
+    title: {
+        text: 'Ventes'
+    },
+    xAxis: {
+        categories: statDates
+    },
+    yAxis: {
+            title: {
+                text: 'Nombres de ventes'
+            },
+        },
+
+    series: [
+        {
+        name: 'Foods',
+        data: statFoods
+        },
+        {
+        name: 'Drinks',
+        data: statDrinks
+        },
+        {
+        name: 'Number of Orders',
+        data: statOrders
+        }
+    ]
+});
     </script>
 
 @endsection

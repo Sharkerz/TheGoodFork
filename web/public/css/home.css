@@ -1,8 +1,31 @@
 
 .Graph{
-    height: 100%;
+    height: 90%;
 }
 
 #myChart{
     height: 60% !important;
+    overflow-x: auto;
+}
+
+#container {
+  max-width: 100%;
+  min-width: 90%;
+  height: 30%;
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+#container2 {
+  max-width: 100%;
+  min-width: 90%;
+  height: 30%;
+  align-self: center;
+}
+
+.HomeVue{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
