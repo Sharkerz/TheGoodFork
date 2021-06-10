@@ -1,0 +1,178 @@
+.category_header{
+    flex-direction: row;
+    min-height: 1px;
+    padding: 1.25rem;
+    width: 100%;
+    align-items: center;
+    display: flex;
+
+}
+
+.menu_category{
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+.header_menu{
+    display: flex;
+    margin-bottom: 5px;
+}
+
+#AddMenuCategory{
+    align-items: flex-end;
+}
+
+.menu_category{
+    display: flex;
+    align-items: center;
+}
+.menu_category_name{
+    display: flex !important;
+}
+
+.menu_category_name{
+    width: 98%;
+}
+
+.Menu_Title{
+    width: 92%;
+}
+
+.butonAddMenuCategory{
+    margin-top: 10px;
+}
+
+.menu_category_name{
+    align-items: center;
+}
+
+.remove_menu_category{
+    align-items: end;
+}
+
+.remove_menu_category:hover{
+    cursor: pointer;
+}
+
+.error{
+    color: red;
+}
+
+.add_category_items:hover{
+    cursor: pointer;
+}
+
+.ADDMenus{
+    box-sizing:border-box !important;
+}
+
+.Button{
+    margin-right: 10px;
+}
+
+.col-md-6{
+    margin-bottom: 5px !important;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #f1f1f1;
+    min-height: 100%;
+    max-height:100%;
+}
+
+.row{
+    margin-right: 0px  !important;
+}
+
+@media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+
+    }
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    height: 50%;
+}
+
+/* Float four columns side by side */
+.column {
+    float: left;
+    width: 20%;
+    padding-right:  10px;
+    padding-left:  10px;
+    padding-bottom:  10px;
+}
+
+.cardinfo{
+    text-align: center;
+    min-height: 180px;
+}
+
+.cardAction{
+    display: flex-end;
+    height: 100%;
+}
+
+.AddElement{
+    width: 20%;
+    padding-right:  10px;
+    padding-left:  10px;
+    padding-bottom:  10px;
+}
+
+.CardAdd{
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.AddElement:hover{
+    cursor: pointer;
+}
+.AddItemCategory{
+   font-size: 70px !important;
+}
+
+.AddItemCategory:hover{
+    cursor: pointer;
+}
+
+.IconsAdd{
+    top: 50%;
+}
+
+.CardTitle{
+    margin-top: 5px;
+}
+
+.ActionCase{
+    align-items: center;
+}
+
+.ItemDescription{
+    font-size: medium;
+    overflow:hidden;
+    height: 20px;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+.menuItemImage {
+    display: block;
+    min-width:100%;
+    max-width:100%;
+    min-height:300px;
+    max-height:300px;
+    width: auto;
+    height: auto;
+}
+
