@@ -27,9 +27,9 @@ $(document).ready(function () {
     $('.row').on('click', '.DeleteButton', function() {
         $id = $(this).closest('.column').attr('id');
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: '/menusItem/' + $id,
-            data: { 'id': $id },
+            data: { 'id': $id,_method: 'delete'},
             success: function (Response) {
                     $div = $("#" + Response.id)[0];
                     $div.remove();

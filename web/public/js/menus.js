@@ -150,9 +150,9 @@ $(document).ready(function () {
     $('#GestionduMenu').on('click', '.butonDelete', function() {
         $id = $(this).closest('.RowMenuCategory').attr('id');
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: '/menus/' + $id,
-            data: { 'id': $id },
+            data: { 'id': $id,_method: 'delete'},
             success: function (Response) {
                     $div = $("#" + Response.id)[0];
                     $div.remove();

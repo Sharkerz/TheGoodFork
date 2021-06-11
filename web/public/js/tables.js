@@ -59,9 +59,9 @@ $(document).ready(function () {
         $id = $('#idEdit').val();
         $NbPersons = $('#NbPersonEdit').val();
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '/tables/' + $id,
-            data: { 'id': $id, 'NbPersons': $NbPersons },
+            data: { 'id': $id, 'NbPersons': $NbPersons,_method: 'put'},
             success: function (Response) {
                     $("#editModal").css("display", "none");
                     $("#" + Response.id).children()[1].innerHTML = $NbPersons;
