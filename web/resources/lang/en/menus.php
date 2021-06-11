@@ -31,5 +31,6 @@ return [
     'Update' =>'Update ',
     'itemDescription' => 'Description : ',
     'type' => 'Category destiny',
-    'role' =>  'Manager : '
+    'role' =>  'Manager : ',
+    'EditSubmit' => 'Update'
 ];
