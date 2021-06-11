@@ -126,7 +126,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             url: '/tables/' + $id,
-            data: { 'id': $id,'_method' :DELETE},
+            data: { 'id': $id,_method: 'delete'},
             success: function (Response) {
                     $("#editModal").css("display", "none");
                     $div = $("#" + Response.id)[0];
