@@ -26,6 +26,16 @@ $(document).ready(function () {
 
     $('.row').on('click', '.DeleteButton', function() {
         $id = $(this).closest('.column').attr('id');
+        $titleDelete = $('.modal-title')[2].innerText;
+        $itemName = $(this).closest('.column')[0].children[0].children[1].children[0].children[0].innerText;
+        $('#idDelete')[0].value = $id;
+        $('.modal-title')[2].innerText = $titleDelete + $itemName;
+        $("#DeleteModalCategoryItem").css("display", "block");
+
+    });
+
+    $('.butonDeleteItems').click(function () {
+        $id = $('#idDelete').val();
         $.ajax({
             type: 'POST',
             url: '/menusItem/' + $id,
@@ -33,10 +43,12 @@ $(document).ready(function () {
             success: function (Response) {
                     $div = $("#" + Response.id)[0];
                     $div.remove();
+                    $('.modal-title')[2].innerText = $titleDelete;
+                    $("#DeleteModalCategoryItem").css("display", "none");
             },
         });
-      
-    });
+    })
+
     $('.row').on('click', '.EditButton', function() {
         $div = $(this).closest('.column');
         $title = $('.modal-title')[1].innerText;
@@ -63,7 +75,6 @@ $(document).ready(function () {
         $(".error").remove(); 
     })
     
-
     $('#FormAdditemcategory').on('submit',function (event) {
         (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
         (lang ==="fr")? $Delete = "Supprimer" : $Delete ="Delete";
@@ -146,6 +157,7 @@ $(document).ready(function () {
                     $StockElement = $div.children[0].children[1].children[2];
                     $StockElement.setAttribute('id',"stock"+Response.item.stock);
                     $StockElement.innerText = "Stock : " + Response.item.stock;
+                    $StockElement.setAttribute('value',Response.item.stock);
                     $("#EditModalCategoryItem").css("display", "none");
             },
             error: function(error){
@@ -195,4 +207,13 @@ $(document).ready(function () {
         $errorname = $(this).attr('name');
         $(".error" + $errorname).remove();  
     });
+
+    $('#closeDeleteModalCategoryItem').click(function () {
+        $('.modal-title')[2].innerText = $titleDelete;
+        $("#DeleteModalCategoryItem").css("display", "none");
+    })
+    $('.butonCancel').click(function () {
+        $('.modal-title')[2].innerText = $titleDelete;
+        $("#DeleteModalCategoryItem").css("display", "none");
+    })
 })

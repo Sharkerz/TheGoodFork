@@ -176,3 +176,17 @@
     height: auto;
 }
 
+.butonDeleteCategory{
+    margin-top: 10px;
+    margin-right: 20%;
+}
+
+.butonDeleteItems{
+    margin-top: 10px;
+    margin-right: 20%;
+}
+
+.butonCancel{
+    margin-top: 10px;
+}
+

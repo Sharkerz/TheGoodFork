@@ -148,7 +148,14 @@ $(document).ready(function () {
     });
 
     $('#GestionduMenu').on('click', '.butonDelete', function() {
-        $id = $(this).closest('.RowMenuCategory').attr('id');
+        $div = $(this).closest('.RowMenuCategory');
+        $id = $div.attr('id');
+        $('#idDelete')[0].value = $id;
+        $("#DeleteModal").css("display", "block");
+    });
+
+    $('.butonDeleteCategory').click(function () {
+        $id = $('#idDelete').val();
         $.ajax({
             type: 'POST',
             url: '/menus/' + $id,
@@ -156,10 +163,16 @@ $(document).ready(function () {
             success: function (Response) {
                     $div = $("#" + Response.id)[0];
                     $div.remove();
+                    $("#DeleteModal").css("display", "none");
+            },
+            error: function (error) {
+                (lang ==="fr")? $errotext = "La catégorie n'est pas vide " : $errotext ="Category should be empty";
+                $errorkey = JSON.parse(error.responseText).error
+                $(".modal-body").append('<h5 class="error error'+ $errorkey +'">'+$errotext +'</h5>\n');
+          
             },
         });
-      
-    });
+    })
 
     $('#closeEditModal').click(function () {
         $("#editModal").css("display", "none");
@@ -173,7 +186,13 @@ $(document).ready(function () {
    $('#AddMenuCategoryName').on('input', function() { 
     $errorname = $(this).attr('name');
    $(".error" + $errorname).remove(); //remove error message
-});
+    });
+    $('#closeDeleteModal').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
+    $('.butonCancel').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
 
 
 

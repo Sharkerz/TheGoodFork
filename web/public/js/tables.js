@@ -122,21 +122,38 @@ $(document).ready(function () {
     })
 
     $('#TablesGestion').on('click', '.butonDelete',function () {
-        $id = $(this).closest('.tableRow').attr('id');
+        $div = $(this).closest('.tableRow');
+        $id = $div.attr('id');
+        $('#idDelete')[0].value = $id;
+        $("#DeleteModal").css("display", "block");
+    })
+
+    $('.butonDeleteTable').click(function () {
+        $id = $('#idDelete').val();
         $.ajax({
             type: 'POST',
             url: '/tables/' + $id,
             data: { 'id': $id,_method: 'delete'},
             success: function (Response) {
-                    $("#editModal").css("display", "none");
+                    $("#DeleteModal").css("display", "none");
                     $div = $("#" + Response.id)[0];
                     $div.remove();
             },
         });
     })
+
+    
     $('#closeEditModal').click(function () {
         $("#editModal").css("display", "none");
     })
+    $('#closeDeleteModal').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
+    $('.butonCancel').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
+    
+    
 
 
 

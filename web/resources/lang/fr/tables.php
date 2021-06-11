@@ -24,4 +24,8 @@ return [
     'Update' => 'Mettre à jour',
     'Delete' => 'Supprimer',
     'AddItemCategory' => 'Ajouter un élément à ',
+    'DeleteModalTitle' => 'Suppression de table',
+    'TextDeleteModal' => 'Etes-vous sur de vouloir supprimer cette table, toute les réservations faites sur cette table seront par conséquent supprimé',
+    'Yes' => 'Oui',
+    'No' => 'Non'
 ];

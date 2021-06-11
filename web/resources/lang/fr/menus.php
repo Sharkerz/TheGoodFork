@@ -32,6 +32,11 @@ return [
     'itemDescription' => 'Description : ',
     'type' => 'Category destinée ',
     'role' => 'Responsable : ',
-    'EditSubmit' => 'Mettre à jour'
-    
+    'EditSubmit' => 'Mettre à jour',
+    'DeleteModalTitle' => 'Suppression de catégorie',
+    'TextDeleteModal' => 'Etes-vous sur de vouloir supprimer cette catégorie, il faut au préalable supprimer tout les éléments à l\'intérieur de cette catégorie.',
+    'Yes' => 'Oui',
+    'No' => 'Non',
+    'ItemDeleteModalTitle' => 'Supprimer ',
+    'ItemTextDeleteModal' => 'Etes-vous sur de vouloir supprimer cette éléments du menu ?',
 ];
