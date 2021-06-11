@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     $('.butonAddTable').click(function () {
         (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
-        (lang ==="fr")? $Delete = "Supprimer" : $Edit ="Delete";
+        (lang ==="fr")? $Delete = "Supprimer" : $Delete ="Delete";
         $TableN = $('#tableNumberAdd').val();
         $NbPersons = $('#NbPersonAdd').val();
         $.ajax({

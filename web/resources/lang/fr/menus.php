@@ -31,6 +31,6 @@ return [
     'Update' =>'Mettre à jour ',
     'itemDescription' => 'Description : ',
     'type' => 'Category destinée ',
-    'role' => 'Responsible : '
+    'role' => 'Responsable : '
     
 ];
