@@ -113,6 +113,8 @@ class MenuCategoryController extends Controller
                 $filename = time(). '.' . $image->getClientOriginalExtension();
                 Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuCategory/' . $filename));
                 $image = $filename;
+                $imageToDelete = $data->image;
+                unlink(public_path('/Images/MenuCategory/' . $imageToDelete));
                 $update_item = [
                     'name' =>$request->input('name'),
                     'image' => $image,

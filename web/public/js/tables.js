@@ -124,9 +124,9 @@ $(document).ready(function () {
     $('#TablesGestion').on('click', '.butonDelete',function () {
         $id = $(this).closest('.tableRow').attr('id');
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: '/tables/' + $id,
-            data: { 'id': $id },
+            data: { 'id': $id,'_method' :DELETE},
             success: function (Response) {
                     $("#editModal").css("display", "none");
                     $div = $("#" + Response.id)[0];
