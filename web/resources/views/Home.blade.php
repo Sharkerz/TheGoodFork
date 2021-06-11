@@ -26,6 +26,9 @@
         
 
     Highcharts.chart('container', {
+        credits: {
+    enabled: false
+  },
     chart: {
         type: 'column',
         scrollablePlotArea: {
@@ -52,6 +55,9 @@
     }]
 });
 Highcharts.chart('container2', {
+    credits: {
+    enabled: false
+  },
     chart: {
         type: 'column',
         scrollablePlotArea: {
