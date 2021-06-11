@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tables;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Redirect;
@@ -109,6 +110,7 @@ class TablesController extends Controller
     public function destroy(Request $request)
     {
         if ($request->ajax()) {
+        Booking::where('tableId' ,'=',$request->get('id'))->delete();
         Tables::where('id', $request->get('id'))
             ->delete();
             return response()->json(['success' => 'true','id' =>$request->get('id') ], 200);
