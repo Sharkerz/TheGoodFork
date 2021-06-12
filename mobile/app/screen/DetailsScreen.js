@@ -105,7 +105,7 @@ class DetailScreen extends React.Component {
                                 source={{ uri: SERVER_IP + '/Images/MenuItem/'+item.image }}
                                 resizeMode="cover"
                                 style={{
-                                    width: "120%",
+                                    width: "100%",
                                     height: 400,
                                 }}/>
                             <Text style={{
