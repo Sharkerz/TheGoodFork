@@ -24,7 +24,7 @@ return [
     'Update' => 'Update',
     'Delete' => 'Delete',
     'DeleteModalTitle' => 'Delete a table',
-    'TextDeleteModal' => 'Are you sure to delete this table, all bookings with this table will be deleted',
+    'TextDeleteModal' => 'Are you sure to delete this table, all bookings associated with this table will be deleted',
     'Yes' => 'Yes',
     'No' => 'No'
 ];

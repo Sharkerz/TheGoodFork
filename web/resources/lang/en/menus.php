@@ -15,7 +15,7 @@ return [
     'ModalTitleAdd' =>'Add new category to the menu',
     'categoryname' => 'Name :',
     'AddItemCategory' => 'Add a new item ',
-    'itemname' => 'Category name :',
+    'itemname' => 'Element name :',
     'itemprice' =>'Price (in €):',
     'itemimage' =>'Image :',
     'Submit' => 'Add',

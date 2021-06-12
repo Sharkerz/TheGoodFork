@@ -14,7 +14,7 @@ return [
     'AddCategory' => 'Ajouter une catégorie',
     'ModalTitleAdd' =>'Ajouter une nouvelle catégorie au menu',
     'categoryname' => 'Nom : ',
-    'itemname' => 'Nom de la catégorie :',
+    'itemname' => 'Nom de l\'élément :',
     'AddItemCategory' =>'Ajouter un élément ',
     'itemprice' =>'Prix (en €) :',
     'itemimage' =>'Image :',
