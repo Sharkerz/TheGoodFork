@@ -15,10 +15,7 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        // $menu_items = menu_item::all();
-        // return view('menus.index',[
-        //     'menu_categories' => $menu_categories,
-        // ]);
+        //
     }
 
     /**

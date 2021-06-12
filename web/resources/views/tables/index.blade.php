@@ -157,5 +157,28 @@
                 </div>
         </div>
 
+        <div class="modal"  id="DeleteModal"tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title">@lang('tables.DeleteModalTitle')</h5>
+                                <button type="button" class="close" id="closeDeleteModal" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                                <input hidden id="idDelete" value=""/>
+                                <h3>@lang('tables.TextDeleteModal')</h3>
+                                <div class="col-md-6 offset-md-4">
+                                        <button type="button" class="btn btn-success butonDeleteTable">
+                                        @lang('tables.Yes')
+                                        </button>
+                                        <button type="button" class="btn btn-danger butonCancel">
+                                                @lang('tables.No')
+                                        </button>
+                                </div>
+                        </div>
+                </div>
+        </div>
 
 @endsection

@@ -31,5 +31,12 @@ return [
     'Update' =>'Update ',
     'itemDescription' => 'Description : ',
     'type' => 'Category destiny',
-    'role' =>  'Manager : '
+    'role' =>  'Manager : ',
+    'EditSubmit' => 'Update',
+    'DeleteModalTitle' => 'Delete a category',
+    'TextDeleteModal' => 'Are you sure do you want to delete this category, all items inside should de deleted',
+    'Yes' => 'Yes',
+    'No' => 'No',
+    'ItemDeleteModalTitle' => 'Delete ',
+    'ItemTextDeleteModal' => 'Are you sure do you want to delete this items from the menu ?',
 ];

@@ -103,9 +103,10 @@ class MenuCategoryController extends Controller
         if ($request->ajax()) {
             $roles = Config::get('users.roles');
             $id = $request->input(('id'));
+            $data = menu_category::find($id);
             if ($request->hasFile('image')) {
                 $fields = $request->validate([
-                    'name' => "required|string|max:255|unique:menu_items,name,$id,id",
+                    'name' => "required|string|max:255|unique:menu_categories,name,$id,id",
                     'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                     'role' => 'required',Rule::in($roles)
                 ]);
@@ -113,6 +114,8 @@ class MenuCategoryController extends Controller
                 $filename = time(). '.' . $image->getClientOriginalExtension();
                 Image::make($image)->resize(200, 200)->save(public_path('/Images/MenuCategory/' . $filename));
                 $image = $filename;
+                $imageToDelete = $data->image;
+                unlink(public_path('/Images/MenuCategory/' . $imageToDelete));
                 $update_item = [
                     'name' =>$request->input('name'),
                     'image' => $image,
@@ -121,7 +124,7 @@ class MenuCategoryController extends Controller
             }
             else{
                 $fields = $request->validate([
-                    'name' => "required|string|max:255|unique:menu_items,name,$id,id",
+                    'name' => "required|string|max:255|unique:menu_categories,name,$id,id",
                     'role' =>'required',Rule::in($roles)
                 ]);
 
@@ -146,6 +149,10 @@ class MenuCategoryController extends Controller
     {
         if ($request->ajax()) {
             $data = menu_category::find($request->get('id'));
+            $items = menu_item::where('category_id', '=' , $request->get('id'))->get();
+            if( count($items->toArray()) > 0 ){
+                return response()->json(['error' => 'failed','id' =>$request->get('id'), 'message' =>'Category should be empty'], 404);
+            }
             menu_category::where('id', $request->get('id'))
                 ->delete();
             $image = $data->image;

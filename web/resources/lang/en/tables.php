@@ -22,5 +22,9 @@ return [
     'ModalTitleAdd' => 'Add a new table',
     'ModalTitleEdit' => 'Edit table',
     'Update' => 'Update',
-    'Delete' => 'Delete'
+    'Delete' => 'Delete',
+    'DeleteModalTitle' => 'Delete a table',
+    'TextDeleteModal' => 'Are you sure to delete this table, all bookings with this table will be deleted',
+    'Yes' => 'Yes',
+    'No' => 'No'
 ];

@@ -59,9 +59,9 @@ $(document).ready(function () {
         $id = $('#idEdit').val();
         $NbPersons = $('#NbPersonEdit').val();
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '/tables/' + $id,
-            data: { 'id': $id, 'NbPersons': $NbPersons },
+            data: { 'id': $id, 'NbPersons': $NbPersons,_method: 'put'},
             success: function (Response) {
                     $("#editModal").css("display", "none");
                     $("#" + Response.id).children()[1].innerHTML = $NbPersons;
@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     $('.butonAddTable').click(function () {
         (lang ==="fr")? $Edit = "Editer" : $Edit ="Edit";
-        (lang ==="fr")? $Delete = "Supprimer" : $Edit ="Delete";
+        (lang ==="fr")? $Delete = "Supprimer" : $Delete ="Delete";
         $TableN = $('#tableNumberAdd').val();
         $NbPersons = $('#NbPersonAdd').val();
         $.ajax({
@@ -122,21 +122,38 @@ $(document).ready(function () {
     })
 
     $('#TablesGestion').on('click', '.butonDelete',function () {
-        $id = $(this).closest('.tableRow').attr('id');
+        $div = $(this).closest('.tableRow');
+        $id = $div.attr('id');
+        $('#idDelete')[0].value = $id;
+        $("#DeleteModal").css("display", "block");
+    })
+
+    $('.butonDeleteTable').click(function () {
+        $id = $('#idDelete').val();
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: '/tables/' + $id,
-            data: { 'id': $id },
+            data: { 'id': $id,_method: 'delete'},
             success: function (Response) {
-                    $("#editModal").css("display", "none");
+                    $("#DeleteModal").css("display", "none");
                     $div = $("#" + Response.id)[0];
                     $div.remove();
             },
         });
     })
+
+    
     $('#closeEditModal').click(function () {
         $("#editModal").css("display", "none");
     })
+    $('#closeDeleteModal').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
+    $('.butonCancel').click(function () {
+        $("#DeleteModal").css("display", "none");
+    })
+    
+    
 
 
 
