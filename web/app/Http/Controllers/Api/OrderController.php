@@ -243,8 +243,8 @@ class OrderController extends Controller
                 'Content-Type' => 'application/json'
             ])->post('https://exp.host/--/api/v2/push/send', [
                 'to' => $customer->pushToken,
-                'title' => 'Commande prête',
-                'body' => 'La commande ' . $request->numOrder . ' est prête.'
+                'title' => 'Commande validée',
+                'body' => 'La commande ' . $request->numOrder . ' est validée.'
             ]);
         } catch(Throwable $err){
             return $err;
