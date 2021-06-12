@@ -18,12 +18,11 @@ class OrderScreenStaff extends React.Component {
         this.state = {
             orders: [],
         }
-        this.getStaffOrders = this.getStaffOrders.bind(this)
       }
       getStaffOrders = async() =>{
         await OrderService.ordersForStaff().then(async(res) =>{
             if(res.status === 200){
-                this.setState({orders : Object.values(res.data.orders)})
+                this.setState({orders : res.data.orders})
                 this.setState({orderDetails : res.data.oderdetails})
             }else {
                 console.log(res)

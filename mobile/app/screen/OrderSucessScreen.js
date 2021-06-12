@@ -70,9 +70,12 @@ class OrderSucessScreen extends React.Component{
 
                 <View style={styles.trackView}>
                     {this.state.order.validated === 0 ?
-                        <Text style={styles.statusTrackTextWait}>Commande en attente de validation</Text>
-                        :
-                        <Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>
+                        (<Text style={styles.statusTrackTextWait}>Commande en attente de validation</Text>)
+                        : this.state.order.validated === 1 && this.state.order.ready === 0 ?  
+                        (<Text style={styles.statusTrackText}>Commande validée, nous préparons votre commande</Text>)
+                        : this.state.order.validated === 1 && this.state.order.ready === 1 ?
+                        (<Text style={styles.statusTrackText}>Votre commande est prête</Text>)
+                        : null
                     }
                 </View>
             </ScrollView>

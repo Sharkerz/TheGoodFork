@@ -40,7 +40,7 @@ class OrderScreen extends React.Component {
         if(key === 1) {
           await OrderService.ordertovalidate().then(async(res) =>{
             if(res.status === 200){
-                this.setState({orders : Object.values(res.data.ordertovalidate)})
+                this.setState({orders : res.data.ordertovalidate})
                 this.setState({ordernotdefined : false})
             }else{
               this.setState({orders : []})
@@ -51,7 +51,7 @@ class OrderScreen extends React.Component {
         else if(key ===2){
           await OrderService.orderReady().then(async(res) =>{
             if(res.status === 200){
-                this.setState({orders : Object.values(res.data.ordersReady)})
+                this.setState({orders : res.data.ordersReady})
                 this.setState({ordernotdefined : false})
             }else{
               this.setState({orders : []})
@@ -62,7 +62,7 @@ class OrderScreen extends React.Component {
         else{
           await OrderService.orderDelivered().then(async(res) =>{
             if(res.status === 200){
-                this.setState({orders : Object.values(res.data.ordersDelivered)})
+                this.setState({orders : res.data.ordersDelivered})
                 this.setState({ordernotdefined : false})
             }else{
               if(res.data.status === 'failed'){
