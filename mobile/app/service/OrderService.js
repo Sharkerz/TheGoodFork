@@ -65,8 +65,8 @@ class OrderService{
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         }
-        data = {id : id}
-        return await axios.post(SERVER_IP + '/api/validateOrders/',data,config)
+        let data = {id : id}
+        return await axios.post(SERVER_IP + '/api/validateOrders',data,config)
         .then(async (response) => {
             return response
         })
@@ -93,7 +93,7 @@ class OrderService{
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         }
-        data={order_id :order_id}
+        let data={order_id :order_id}
         return await axios.post(SERVER_IP + '/api/itemsReady',data,config)
         .then(async (response) => {
             return response
@@ -136,8 +136,8 @@ class OrderService{
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         }
-        data = {id : id}
-        return await axios.post(SERVER_IP + '/api/deliverOrders/',data,config)
+        let data = {id : id}
+        return await axios.post(SERVER_IP + '/api/deliverOrders',data,config)
         .then(async (response) => {
             return response
         })
